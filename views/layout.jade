@@ -2,6 +2,16 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset="utf-8")
+    meta(http-equiv="X-UA-Compatible", content="IE=edge")
+    meta(name="viewport", content="width=device-width", initial-scale="1")
+    meta(name="description", content="MasaCode's Personal Blog")
+    meta(name="author", content="MasaCode")
+    block script
+      link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
+      link(rel='stylesheet', href='/stylesheets/style.css')
+      script(src='/javascripts/jquery-3.2.1.min.js')
+      script(src='/javascripts/bootstrap.min.js')
   body
+    block header
     block content
