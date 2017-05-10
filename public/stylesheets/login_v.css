@@ -1,0 +1,62 @@
+div.body-wrapper {
+    margin-top: 15vh;
+    color: #ddd;
+    background: #555;
+    width: 40%;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+div.body-content {
+    padding: 18px;
+}
+
+h2.page-title {
+    margin-bottom: 30px;
+}
+
+h3#login-title {
+    padding-bottom: 10px;
+}
+
+input[type="text"], input[type="password"] {
+    width: 90%;
+    display: block;
+    margin: 0 auto 15px auto;
+}
+
+input[type="submit"] {
+    width: 72%;
+    display: block;
+    margin: 15px auto;
+}
+
+span.login-error {
+    color: rgba(230, 20, 20, 0.8);
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 991px) {
+    div.body-wrapper {
+        width: 66%;
+    }
+}
+
+@media screen and (max-width: 527px) {
+    div.body-wrapper {
+        width: 90%;
+        font-size: 16px !important;
+    }
+
+    h2 {
+        font-size: 27px;
+    }
+
+    h3 {
+        font-size: 21px;
+    }
+}

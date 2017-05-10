@@ -1,0 +1,21 @@
+extends layout
+
+block append script
+  link(rel="stylesheet", href="/stylesheets/login_v.css")
+block content
+  div.container-fluid.body-wrapper
+    div.body-content
+      div.text-center.text-uppercase.page-title-wrapper
+        h2.page-title MasaBlog Admin Login
+      div.row
+        div#login-wrapper
+          h3#login-title.text-center Please Sign in
+          div
+            - if (message !== null) {
+              span.login-error #{message}
+            - }
+            form(method='POST', action='/login')
+              input(type='text', name='username', placeholder='username').form-control
+              input(type='password', name='password', placeholder='password').form-control
+              input(type='submit', value='Login').login-submit.btn.btn-primary
+
