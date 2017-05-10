@@ -1,0 +1,29 @@
+version: "2"
+
+services:
+  mysql:
+    image: mysql:5.6
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+    env_file:
+      - ./docs/environments
+    volumes_from:
+      - datastore
+
+  datastore:
+    image: busybox
+    volumes:
+      - masablog-data:/var/lib/mysql
+
+  phpmyadminserver:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:db
+    ports:
+      - 8080:80
+
+volumes:
+  masablog-data:
+    driver: local
