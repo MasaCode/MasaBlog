@@ -1,0 +1,16 @@
+nav.navbar.navbar-default
+  div.container-fluid
+    div.navbar-header
+      button(type="button", data-toggle="collapse", data-target="#navbar", aria-expanded="false", aria-controls="navbar").navbar-toggle.collapsed
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+    div#navbar.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li(class=(activeName === "home") ? "active" : "")
+          a(href="/") Home
+        li(class=(activeName === "about") ? "active" : "")
+          a(href="/about") About
+        li(class=(activeName === "contact") ? "active" : "")
+          a(href="/contact") Contact

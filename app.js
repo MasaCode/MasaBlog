@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var passport = require('passport');
 
 var index = require('./routes/index');
+var posts = require('./routes/posts');
 
 var app = express();
 
@@ -33,6 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
+app.use('/posts', posts);
 
 
 // catch 404 and forward to error handler

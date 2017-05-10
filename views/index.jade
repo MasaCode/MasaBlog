@@ -1,5 +1,117 @@
 extends layout
 
+block append script
+  script(src="/javascripts/index_v.js")
+block header
+  include include/header
 block content
-  h1= title
-  p Welcome to #{title}
+  div.container.container-main
+    block activeVariable
+      - var activeName="home";
+    include include/topMenu
+
+    // Carousel
+    div(data-ride="carousel")#my-carousel.carousel.slide
+      div.carousel-inner
+        div.item.active
+          img(src="/assets/images/slide1.jpg", alt="slide one")
+          div.carousel-caption
+            h4
+              a(href="/posts") Slide Story One
+              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+        div.item
+          img(src="/assets/images/slide2.jpg", alt="slide one")
+          div.carousel-caption
+            h4
+              a(href="/posts") Slide Story Two
+              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+        div.item
+          img(src="/assets/images/slide3.jpg", alt="slide one")
+          div.carousel-caption
+            h4
+              a(href="/posts") Slide Story Three
+              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+        div.item
+          img(src="/assets/images/slide4.jpg", alt="slide one")
+          div.carousel-caption
+            h4
+              a(href="/posts") Slide Story Four
+              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+        div.item
+          img(src="/assets/images/slide5.jpg", alt="slide one")
+          div.carousel-caption
+            h4
+              a(href="/posts") Slide Story Five
+              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+
+      ul.list-group.slider-list.col-md-4
+        li(data-target="#my-carousel", data-slide-to="0").list-group-item.active
+          img(src="/assets/images/slide1.jpg").img-thumbnail.img-slide
+          h4 Slide Story One
+          p This is slide story one. You should read this first to understand well
+        li(data-target="#my-carousel", data-slide-to="1").list-group-item
+          img(src="/assets/images/slide2.jpg").img-thumbnail.img-slide
+          h4 Slide Story Two
+          p This is slide story one. You should read this first to understand well
+        li(data-target="#my-carousel", data-slide-to="2").list-group-item
+          img(src="/assets/images/slide3.jpg").img-thumbnail.img-slide
+          h4 Slide Story Three
+          p This is slide story one. You should read this first to understand well
+        li(data-target="#my-carousel", data-slide-to="3").list-group-item
+          img(src="/assets/images/slide4.jpg").img-thumbnail.img-slide
+          h4 Slide Story Four
+          p This is slide story one. You should read this first to understand well
+        li(data-target="#my-carousel", data-slide-to="4").list-group-item
+          img(src="/assets/images/slide5.jpg").img-thumbnail.img-slide
+          h4 Slide Story Five
+          p This is slide story one. You should read this first to understand well
+
+      a(href="#my-carousel", role="button", data-slide="prev").left.carousel-control
+        span(aria-hidden="true").glyphicon.glyphicon-chevron-left
+      a(href="#my-carousel", role="button", data-slide="next").right.carousel-control
+        span(aria-hidden="true").glyphicon.glyphicon-chevron-right
+
+    div.row
+      div.col-md-8
+        div.well.blog-post
+          h3
+            a(href="/posts") Blog Post One
+          <p class="post-info"><i class="glyphicon glyphicon-calendar"></i> August 9th 2017 <i class="glyphicon glyphicon-user"></i> MasaCode <i class="glyphicon glyphicon-tags"></i>  Web Development, Docker</p>
+          hr
+          img(src="/assets/images/blog1.jpg").img-responsive
+          hr
+          p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+          a(href="/posts").btn.btn-primary Read More
+            span.glyphicon.glyphicon-chevron-right
+        div.well.blog-post
+          h3
+            a(href="/posts") Blog Post Two
+          <p class="post-info"><i class="glyphicon glyphicon-calendar"></i> August 9th 2017 <i class="glyphicon glyphicon-user"></i> MasaCode <i class="glyphicon glyphicon-tags"></i>  Web Development, Docker</p>
+          hr
+          img(src="/assets/images/blog2.jpg").img-responsive
+          hr
+          p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+          a(href="/posts").btn.btn-primary Read More
+            span.glyphicon.glyphicon-chevron-right
+        div.well.blog-post
+          h3
+            a(href="/posts") Blog Post Three
+          <p class="post-info"><i class="glyphicon glyphicon-calendar"></i> August 9th 2017 <i class="glyphicon glyphicon-user"></i> MasaCode <i class="glyphicon glyphicon-tags"></i>  Web Development, Docker</p>
+          hr
+          img(src="/assets/images/blog3.jpg").img-responsive
+          hr
+          p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
+          a(href="/posts").btn.btn-primary Read More
+            span.glyphicon.glyphicon-chevron-right
+
+        ul.pager
+          li.previous
+            a(href="#") &larr; Older
+          li.next
+            a(href="#") Newer &rarr;
+
+      block barVariables
+        - var show_about = true;
+      include include/rightSideBar
+
+  include include/footer

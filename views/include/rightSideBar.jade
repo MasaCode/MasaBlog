@@ -1,0 +1,54 @@
+block barVariables
+div.col-md-4
+  div.well
+    h4 Blog Search
+    div.input-group
+      input(type="text").form-control
+      span.input-group-btn
+        button(type="button").btn.btn-default
+          span.glyphicon.glyphicon-search
+  - if (show_about) {
+    div.well
+      h4.text-center About Me
+      img(src="/assets/images/masashi.jpg").img-responsive.img-me
+      br
+      p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.
+      a(href="/about").btn.btn-primary More Details
+  - }
+  - if (show_categories !== false) {
+    div.well
+      h4 Categories / Tags
+      div.row.category-list
+        div.col-md-6.col-sm-6
+          ul.list-unstyled
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Web Development
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Wordpress
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Javascript
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Node.js
+        div.col-md-6.col-sm-6
+          ul.list-unstyled
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Technology
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> MySQL / PHP
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Docker
+            li
+              a(href="/tags").label.label-primary <i class="glyphicon glyphicon-tags"></i> Test
+  - }
+
+  - if (show_post !== false) {
+    div.well.recent-post
+      h4 Recent Posts
+      div.list-group
+        a(href="#").list-group-item Post One - Docker
+        a(href="#").list-group-item Post One - Docker
+        a(href="#").list-group-item Post One - Docker
+        a(href="#").list-group-item Post One - Docker
+        a(href="#").list-group-item Post One - Docker
+        a(href="#").list-group-item Post One - Docker
+  - }
