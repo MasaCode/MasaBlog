@@ -6,7 +6,7 @@ div.body-wrapper {
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
-    font-size: 18px;
+    font-size: 128.5%;
 }
 
 div.body-content {
@@ -49,14 +49,14 @@ span.login-error {
 @media screen and (max-width: 527px) {
     div.body-wrapper {
         width: 90%;
-        font-size: 16px !important;
+        font-size: 114.3% !important;
     }
 
     h2 {
-        font-size: 27px;
+        font-size: 192.9%;
     }
 
     h3 {
-        font-size: 21px;
+        font-size: 150%;
     }
 }

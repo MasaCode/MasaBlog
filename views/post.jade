@@ -1,6 +1,7 @@
 extends layout
 
 block append script
+  link(rel='stylesheet', href='/stylesheets/post_v.css')
   script(src="/javascripts/index_v.js")
 block header
   include include/header
@@ -13,10 +14,9 @@ block content
     div.row
       div.col-md-8
         div.well.blog-post
-          h3
-            a(href="/posts") Blog Post One
-          <p class="post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-user"></i> MasaCode <i class="fa fa-tags"></i>  Web Development, Docker</p>
-          hr
+          h3.post-title Blog Post One
+          <p class="post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-tags"></i>  Web Development, Docker</p>
+          hr.post-line
           img(src="/assets/images/blog1.jpg").img-responsive
           hr
           p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
