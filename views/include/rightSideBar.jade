@@ -1,5 +1,5 @@
 block barVariables
-div.col-md-4
+div.col-md-3.right-bar
   div.well
     h4 Blog Search
     div.input-group
@@ -8,7 +8,7 @@ div.col-md-4
         button(type="button").btn.btn-default
           span.fa.fa-search
   - if (show_about) {
-    div.well
+    div.well.about-me
       h4.text-center About Me
       img(src="/assets/images/masashi.jpg").img-responsive.img-me
       br
@@ -16,10 +16,11 @@ div.col-md-4
       a(href="/about").btn.btn-primary.about-more More Details
   - }
   - if (show_categories !== false) {
-    div.well
-      h4 Categories / Tags
-      div.row.category-list
-        div.col-md-6.col-sm-6
+    div.panel.panel-info
+      div.panel-heading
+        h4.no-margin Categories / Tags
+      div.panel-body.row.category-list
+        div.col-md-12.col-sm-12
           ul.list-unstyled
             li
               a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Web Development
@@ -29,8 +30,6 @@ div.col-md-4
               a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Javascript
             li
               a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Node.js
-        div.col-md-6.col-sm-6
-          ul.list-unstyled
             li
               a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Technology
             li
@@ -42,13 +41,20 @@ div.col-md-4
   - }
 
   - if (show_post !== false) {
-    div.well.recent-post
-      h4 Recent Posts
-      div.list-group
-        a(href="#").list-group-item Post One - Docker
-        a(href="#").list-group-item Post One - Docker
-        a(href="#").list-group-item Post One - Docker
-        a(href="#").list-group-item Post One - Docker
-        a(href="#").list-group-item Post One - Docker
-        a(href="#").list-group-item Post One - Docker
+    div.panel.panel-info.recent-post
+      div.panel-heading
+        h4.no-margin Recent Posts
+      div.panel-body
+        ul.list-unstyled
+          li.col-md-12.col-sm-6
+            a(href="/posts")
+              div.recent-post-contents
+                img(src="/assets/images/slide1.jpg").recent-post-img
+                h5 How to create a wordpress development environment width docker-compose
+          li.col-md-12.col-sm-6
+            a(href="/posts")
+              div.recent-post-contents
+                img(src="/assets/images/slide2.jpg").recent-post-img
+                h5 How to set up node.js + express application
+
   - }

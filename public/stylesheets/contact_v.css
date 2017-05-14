@@ -1,3 +1,12 @@
-textarea.message {
-    height: 200px !important;
+div.contact {
+    color: #333 !important;
+    background: #eeeeee;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 0;
+}
+
+div.contact textarea {
+    height: 210px;
 }

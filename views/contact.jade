@@ -4,33 +4,36 @@ block append script
   link(rel='stylesheet', href='/stylesheets/contact_v.css')
   script(src="/javascripts/contact_v.js")
 block header
-  include include/header
+  header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
+    - var pageTitle = "Contact Me";
+    - var pageDescription = '<h4 class="text-center">Feel free to contact me</h4>';
+    include include/header
 block content
-  div.container.container-main
-    block activeVariable
-      - var activeName="contact";
-    include include/topMenu
-
-    div.row
-      div.col-md-8
-        div.well.about
-          h2.text-center Contact Me
-          form#contact-form
-            div.form-group
-              label Name
-              input(type="text", name="name")#input-name.form-control
-            div.form-group
-              label Email Address
-              input(type="address", name="email")#input-email.form-control
-            div.form-group
-              label Message
-              textarea(name="body")#input-body.form-control.message
-            button(type="submit").btn.btn-primary Submit
-      block barVariables
-        - var show_about = true;
-        - var show_post = false;
-        - var show_categories = false;
-      include include/rightSideBar
+  main.page-content-wrapper
+    div.page-content
+      div.container-fluid
+        div.row
+          div.col-md-9
+            div.well.contact
+              form#contact-form
+                div.form-group
+                  label Name
+                  input(type="text", name="name")#input-name.form-control
+                div.form-group
+                  label Email Address
+                  input(type="email", name="email")#input-email.form-control
+                div.form-group
+                  label Subject
+                  input(type="text", name="subject")#input-subject.form-control
+                div.form-group
+                  label Message
+                  textarea(name="body")#input-body.form-control.message
+                button(type="submit").btn.btn-primary Submit
+          block barVariables
+            - var show_about = true;
+            - var show_post = false;
+            - var show_categories = false;
+          include include/rightSideBar
 
   include include/footer
   div(style="display:none; width: 400px; position: fixed; top: 15%; left: 50%; margin-left: -200px; text-align: center; z-index: 2;")#success-dialog.alert.alert-success

@@ -33,7 +33,7 @@ router.post('/contact', function (req, res) {
     var options = {
         from: '"MasaBlog" <masacode.vancouver@gmail.com>',
         to: 'masacode.masablog@gmail.com',
-        subject: 'Email from MasaBlog',
+        subject: 'Email from MasaBlog [' + req.body.subject + ']',
         html: html,
     };
 
