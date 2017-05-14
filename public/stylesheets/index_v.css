@@ -1,84 +1,12 @@
-#my-carousel {
-    margin-bottom: 20px;
-}
-
-#my-carousel .carousel-caption {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    text-align: left;
-    padding: 10px;
-    background:  rgba(0, 0, 0, 0.6);
-    text-shadow: none;
-}
-
-#my-carousel .carousel-caption h4 a{
-    color: #fff;
-}
-
-#my-carousel .carousel-caption p {
-    padding: 0;
-    margin: 0;
-}
-
-#my-carousel .list-group{
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-#my-carousel .list-group-item {
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-    cursor: pointer;
-}
-
-#my-carousel .list-group .active {
-    background: #eee;
-    border: 0;
-    color: #666;
-}
-
-#my-carousel .list-group h4 {
-    font-size: 121.4%;
-    padding: 0 !important;
-    margin: 0 !important;
-    padding-top: 5px;
-}
-
-#my-carousel .img-slide {
-    width: 80px;
-    height: 100%;
-    float: left;
-    margin-right: 5px;
-}
-
-.slider-list li {
-    overflow: hidden;
-}
-
 p.post-info i {
     padding-left: 3px;
 }
 
-@media (min-width: 992px) {
-    #my-carousel{
-        padding-right: 33.3333%;
-    }
-    #my-carousel .carousel-controls{
-        display: none;
-    }
-}
-
-@media (max-width: 991px){
-    .carousel-caption p, #my-carousel{
-        display: none;
-    }
-}
-
-@media (max-width: 1200px) {
-    .slider-list p {
-        display: none;
-    }
+div.blog-post {
+    color: #333;
+    background: #eeeeee;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 0;
 }

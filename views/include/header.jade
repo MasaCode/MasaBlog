@@ -1,10 +1,19 @@
-block activeVariable
-header
-  div.container
-    div.row
-      div.col-xs-6
-        img(src="/assets/images/logo.png").logo
-      div.col-xs-6
-        a(href="#").social-icon: i.fa.fa-facebook-official
-        a(href="#").social-icon: i.fa.fa-twitter-square
-        a(href="#").social-icon: i.fa.fa-github-square
+block headerVariables
+div.bg-content
+  nav.navbar.nav-transparent
+    div.container-fluid
+      div.navbar-header.collapsed
+        a(href="#").navbar-brand MasaBlog
+      div#navbar.collapse.navbar-collapse.navbar-right
+        ul.nav.navbar-nav
+          li.active
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li
+            a(href="/contact") Contact
+
+  div.title-wrapper
+    h2.text-center #{pageTitle}
+    div.title-description
+      !{pageDescription}
