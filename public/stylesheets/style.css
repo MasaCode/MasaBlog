@@ -3,7 +3,7 @@ html, body {
 }
 body {
   display: block;
-  color: white;
+  color: #333;
   font-size: 16px;
   min-height: 100%;
   position: relative;
@@ -52,6 +52,7 @@ header.bg-wrapper {
   height: 560px;
   top: 0;
   bottom: 0;
+  color: white;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -93,6 +94,7 @@ div.title-wrapper {
 }
 
 div.title-wrapper h2 {
+  font-size: 220%;
   margin-bottom: 10px;
 }
 
@@ -183,6 +185,10 @@ footer p {
 }
 
 @media screen and (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
   header.bg-wrapper {
     height: 380px;
   }
