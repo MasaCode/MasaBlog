@@ -8,6 +8,7 @@ body {
   min-height: 100%;
   position: relative;
   background: #eeeeee;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -71,6 +72,7 @@ nav.nav-transparent {
   background: transparent !important;
   border: 0 !important;
   color: white !important;
+  font-size: 110%;
 }
 
 nav.nav-transparent a {
@@ -85,8 +87,115 @@ nav.nav-transparent a:hover {
   background: transparent !important;
 }
 
+nav.nav-transparent li.active a {
+  border-bottom: 2px solid #31b0d5;
+}
+
 nav.nav-transparent a:focus {
   background: transparent;
+}
+
+div.navbar-header.collapsed a {
+  border: 0;
+}
+
+div.navbar-header.collapsed a:hover span{
+  background: #eee;
+}
+
+span.icon-bar {
+  background: #fff;
+  width: 25px !important;
+  height: 4px !important;
+}
+
+#wrapper {
+  margin-top: -50px;
+  padding-left: 0;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+  padding-left: 200px;
+}
+
+#sidebar-wrapper {
+  z-index: 1000;
+  position: fixed;
+  left: 250px;
+  width: 0;
+  height: 100%;
+  margin-left: -250px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-nav li {
+  text-indent: 20px;
+  line-height: 40px;
+}
+
+.sidebar-nav li a {
+  display: block;
+  text-decoration: none;
+  color: #999999;
+}
+
+.sidebar-nav li a:hover {
+  text-decoration: none;
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+}
+
+.sidebar-nav li a i.fa {
+  padding-right: 5px;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav li.active a {
+  background: rgba(0, 150, 250, 0.3) !important;
+}
+
+.sidebar-nav > .sidebar-brand {
+  height: 65px;
+  font-size: 18px;
+  line-height: 60px;
+  background: #000;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
 }
 
 div.title-wrapper {
@@ -184,9 +293,50 @@ footer p {
   }
 }
 
+@media(min-width:768px) {
+  #wrapper {
+    padding-left: 0;
+    display: none;
+  }
+
+  #wrapper.toggled {
+    padding-left: 250px;
+  }
+
+  #sidebar-wrapper {
+    width: 0;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+  }
+
+  #page-content-wrapper {
+    padding: 20px;
+    position: relative;
+  }
+
+  #wrapper.toggled #page-content-wrapper {
+    position: relative;
+    margin-right: 0;
+  }
+}
+
 @media screen and (max-width: 768px) {
   body {
     font-size: 15px;
+  }
+
+  a#menu-toggle {
+    position: fixed;
+    background: rgba(0,0,0,0.4);
+    right: 0;
+    padding:5px;
+    margin-top: 11px;
+  }
+
+  a#menu-toggle:hover {
+    background: rgba(0,0,0,1) !important;
   }
 
   header.bg-wrapper {

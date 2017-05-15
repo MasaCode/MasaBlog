@@ -5,6 +5,7 @@ block append script
 block header
   header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
     block headerVariables
+      - var menuActive = 'home';
       - var pageTitle = "MasaBlog";
       - var pageDescription = '<h4 class="text-center">MasaCode\'s Blog about gaming and programming</h4>';
     include include/header

@@ -3,17 +3,38 @@ div.bg-content
   nav.navbar.nav-transparent
     div.container-fluid
       div.navbar-header.collapsed
+        a(href="#menu-toggle", aria-expanded="false")#menu-toggle.navbar-toggle.collapsed
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
         a(href="#").navbar-brand MasaBlog
       div#navbar.collapse.navbar-collapse.navbar-right
         ul.nav.navbar-nav
-          li.active
+          li(class=(menuActive==="home" ? 'active' : ''))
             a(href="/") Home
-          li
+          li(class=(menuActive==="about" ? 'active' : ''))
             a(href="/about") About
-          li
+          li(class=(menuActive==="contact" ? 'active' : ''))
             a(href="/contact") Contact
+
+    div#wrapper
+      div#sidebar-wrapper
+        ul.sidebar-nav
+          li.sidebar-brand
+            a(href="#") MasaBlog
+          li(class=(menuActive==="home" ? 'active' : ''))
+            a(href="/") <i class="fa fa-home"></i> Home
+          li(class=(menuActive==="about" ? 'active' : ''))
+            a(href="/about") <i class="fa fa-user"></i> About
+          li(class=(menuActive==="contact" ? 'active' : ''))
+            a(href="/contact") <i class="fa fa-envelope"></i> Contact
 
   div.title-wrapper
     h2.text-center #{pageTitle}
     div.title-description
       !{pageDescription}
+script.
+    $("#menu-toggle").on('click', function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
