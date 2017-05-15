@@ -1,8 +1,8 @@
 div.body-wrapper {
     margin-top: 15vh;
-    color: #ddd;
-    background: #555;
-    width: 40%;
+    color: #555;
+    background: #e0e0e0;
+    width: 50%;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -38,6 +38,7 @@ span.login-error {
     width: 90%;
     display: block;
     margin: 0 auto;
+    font-size: 100%;
 }
 
 @media screen and (max-width: 991px) {
