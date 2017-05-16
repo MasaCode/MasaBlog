@@ -233,6 +233,10 @@ div.right-bar {
   margin: 0 auto;
 }
 
+div.about-me h4 {
+  margin-top: 0;
+}
+
 a.about-more {
   display: block;
   margin: 0 auto;
@@ -286,6 +290,10 @@ footer p {
 }
 
 @media screen and (max-width: 991px) {
+  .img-me {
+    max-width: 200px;
+  }
+
   div.about-me p {
     width: 90%;
     margin-left: auto;
