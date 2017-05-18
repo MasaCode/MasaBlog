@@ -75,6 +75,18 @@ nav.nav-transparent {
   font-size: 110%;
 }
 
+a.masablog-logo {
+  display: block;
+  height: 50px;
+  padding-top: 10px;
+}
+
+a.masablog-logo img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
 nav.nav-transparent a {
   color: white;
   padding-bottom: 3px;
@@ -327,6 +339,10 @@ footer p {
   #wrapper.toggled #page-content-wrapper {
     position: relative;
     margin-right: 0;
+  }
+
+  a.masablog-logo {
+    margin-left: 0;
   }
 }
 
