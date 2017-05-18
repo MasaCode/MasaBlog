@@ -1,0 +1,78 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/dashboard_v.css')
+block content
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.admin-info.row
+          div.admin-tools
+            div.col-lg-8.col-md-7.col-sm-12.admin-todo
+              h3.text-center Tasks
+              hr
+              div.tasks
+
+              div.task-input.input-group
+                input(type="text").form-control
+                span.input-group-btn
+                  button(type="button").btn.btn-primary Add  <span class="fa fa-plus"></span>
+            div.col-lg-4.col-md-5.col-sm-12.admin-top-right
+              div.admin-motto
+                h3.text-center Motto
+                hr
+                h4.text-center Stay hungry, Stay foolish
+                span.text-right by Steve Jobs
+              div.admin-weather
+                h3.text-center Weather
+                hr
+                div.weather-wrapper
+                  span
+                    i.wi.wi-day-cloudy-high
+                  div.weather
+                    h3.text-center 27<small>&deg;C</small>
+                    h3.text-center 29<small>&deg;C</small>
+                    div.location
+                      h4.text-center Vancouver
+                      h5.text-center Canada
+
+          div.admin-buttons
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-danger.btn-box
+                span.icon-wrapper
+                  i.fa.fa-rocket.fa-3x
+                h3.text-center.info-number 0
+                span Posts
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-primary.btn-box
+                span.icon-wrapper
+                  i.fa.fa-th-large.fa-3x
+                h3.text-center.info-number 0
+                span Categories
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-info.btn-box
+                span.icon-wrapper
+                  i.fa.fa-tags.fa-3x
+                h3.text-center.info-number 0
+                span Tags
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-success.btn-box
+                span.icon-wrapper
+                  i.fa.fa-image.fa-3x
+                h3.text-center.info-number 0
+                span Thumbnails
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-warning.btn-box
+                span.icon-wrapper
+                  i.fa.fa-users.fa-3x
+                h3.text-center.info-number 0
+                span Visiting
+            div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
+              a(href="/admin/thumbnails").btn.btn-normal.btn-box
+                span.icon-wrapper
+                  i.fa.fa-envelope.fa-3x
+                h3.text-center.info-number 0
+                span Messages
+
+    include ../include/footer

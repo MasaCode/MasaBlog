@@ -1,0 +1,403 @@
+div.admin-info {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.admin-tools {
+    margin-bottom: 15px;
+    height: 300px;
+}
+
+div.admin-todo {
+    background: #ddd;
+    height: 300px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+div.admin-todo hr, div.admin-motto hr, div.admin-weather hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.tasks {
+    width: 100%;
+    height: 190px;
+}
+
+div.task-input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.admin-top-right {
+    padding-right: 0;
+}
+
+div.admin-motto, div.admin-weather {
+    display: block;
+    background: #ddd;
+    height: 140px;
+    width: 100%;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+div.admin-motto {
+    display: block;
+    color: white;
+    width: 100%;
+    background: url('../assets/images/motto-bg.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin-bottom: 20px;
+}
+
+div.admin-motto h3, div.admin-weather h3 {
+    padding-top: 10px;
+    margin-top: 0;
+}
+
+div.admin-motto h4 {
+    margin-top: 20px;
+}
+
+div.admin-motto span {
+    display: block;
+    padding-top: 12px;
+    padding-right: 15px;
+}
+
+div.admin-weather {
+    color: white;
+    display: block;
+    width: 100%;
+    background: url('../assets/images/weather-bg.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+div.weather-wrapper {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.weather-wrapper span {
+    display: block;
+    width: 30%;
+    float: left;
+}
+
+div.weather {
+    margin-left: 30%;
+    width: 70%;
+    display: block;
+}
+
+div.weather h3 {
+    width: 50%;
+    padding-top: 18px;
+    font-size: 250%;
+    color: white;
+    float: left;
+}
+
+div.weather h3 small {
+    color: white;
+}
+
+div.weather-wrapper span i.wi {
+    font-size: 3.8em;
+    color: white;
+    padding-top: 10px;
+}
+
+div.location {
+    color: white;
+    display: none;
+}
+
+div.location h4 {
+    padding-top: 6px;
+    margin-bottom: 0;
+}
+
+div.location h5 {
+    margin-top: 3px;
+    font-size: 110%;
+}
+
+div.admin-panel-wrapper {
+    padding-right: 0;
+}
+
+div.admin-panels {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+div.btn-wrapper {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+a.btn-box {
+    width: 100%;
+    height: 120px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+span.icon-wrapper {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a.btn-box i.fa {
+    position: absolute;
+    left: 50%;
+    margin-left: -0.75em;
+    margin-top: -0.80em;
+    text-align: center;
+    padding: 12px;
+    padding-bottom: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+a.btn-box i.fa.fa-rocket {
+    background: #d9534f;
+}
+
+a.btn-box:hover i.fa.fa-rocket {
+    background: #c9302c;
+}
+
+a.btn-box i.fa.fa-th-large {
+    background: #337ab7;
+}
+
+a.btn-box:hover i.fa.fa-th-large {
+    background: #286090;
+}
+
+a.btn-box i.fa.fa-tags {
+    background: #5bc0de;
+}
+
+a.btn-box:hover i.fa.fa-tags {
+    background: #31b0d5;
+}
+
+a.btn-box i.fa.fa-image {
+    background: #5cb85c;
+}
+
+a.btn-box:hover i.fa.fa-image {
+    background: #449d44;
+}
+
+a.btn-box i.fa.fa-users {
+    background: #f0ad4e;
+}
+
+a.btn-box:hover i.fa.fa-users {
+    background: #ec971f;
+}
+
+a.btn-box i.fa.fa-envelope {
+    background: #f442e8;
+}
+
+a.btn-box:hover i.fa.fa-envelope {
+    background: #c435ba;
+}
+
+a.btn-box h3.info-number {
+    display: block;
+    width: 100%;
+    font-size: 300%;
+    margin-bottom: 0;
+    margin-top: 25px;
+}
+
+a.btn-box span {
+    display: block;
+    font-size: 120%;
+}
+
+.btn-normal {
+    background: #f442e8;
+    color: white;
+}
+
+.btn-normal:hover {
+    background: #c435ba;
+    color: white;
+}
+
+@media screen and (max-width: 991px) {
+    div.admin-info {
+        margin-top: 10px;
+    }
+
+    div.admin-tools {
+        height: 400px;
+    }
+
+    div.admin-todo {
+        height: 250px;
+    }
+
+    div.tasks {
+        width: 100%;
+        height: 140px;
+    }
+
+    div.admin-top-right {
+        padding-left: 0;
+    }
+
+    div.admin-motto, div.admin-weather {
+        width: calc(50% - 5px);
+    }
+
+    div.admin-motto {
+        margin-bottom: 0;
+        margin-right: 5px;
+        float: left;
+    }
+
+    div.admin-motto span {
+        padding-top: 10px;
+    }
+
+    div.admin-weather {
+        float: right;
+        margin-left: 5px;
+    }
+
+    div.admin-panel-wrapper {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.tasks {
+        width: 100%;
+        height: 153px;
+    }
+
+    div.admin-todo h3 {
+        margin-top: 0;
+        padding-top: 10px;
+    }
+
+    div.admin-motto h4 {
+        font-size: 150%;
+    }
+
+    div.admin-motto span {
+        font-size: 110%;
+    }
+}
+
+@media screen and (max-width: 661px) {
+    div.admin-tools {
+        height: 530px;
+        margin-bottom: 10px;
+    }
+
+    div.admin-motto, div.admin-weather {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    div.admin-motto {
+        margin-bottom: 10px;
+        height: 120px;
+    }
+
+    div.admin-motto h4 {
+        margin-bottom: 6px;
+    }
+
+    div.admin-motto span {
+        padding-right: 30px;
+        padding-top: 0;
+    }
+
+    div.weather-wrapper span {
+        width: 20%;
+    }
+
+    div.weather {
+        margin-left: 20%;
+    }
+
+    div.weather h3 {
+        width: 30%;
+    }
+
+    div.location {
+        display: block;
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        float: left;
+    }
+
+    a.btn-box {
+        height: 100px;
+    }
+
+    a.btn-box i.fa {
+        font-size: 2.3em;
+        position: absolute;
+        left: 50%;
+        margin-top: -0.80em;
+        text-align: center;
+        padding: 12px;
+        padding-bottom: 0;
+    }
+
+    a.btn-box h3.info-number {
+        margin-top: 16px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    div.location {
+        display: none;
+    }
+
+    div.weather-wrapper span {
+        width: 30%;
+    }
+
+    div.weather {
+        margin-left: 30%;
+    }
+
+    div.weather h3 {
+        width: 50%;
+    }
+}

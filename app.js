@@ -11,6 +11,7 @@ var index = require('./routes/index');
 var posts = require('./routes/posts');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
+var admin = require('./routes/admin');
 var db = require('./models/db');
 db.connect();
 
@@ -41,6 +42,7 @@ app.use('/', index);
 app.use('/posts', posts);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
