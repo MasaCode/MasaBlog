@@ -1,7 +1,10 @@
 extends layout
 
 block append script
+  link(rel='stylesheet', href='/plugins/fullCalendar/css/fullcalendar.min.css')
   link(rel='stylesheet', href='/stylesheets/dashboard_v.css')
+  script(src='/plugins/moment/js/moment.min.js')
+  script(src='/plugins/fullCalendar/js/fullCalendar.min.js')
 block content
   include sidebar
   div.admin-content-wrapper
@@ -15,15 +18,13 @@ block content
               div.tasks
 
               div.task-input.input-group
-                input(type="text").form-control
+                input(type="text").form-control.task-input
                 span.input-group-btn
-                  button(type="button").btn.btn-primary Add  <span class="fa fa-plus"></span>
+                  button(type="submit").btn.btn-primary Add  <span class="fa fa-plus"></span>
             div.col-lg-4.col-md-5.col-sm-12.admin-top-right
               div.admin-motto
-                h3.text-center Motto
-                hr
                 h4.text-center Stay hungry, Stay foolish
-                span.text-right by Steve Jobs
+                span.text-center by Steve Jobs
               div.admin-weather
                 h3.text-center Weather
                 hr
@@ -39,19 +40,19 @@ block content
 
           div.admin-buttons
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/thumbnails").btn.btn-danger.btn-box
+              a(href="/admin/posts").btn.btn-danger.btn-box
                 span.icon-wrapper
                   i.fa.fa-rocket.fa-3x
                 h3.text-center.info-number 0
                 span Posts
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/thumbnails").btn.btn-primary.btn-box
+              a(href="/admin/categories").btn.btn-primary.btn-box
                 span.icon-wrapper
                   i.fa.fa-th-large.fa-3x
                 h3.text-center.info-number 0
                 span Categories
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/thumbnails").btn.btn-info.btn-box
+              a(href="/admin/tags").btn.btn-info.btn-box
                 span.icon-wrapper
                   i.fa.fa-tags.fa-3x
                 h3.text-center.info-number 0
@@ -63,16 +64,47 @@ block content
                 h3.text-center.info-number 0
                 span Thumbnails
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/thumbnails").btn.btn-warning.btn-box
+              a(href="").btn.btn-warning.btn-box
                 span.icon-wrapper
                   i.fa.fa-users.fa-3x
                 h3.text-center.info-number 0
                 span Visiting
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/thumbnails").btn.btn-normal.btn-box
+              a(href="/admin/messages").btn.btn-normal.btn-box
                 span.icon-wrapper
                   i.fa.fa-envelope.fa-3x
                 h3.text-center.info-number 0
                 span Messages
 
+          div
+            div.col-lg-8.col-md-8.col-sm-12.col-xs-12.calendar-wrapper
+              div#calendar
+            div.col-lg-4.col-md-4.col-sm-12.col-xs-12.recent-post-wrapper
+              div.panel.panel-default
+                div.panel-heading
+                  h3 Recent Posts
+                ul.list-group
+                  li.list-group-item
+                    a(href="/posts")
+                      h4.text-left How to set up Docker environment on Mac OS
+                  li.list-group-item
+                    a(href="/posts")
+                      h4.text-left How to set up Docker environment on Mac OS
+                  li.list-group-item
+                    a(href="/posts")
+                      h4.text-left How to set up Docker environment on Mac OS
+                  li.list-group-item
+                    a(href="/posts")
+                      h4.text-left How to set up Docker environment on Mac OS
+
     include ../include/footer
+
+
+    script.
+      $('#calendar').fullCalendar({
+          header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+          }
+      });

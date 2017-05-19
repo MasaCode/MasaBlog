@@ -10,7 +10,7 @@ div.admin-tools {
 }
 
 div.admin-todo {
-    background: #ddd;
+    background: #f5f5f5;
     height: 300px;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -21,6 +21,10 @@ div.admin-todo {
 div.admin-todo hr, div.admin-motto hr, div.admin-weather hr {
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+div.admin-todo hr {
+    border-color: #bbb;
 }
 
 div.tasks {
@@ -34,13 +38,16 @@ div.task-input {
     margin-right: auto;
 }
 
+div.task-input input {
+    background: #eee;
+}
+
 div.admin-top-right {
     padding-right: 0;
 }
 
 div.admin-motto, div.admin-weather {
     display: block;
-    background: #ddd;
     height: 140px;
     width: 100%;
     -webkit-border-radius: 12px;
@@ -58,19 +65,19 @@ div.admin-motto {
     margin-bottom: 20px;
 }
 
-div.admin-motto h3, div.admin-weather h3 {
+div.admin-weather h3 {
     padding-top: 10px;
     margin-top: 0;
 }
 
 div.admin-motto h4 {
-    margin-top: 20px;
+    margin-top: 0;
+    padding-top: 45px;
+    font-size: 150%;
 }
 
 div.admin-motto span {
     display: block;
-    padding-top: 12px;
-    padding-right: 15px;
 }
 
 div.admin-weather {
@@ -153,7 +160,7 @@ div.btn-wrapper {
 
 a.btn-box {
     width: 100%;
-    height: 120px;
+    height: 100px;
     margin-top: 25px;
     margin-bottom: 10px;
     -webkit-border-radius: 0;
@@ -189,12 +196,20 @@ a.btn-box:hover i.fa.fa-rocket {
     background: #c9302c;
 }
 
+a.btn-box:focus i.fa.fa-rocket {
+    background: #ac2925;
+}
+
 a.btn-box i.fa.fa-th-large {
     background: #337ab7;
 }
 
 a.btn-box:hover i.fa.fa-th-large {
     background: #286090;
+}
+
+a.btn-box:focus i.fa.fa-th-large {
+    background: #204d74;
 }
 
 a.btn-box i.fa.fa-tags {
@@ -205,12 +220,20 @@ a.btn-box:hover i.fa.fa-tags {
     background: #31b0d5;
 }
 
+a.btn-box:focus i.fa.fa-tags {
+    background: #269abc;
+}
+
 a.btn-box i.fa.fa-image {
     background: #5cb85c;
 }
 
 a.btn-box:hover i.fa.fa-image {
     background: #449d44;
+}
+
+a.btn-box:focus i.fa.fa-image {
+    background: #398439;
 }
 
 a.btn-box i.fa.fa-users {
@@ -221,6 +244,10 @@ a.btn-box:hover i.fa.fa-users {
     background: #ec971f;
 }
 
+a.btn-box:focus i.fa.fa-users {
+    background: #d58512;
+}
+
 a.btn-box i.fa.fa-envelope {
     background: #f442e8;
 }
@@ -229,10 +256,15 @@ a.btn-box:hover i.fa.fa-envelope {
     background: #c435ba;
 }
 
+a.btn-box:focus i.fa.fa-envelope {
+    color: white;
+    background: #992991;
+}
+
 a.btn-box h3.info-number {
     display: block;
     width: 100%;
-    font-size: 300%;
+    font-size: 250%;
     margin-bottom: 0;
     margin-top: 25px;
 }
@@ -250,6 +282,55 @@ a.btn-box span {
 .btn-normal:hover {
     background: #c435ba;
     color: white;
+}
+
+.btn-normal:focus {
+    background: #992991;
+    color: white;
+}
+
+div.calendar-wrapper {
+    padding: 0;
+}
+
+div#calendar {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #f5f5f5;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+div#calendar h2 {
+    font-size: 190%;
+    font-weight: 400;
+}
+
+div.recent-post-wrapper {
+    padding-right: 0;
+}
+
+div.recent-post-wrapper div.panel {
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding: 5px;
+    background: #f5f5f5;
+}
+
+div.recent-post-wrapper h3 {
+    margin: 0;
+    padding-top: 10px;
+    font-weight: 400;
+}
+
+div.recent-post-wrapper li {
+    background: #f5f5f5;
+}
+
+div.recent-post-wrapper h4 {
+    margin: 0;
 }
 
 @media screen and (max-width: 991px) {
@@ -296,6 +377,10 @@ a.btn-box span {
     div.admin-panel-wrapper {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    div.recent-post-wrapper {
+        padding-left: 0;
     }
 }
 

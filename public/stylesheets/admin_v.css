@@ -7,7 +7,7 @@ body {
     font-size: 16px;
     min-height: 100%;
     position: relative;
-    background: #efefef;
+    background: #e0e0e0;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
@@ -162,6 +162,14 @@ div.admin-content-wrapper {
 div.admin-content {
     width: 100%;
     margin-top: 25px;
+}
+
+img.img-logo {
+    padding: 5px;
+    max-height: 50px;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 767px) {
