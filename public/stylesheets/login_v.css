@@ -1,8 +1,24 @@
+div.login-logo {
+    width: 250px;
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12vh;
+}
+
+div.login-logo img {
+    display: block;
+    width: 100%;
+}
+
 div.body-wrapper {
-    margin-top: 15vh;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
     color: #555;
     background: #e0e0e0;
-    width: 50%;
+    width: 500px;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -13,11 +29,11 @@ div.body-content {
     padding: 18px;
 }
 
-h2.page-title {
+h3.page-title {
     margin-bottom: 30px;
 }
 
-h3#login-title {
+h4#login-title {
     padding-bottom: 10px;
 }
 
@@ -41,23 +57,13 @@ span.login-error {
     font-size: 100%;
 }
 
-@media screen and (max-width: 991px) {
-    div.body-wrapper {
-        width: 66%;
+@media screen and (max-width: 520px) {
+    div.login-logo {
+        width: 60%;
     }
-}
 
-@media screen and (max-width: 527px) {
     div.body-wrapper {
         width: 90%;
         font-size: 114.3% !important;
-    }
-
-    h2 {
-        font-size: 192.9%;
-    }
-
-    h3 {
-        font-size: 150%;
     }
 }
