@@ -175,6 +175,10 @@ span.icon-wrapper {
     margin-right: auto;
 }
 
+a.btn-box, a.btn-box:hover, a.btn-box:focus {
+    color: white;
+}
+
 a.btn-box i.fa {
     position: absolute;
     left: 50%;
@@ -188,63 +192,63 @@ a.btn-box i.fa {
     border-radius: 50%;
 }
 
-a.btn-box i.fa.fa-rocket {
+a.btn-box i.fa.fa-rocket, .box-danger {
     background: #d9534f;
 }
 
-a.btn-box:hover i.fa.fa-rocket {
+a.btn-box:hover i.fa.fa-rocket, .box-danger:hover {
     background: #c9302c;
 }
 
-a.btn-box:focus i.fa.fa-rocket {
+a.btn-box:focus i.fa.fa-rocket, .box-danger:focus {
     background: #ac2925;
 }
 
-a.btn-box i.fa.fa-th-large {
+a.btn-box i.fa.fa-th-large, .box-primary {
     background: #337ab7;
 }
 
-a.btn-box:hover i.fa.fa-th-large {
+a.btn-box:hover i.fa.fa-th-large, .box-primary:hover {
     background: #286090;
 }
 
-a.btn-box:focus i.fa.fa-th-large {
+a.btn-box:focus i.fa.fa-th-large, .box-primary:focus {
     background: #204d74;
 }
 
-a.btn-box i.fa.fa-tags {
+a.btn-box i.fa.fa-tags, .box-info {
     background: #5bc0de;
 }
 
-a.btn-box:hover i.fa.fa-tags {
+a.btn-box:hover i.fa.fa-tags, .box-info:hover {
     background: #31b0d5;
 }
 
-a.btn-box:focus i.fa.fa-tags {
+a.btn-box:focus i.fa.fa-tags, .box-info:focus {
     background: #269abc;
 }
 
-a.btn-box i.fa.fa-image {
+a.btn-box i.fa.fa-image, .box-success {
     background: #5cb85c;
 }
 
-a.btn-box:hover i.fa.fa-image {
+a.btn-box:hover i.fa.fa-image, .box-success:hover {
     background: #449d44;
 }
 
-a.btn-box:focus i.fa.fa-image {
+a.btn-box:focus i.fa.fa-image, .box-success:focus {
     background: #398439;
 }
 
-a.btn-box i.fa.fa-users {
+a.btn-box i.fa.fa-users, .box-warning {
     background: #f0ad4e;
 }
 
-a.btn-box:hover i.fa.fa-users {
+a.btn-box:hover i.fa.fa-users, .box-warning:hover {
     background: #ec971f;
 }
 
-a.btn-box:focus i.fa.fa-users {
+a.btn-box:focus i.fa.fa-users, .box-warning:focus {
     background: #d58512;
 }
 
