@@ -7,6 +7,12 @@ router.get('/', isAuthenticated, function (req, res) {
     );
 });
 
+router.get('/thumbnails', isAuthenticated, function (req, res) {
+   res.render(
+       'admin/gallery.jade', {title: 'MasaBlog | Gallery'}
+   );
+});
+
 function isAuthenticated(req, res, next) {
     if (!req.cookies.admin) {
         res.redirect('/login');
