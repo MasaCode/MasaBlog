@@ -1,0 +1,84 @@
+div.categories {
+    background: #fff;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding: 10px 10px;
+    margin-bottom: 15px;
+}
+
+div.category-header {
+    width: 100%;
+    display: block;
+}
+
+div.category-header h3 {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    margin-top: 15px;
+}
+
+div.category-header span {
+    font-size: 200%;
+    margin-top: 10px;
+    position: absolute;
+    right: 30px;
+    top: 6px;
+}
+
+div.category-header span i.fa {
+    padding: 10px 15px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    color: #333;
+}
+
+div.category-header span:hover i.fa {
+    background: #eee;
+}
+
+
+div.categories hr {
+    width: 100%;
+    display: block;
+}
+
+div.category-board {
+    margin: 15px;
+    width: calc(100% - 30px);
+    min-height: 300px;
+}
+
+div.category-item {
+    margin: 0 5px 10px 5px;
+    padding: 10px;
+    background: #4cae4c;
+    display: block;
+    float: left;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+div.category-item input {
+    float: left;
+}
+
+div.category-item span {
+    float: left;
+    padding-left: 10px;
+}
+
+div.buttons {
+    width: 100%;
+    height: 40px;
+}
+
+div.buttons a {
+    margin-left: 10px;
+    width: 80px;
+}

@@ -13,6 +13,18 @@ router.get('/thumbnails', isAuthenticated, function (req, res) {
    );
 });
 
+router.get('/categories', isAuthenticated, function (req, res) {
+    res.render(
+        'admin/category.jade', {title: 'MasaBlog | Category'}
+    );
+});
+
+router.get('/tags', isAuthenticated, function (req, res) {
+    res.render(
+        'admin/tags.jade', {title: 'MasaBlog | Tags'}
+    );
+});
+
 function isAuthenticated(req, res, next) {
     if (!req.cookies.admin) {
         res.redirect('/login');
