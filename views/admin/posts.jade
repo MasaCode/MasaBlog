@@ -1,0 +1,99 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/post_v.css')
+  script(src="/javascripts/admin/post_v.js")
+block content
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.post-wrapper
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/cat.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/computer.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/camera.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/mountain.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/trail.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/view.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          div.post-thumbnail-wrapper
+            div.thumbnail.post-thumbnail
+              div(style="background-image: url('/assets/samples/cafe.jpg');").img-post
+              div.caption
+                h3.text-center Thumbnail sample
+                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
+                p.btn-thumbnail
+                  a.btn.btn-success.btn-edit Edit
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+
+        include ../include/footer
+
+  div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade
+    div.modal-dialog.modal-sm
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#DeleteModalLabel.modal-title Post Delete Confirm
+        div.modal-body
+        div.modal-footer
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type="button", data-dismiss="modal").btn.btn-danger Delete
+
+  div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#success-dialog.alert.alert-success
+  div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#error-dialog.alert.alert-danger
+
+  div
+    a(href="")#search-icon-wrapper
+      span.search-wrappr
+        i.fa.fa-search
+  div.search-input-wrapper
+    span.search-close
+      i.fa.fa-times
+    input(type="text").search-input

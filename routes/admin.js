@@ -25,6 +25,12 @@ router.get('/tags', isAuthenticated, function (req, res) {
     );
 });
 
+router.get('/posts', isAuthenticated, function (req, res) {
+    res.render(
+        'admin/posts.jade', {title: 'MasaBlog | Posts'}
+    );
+});
+
 function isAuthenticated(req, res, next) {
     if (!req.cookies.admin) {
         res.redirect('/login');
