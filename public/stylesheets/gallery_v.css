@@ -76,6 +76,7 @@ span.search-close:hover {
 div.gallery-wrapper {
     margin-left: auto;
     margin-right: auto;
+    position: relative;
 }
 
 div.photo-wrapper {

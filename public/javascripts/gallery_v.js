@@ -29,19 +29,6 @@
 
             $(window).on('resize', this.onResize.bind(this));
 
-            $('#menu-content').on({
-                'show.bs.collapse' : function (event) {
-                    setTimeout(function () {
-                        _self.setMarginTop(_self.menuTop);
-                    }, 100);
-                },
-                'hide.bs.collapse' : function (event) {
-                    setTimeout(function () {
-                        _self.setMarginTop(-1 * _self.menuTop);
-                    }, 150);
-                }
-            });
-
             $('#search-icon-wrapper').on('click', function (event) {
                 event.preventDefault();
                 $('div.search-input-wrapper').show('fast');
@@ -95,8 +82,8 @@
             var overrideCount = count;
             for (var i = 0; i < length; i++) {
                 var rowIndex = (i % count);
-                var left = this.offsetLeft + rowIndex * (this.galleryWidth + this.margin) + this.margin * rowIndex;
-                var top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : this.offsetTop;
+                var left = rowIndex * (this.galleryWidth + this.margin) + this.margin * rowIndex;
+                var top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : 10;
                 if (i > lastRows && count !== 1) {
                     var topIndex = 0;
                     var defaultTop = 9999;
@@ -111,7 +98,7 @@
                     if (topIndex !== (i - overrideCount)) {
                         top = this.$gallery[topIndex].offsetHeight + defaultTop + 10;
                         var overrideRowIndex = (topIndex % overrideCount);
-                        left = this.offsetLeft + overrideRowIndex * (this.galleryWidth + this.margin) + this.margin * overrideRowIndex;
+                        left = overrideRowIndex * (this.galleryWidth + this.margin) + this.margin * overrideRowIndex;
                         overrideCount--;
                     }
                 }
@@ -127,13 +114,6 @@
             }
 
             this.$wrapper.css('height', (bottom + this.margin * 2));
-        },
-
-        setMarginTop: function (additionalTop) {
-            var length = this.$gallery.length;
-            for (var i = 0; i < length; i++) {
-                this.$gallery[i].style.top = (parseInt(this.$gallery[i].style.top.replace('px', '')) + additionalTop) + 'px';
-            }
         },
 
         search: function (searchText) {
