@@ -15,7 +15,7 @@ router.get('/thumbnails', isAuthenticated, function (req, res) {
 
 router.get('/categories', isAuthenticated, function (req, res) {
     res.render(
-        'admin/category.jade', {title: 'MasaBlog | Category'}
+        'admin/categories.jade', {title: 'MasaBlog | Category'}
     );
 });
 
