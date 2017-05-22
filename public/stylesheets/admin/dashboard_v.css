@@ -10,7 +10,7 @@ div.admin-tools {
 }
 
 div.admin-todo {
-    background: #f5f5f5;
+    background: #fff;
     height: 300px;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
@@ -59,7 +59,7 @@ div.admin-motto {
     display: block;
     color: white;
     width: 100%;
-    background: url('../assets/images/motto-bg.jpg') no-repeat center center;
+    background: url('../../assets/images/motto-bg.jpg') no-repeat center center;
     -webkit-background-size: cover;
     background-size: cover;
     margin-bottom: 20px;
@@ -84,7 +84,7 @@ div.admin-weather {
     color: white;
     display: block;
     width: 100%;
-    background: url('../assets/images/weather-bg.jpg') no-repeat center center;
+    background: url('../../assets/images/weather-bg.jpg') no-repeat center center;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -300,7 +300,7 @@ div.calendar-wrapper {
 div#calendar {
     padding: 20px;
     margin-bottom: 20px;
-    background: #f5f5f5;
+    background: #fff;
     -webkit-border-radius: 12px;
     -moz-border-radius: 12px;
     border-radius: 12px;
@@ -320,7 +320,11 @@ div.recent-post-wrapper div.panel {
     -moz-border-radius: 12px;
     border-radius: 12px;
     padding: 5px;
-    background: #f5f5f5;
+    background: #fff;
+}
+
+div.recent-post-wrapper div.panel-heading {
+    background: #fff;
 }
 
 div.recent-post-wrapper h3 {
@@ -330,7 +334,7 @@ div.recent-post-wrapper h3 {
 }
 
 div.recent-post-wrapper li {
-    background: #f5f5f5;
+    background: #fff;
 }
 
 div.recent-post-wrapper h4 {
