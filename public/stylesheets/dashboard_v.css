@@ -204,15 +204,15 @@ a.btn-box:focus i.fa.fa-rocket, .box-danger:focus {
     background: #ac2925;
 }
 
-a.btn-box i.fa.fa-th-large, .box-primary {
+a.btn-box i.fa.fa-image, .box-primary {
     background: #337ab7;
 }
 
-a.btn-box:hover i.fa.fa-th-large, .box-primary:hover {
+a.btn-box:hover i.fa.fa-image, .box-primary:hover {
     background: #286090;
 }
 
-a.btn-box:focus i.fa.fa-th-large, .box-primary:focus {
+a.btn-box:focus i.fa.fa-image, .box-primary:focus {
     background: #204d74;
 }
 
@@ -228,15 +228,15 @@ a.btn-box:focus i.fa.fa-tags, .box-info:focus {
     background: #269abc;
 }
 
-a.btn-box i.fa.fa-image, .box-success {
+a.btn-box i.fa.fa-th-large, .box-success {
     background: #5cb85c;
 }
 
-a.btn-box:hover i.fa.fa-image, .box-success:hover {
+a.btn-box:hover i.fa.fa-th-large, .box-success:hover {
     background: #449d44;
 }
 
-a.btn-box:focus i.fa.fa-image, .box-success:focus {
+a.btn-box:focus i.fa.fa-th-large, .box-success:focus {
     background: #398439;
 }
 
