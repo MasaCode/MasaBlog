@@ -80,10 +80,11 @@
             var count = this.rowCounts[this.index];
             var bottom = 0;
             var overrideCount = count;
+            var defTop = ($(window).width() <= this.menuBreakpoint) ? 10 : 0;
             for (var i = 0; i < length; i++) {
                 var rowIndex = (i % count);
                 var left = rowIndex * (this.galleryWidth + this.margin) + this.margin * rowIndex;
-                var top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : 10;
+                var top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : defTop;
                 if (i > lastRows && count !== 1) {
                     var topIndex = 0;
                     var defaultTop = 9999;
