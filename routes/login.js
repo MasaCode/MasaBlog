@@ -2,17 +2,17 @@
 let express = require('express');
 let router = express.Router();
 let co = require('co');
-let admin_model = require('../models/admin_model.js');
+let adminModel = require('../models/adminModel.js');
 
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(function(username, password, done){
     co(function *() {
-        let admins = (yield admin_model.findByUsername(username));
+        let admins = (yield adminModel.findByUsername(username));
         if (admins !== null && admins.length !== 0) {
             let length = admins.length;
             for (let i = 0; i < length; i++) {
-                if (admin_model.verifyPassword(password, admins[i].password)) {
+                if (adminModel.verifyPassword(password, admins[i].password)) {
                     return done(null, admins[i]);
                 }
             }
