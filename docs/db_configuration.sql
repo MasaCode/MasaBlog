@@ -20,7 +20,8 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE `masa_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
@@ -28,7 +29,8 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE `masa_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
@@ -42,21 +44,11 @@ CREATE TABLE `masa_posts` (
   `image_path` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `sequence` int(11) NOT NULL,
+  `body` mediumtext NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`)
   REFERENCES `masa_admins` (`id`))
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE `masa_post_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) NOT NULL,
-  `body` mediumtext NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`post_id`)
-  REFERENCES `masa_posts` (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -73,7 +65,7 @@ CREATE TABLE `masa_comments` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `masa_relation_post_category` (
+CREATE TABLE `masa_post_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -85,7 +77,7 @@ CREATE TABLE `masa_relation_post_category` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `masa_relation_post_tag` (
+CREATE TABLE `masa_post_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
@@ -97,7 +89,7 @@ CREATE TABLE `masa_relation_post_tag` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `masa_relation_category_tag` (
+CREATE TABLE `masa_category_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `category_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
