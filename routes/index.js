@@ -1,8 +1,8 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 const nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'masacode.vancouver@gmail.com',
@@ -23,14 +23,14 @@ router.get('/contact', function (req, res) {
 });
 
 router.post('/contact', function (req, res) {
-    var html = [
+    let html = [
         '<h2>This is from MasaBlog</h2>',
         '<h3>From : ' + req.body.email + '</h3>',
         '<h3>Name : ' + req.body.name + '</h3>',
         '<h4>Content Body</h4>',
         '<p>' + req.body.body + '</p>'
     ].join('<br>');
-    var options = {
+    let options = {
         from: '"MasaBlog" <masacode.vancouver@gmail.com>',
         to: 'masacode.masablog@gmail.com',
         subject: 'Email from MasaBlog [' + req.body.subject + ']',
