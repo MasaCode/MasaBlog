@@ -12,8 +12,8 @@ INSERT INTO `masa_admins` (`username`, `password`, `is_active`) VALUES
 
 CREATE TABLE `masa_thumbnails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
   `image_path` varchar(255) NOT NULL,
-  `is_active` tinyint(11) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
