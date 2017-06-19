@@ -32,6 +32,19 @@ router.get('/posts', isAuthenticated, function (req, res) {
     );
 });
 
+router.get('/data', isAuthenticated, function (req, res) {
+    co(function *() {
+        let counts = {};
+        counts.category = (yield categoryModel.count());
+        counts.tag = (yield tagModel.count());
+        counts.thumbnail = (yield thumbnailModel.count());
+        util.sendResponse(res, 200, counts);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
 function isAuthenticated(req, res, next) {
     if (!req.cookies.admin) {
         res.redirect('/login');

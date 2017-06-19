@@ -13,6 +13,16 @@ module.exports = {
         return db.getResult("select * from " + this.table + " where is_active=true", null);
     },
 
+    count () {
+        let _self = this;
+        return new Promise((resolve, reject) => {
+            db.query("select COUNT(*) as count from " + _self.table, null, function (error, result) {
+                if (error) reject(error);
+                else resolve(result[0]);
+            });
+        });
+    },
+
     insert (data) {
         return db.insertSync(this.table, data);
     },
