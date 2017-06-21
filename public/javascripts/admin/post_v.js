@@ -1,7 +1,7 @@
 (function ($) {
     'use strict';
 
-    var Post = {
+    let Post = {
         options: {
             searchIcon: '#search-icon-wrapper',
             searchClose: 'span.search-close',
@@ -22,7 +22,7 @@
         menuTop: 216,
         isResized: false,
 
-        initialize: function () {
+        initialize () {
             this.$searchIcon = $(this.options.searchIcon);
             this.$searchClose = $(this.options.searchClose);
             this.$searchInput = $(this.options.searchInput);
@@ -34,8 +34,8 @@
             this.events();
         },
 
-        events: function () {
-            var _self = this;
+        events () {
+            let _self = this;
 
             $(window).on('resize', this.onResize.bind(this));
 
@@ -54,23 +54,23 @@
             });
         },
 
-        onResize: function () {
-            var _self = this;
+        onResize () {
+            let _self = this;
             if (this.isResized === false) {
                 this.isResized = setTimeout(function () {
-                    _self.setVariables();
+                    _self.setletiables();
                     _self.styleGallery();
                     _self.isResized = false;
                 }, 200);
             }
         },
 
-        setVariables: function () {
-            var wrapperWidth = this.$wrapper.width();
+        setVariables () {
+            let wrapperWidth = this.$wrapper.width();
             this.offsetLeft = this.$wrapper[0].offsetLeft;
             this.offsetTop = ($(window).width() <= this.menuBreakpoint) ? this.menuOffsetTop: 0;
-            var length = this.rowCounts.length;
-            for (var i = 0; i < length; i++) {
+            let length = this.rowCounts.length;
+            for (let i = 0; i < length; i++) {
                 if (wrapperWidth <= this.breakPoints[i]) {
                     this.index = i;
                     break;
@@ -79,20 +79,20 @@
             this.thumbnailWidth = (wrapperWidth - (this.rowCounts[this.index]) * this.margin * 2) / parseFloat(this.rowCounts[this.index]);
         },
 
-        styleGallery: function () {
-            var length = this.$thumbnail.length;
-            var lastRows = length - (this.rowCounts[this.index] + 1);
-            var count = this.rowCounts[this.index];
-            var bottom = 0;
-            var defaultTop = ($(window).width() <= this.menuBreakpoint) ? 10 : 0;
-            for (var i = 0; i < length; i++) {
-                var rowIndex = (i % count);
-                var left = rowIndex * (this.thumbnailWidth + this.margin) + this.margin * (rowIndex + 1);
-                var top = (i >= count) ? this.$thumbnail[i - count].offsetHeight + parseInt(this.$thumbnail[i - count].style.top.replace('px', '')) + 10 : defaultTop;
+        styleGallery () {
+            let length = this.$thumbnail.length;
+            let lastRows = length - (this.rowCounts[this.index] + 1);
+            let count = this.rowCounts[this.index];
+            let bottom = 0;
+            let defaultTop = ($(window).width() <= this.menuBreakpoint) ? 10 : 0;
+            for (let i = 0; i < length; i++) {
+                let rowIndex = (i % count);
+                let left = rowIndex * (this.thumbnailWidth + this.margin) + this.margin * (rowIndex + 1);
+                let top = (i >= count) ? this.$thumbnail[i - count].offsetHeight + parseInt(this.$thumbnail[i - count].style.top.replace('px', '')) + 10 : defaultTop;
                 this.$thumbnail[i].style.cssText += ''.concat(
                     'top: ' + top + 'px;', 'left: ' + left + 'px;', 'width: ' + this.thumbnailWidth + 'px;', 'position: absolute;'
                 );
-                var imgBottom = top + $(this.$thumbnail[i]).height();
+                let imgBottom = top + $(this.$thumbnail[i]).height();
                 if (imgBottom >= bottom) {
                     bottom = imgBottom;
                 }
@@ -102,7 +102,7 @@
             this.$wrapper.css('height', (bottom + this.margin * 2));
         },
 
-        search: function (searchText) {
+        search (searchText) {
 
         },
     };

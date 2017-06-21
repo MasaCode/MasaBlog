@@ -1,26 +1,26 @@
 (function ($) {
     'use strict';
 
-    var Contact = {
+    let Contact = {
         options: {
             form: '#contact-form'
         },
 
-        initialize: function () {
-            var _self = this;
+        initialize () {
+            let _self = this;
             this.$form = $(this.options.form);
 
             this.$form.on('submit', function (event) {
                 event.preventDefault();
-                var nameInput = $('#input-name');
-                var emailInput = $('#input-email');
-                var bodyInput = $('#input-body');
-                var subjectInput = $('#input-subject');
-                var name = nameInput.val().trim();
-                var email = emailInput.val().trim();
-                var body = bodyInput.val().trim();
-                var subject = subjectInput.val().trim();
-                var submit = _self.$form.find('button');
+                let nameInput = $('#input-name');
+                let emailInput = $('#input-email');
+                let bodyInput = $('#input-body');
+                let subjectInput = $('#input-subject');
+                let name = nameInput.val().trim();
+                let email = emailInput.val().trim();
+                let body = bodyInput.val().trim();
+                let subject = subjectInput.val().trim();
+                let submit = _self.$form.find('button');
 
                 nameInput.css('border-color', '#ccc');
                 emailInput.css('border-color', '#ccc');
@@ -47,21 +47,21 @@
                     },
                     timeout: 10000,
 
-                    beforeSend: function (jqXHR, status) {
+                    beforeSend (jqXHR, status) {
                         submit.prop('disabled', true);
                         _self.$form.get(0).reset();
                     },
-                    complete: function (jqXHR, status) {
+                    complete (jqXHR, status) {
                         submit.prop('disabled', false);
                     },
-                    success: function (data, status, jqXHR) {
-                        var dialog = $('#success-dialog');
+                    success (data, status, jqXHR) {
+                        let dialog = $('#success-dialog');
                         console.log(dialog);
                         dialog.text('Email has been successfully sent');
                         dialog.fadeIn(1000).delay(3000).fadeOut(500);
                     },
-                    error: function (data, status, jqXHR) {
-                        var dialog = $('#error-dialog');
+                    error (data, status, jqXHR) {
+                        let dialog = $('#error-dialog');
                         dialog.text('Error occurred : ' + jqXHR);
                         dialog.fadeIn(1000).delay(3000).fadeOut(500);
                     }
