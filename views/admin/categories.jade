@@ -17,12 +17,13 @@ block content
                   i.fa.fa-plus
               hr
               div.category-board
-                div.category-item
-                  input(type="checkbox").checkbox.category-checkbox
-                  span Category One
-                div.category-item
-                  input(type="checkbox").checkbox.category-checkbox
-                  span Category Two
+                - var length = categories.length;
+                - for(var i = 0; i < length; i++) {
+                  div.category-item
+                    input(type="hidden", value="#{categories[i].id}").category-id
+                    input(type="checkbox").checkbox.category-checkbox
+                    span.category-name #{categories[i].name}
+                - }
               hr
               div.buttons
                 a(data-toggle="modal", data-target="#delete-modal")#delete.btn.btn-danger.pull-right Delete
@@ -41,6 +42,8 @@ block content
             div.col-md-12
               form(role="form")#modal-form.form-horizontal
                 input(type="hidden", name="post_id")#modal-input-id
+                div.col-md-10.col-md-offset-1
+                  span(style="font-size: 90%; padding:0; margin:0; display: none;").text-danger#input-error
                 div.form-group
                   div.col-md-10.col-md-offset-1
                     input(type="text", name="name" maxlength="255", placeholder="Category Name")#modal-input-name.form-control
@@ -48,7 +51,7 @@ block content
                   div.col-md-10.col-md-offset-1
                     textarea(name="description", placeholder="Description")#modal-input-description.form-control
         div.modal-footer
-          button(type="submit", form="modal-form").btn.btn-primary Send
+          button(type="submit", form="modal-form")#input-submit.btn.btn-primary Send
           button(type="button", data-dismiss="modal").btn.btn-default Cancel
 
   div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade

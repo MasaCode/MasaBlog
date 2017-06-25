@@ -1,6 +1,9 @@
 'use strict';
 let express = require('express');
 let router = express.Router();
+let co = require('co');
+let util = require('../helper/util.js');
+let categoryModel = require('../models/categoryModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
@@ -15,9 +18,15 @@ router.get('/thumbnails', isAuthenticated, function (req, res) {
 });
 
 router.get('/categories', isAuthenticated, function (req, res) {
-    res.render(
-        'admin/categories.jade', {title: 'MasaBlog | Category'}
-    );
+    co(function *() {
+        let categories = (yield categoryModel.findAll());
+        res.render(
+            'admin/categories.jade', {title: 'MasaBlog | Category', categories: categories}
+        );
+    }).catch(function (e) {
+        console.log(e);
+        util.renderError(res, e);
+    });
 });
 
 router.get('/tags', isAuthenticated, function (req, res) {
