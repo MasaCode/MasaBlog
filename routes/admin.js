@@ -4,6 +4,7 @@ let router = express.Router();
 let co = require('co');
 let util = require('../helper/util.js');
 let categoryModel = require('../models/categoryModel.js');
+let tagModel = require('../models/tagModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
@@ -30,9 +31,15 @@ router.get('/categories', isAuthenticated, function (req, res) {
 });
 
 router.get('/tags', isAuthenticated, function (req, res) {
-    res.render(
-        'admin/tags.jade', {title: 'MasaBlog | Tags'}
-    );
+    co(function *() {
+        let tags = (yield tagModel.findAll());
+        res.render(
+            'admin/tags.jade', {title: 'MasaBlog | Tags', tags: tags}
+        );
+    }).catch(function (e) {
+        console.log(e);
+        util.renderError(res, e);
+    });
 });
 
 router.get('/posts', isAuthenticated, function (req, res) {
