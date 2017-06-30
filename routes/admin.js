@@ -5,6 +5,7 @@ let co = require('co');
 let util = require('../helper/util.js');
 let categoryModel = require('../models/categoryModel.js');
 let tagModel = require('../models/tagModel.js');
+let thumbnailModel = require('../models/thumbnailModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
@@ -13,9 +14,15 @@ router.get('/', isAuthenticated, function (req, res) {
 });
 
 router.get('/thumbnails', isAuthenticated, function (req, res) {
-   res.render(
-       'admin/gallery.jade', {title: 'MasaBlog | Gallery'}
-   );
+    co(function *() {
+        let thumbnails = (yield thumbnailModel.findAll());
+        res.render(
+            'admin/gallery.jade', {title: 'MasaBlog | Gallery', thumbnails: thumbnails}
+        );
+    }).catch(function (e) {
+        console.log(e);
+        util.renderError(res, e);
+    });
 });
 
 router.get('/categories', isAuthenticated, function (req, res) {

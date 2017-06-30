@@ -9,6 +9,16 @@ module.exports = {
         return db.getRow("select * from " + this.table + " where id=?", [id]);
     },
 
+    findByText (text) {
+        let _self = this;
+        return new Promise((resolve, reject) => {
+            db.query("select * from " + _self.table + " where title like ?", [('%' + text + '%')], function (error, result) {
+                if (error) reject(error);
+                else resolve(result);
+            });
+        });
+    },
+
     findAll () {
         return db.getResult("select * from " + this.table, null);
     },

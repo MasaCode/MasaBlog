@@ -9,72 +9,80 @@ block content
     div.admin-content
       div.container-fluid
         div.row.gallery-wrapper
-          div.img-gallery
-            img(src='/assets/samples/building.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cafe.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat.jpg')
-          div.img-gallery
-            img(src='/assets/samples/camera.jpg')
-          div.img-gallery
-            img(src='/assets/samples/camping.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat2.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat3.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat4.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat-sleeping.jpg')
-          div.img-gallery
-            img(src='/assets/samples/cat-sleeping2.jpg')
-          div.img-gallery
-            img(src='/assets/samples/mountain.jpg')
-          div.img-gallery
-            img(src='/assets/samples/trail.jpg')
-          div.img-gallery
-            img(src='/assets/samples/view.jpg')
-          div.img-gallery
-            img(src='/assets/samples/view2.jpg')
-          div.img-gallery
-            img(src='/assets/samples/view3.jpg')
-          div.img-gallery
-            img(src='/assets/samples/view4.jpg')
-          div.img-gallery
-            img(src='/assets/samples/view5.jpg')
+          - var length = thumbnails.length;
+          - if (length !== 0) {
+            - for (var i = 0; i < length; i++) {
+              div.img-gallery
+                div.gallery-layer
+                  h3.text-center.gallery-title #{thumbnails[i].title}
+                  div.gallery-button-wrapper
+                    button(data-toggle="modal", data-target="#view-modal").gallery-view View
+                  div.gallery-button-wrapper.button-wrapper-remove
+                    button(data-toggle="modal", data-target="#delete-modal").gallery-remove Remove
+                input(type="hidden", value="#{thumbnails[i].id}").gallery-id
+                img(src="#{'/assets/uploads/' + thumbnails[i].image_path}")
+            - }
+          - } else {
+            div(style="height: 100px;").gallery-not-found
+              h3.text-center No thumbnail is found...
+          - }
         include ../include/footer
 
-  div(tabindex="-1", role="dialog", aria-labelledby="EditModalLabel", aria-hidden="true", style="display:none; top:30px;")#edit-modal.modal.fade
+  div(tabindex="-1", role="dialog", aria-labelledby="AddModalLabel", aria-hidden="true", style="display:none; top:30px;")#add-modal.modal.fade
     div.modal-dialog.modal-md
       div.modal-content
         div.modal-header
           button(type="button", data-dismiss="modal", aria-hidden="true").close x
-          h3#EditModalLabel.text-center Upload Image
+          h3#AddModalLabel.text-center Upload Image
         div.modal-body
           div.row
             div.col-md-12
               form(role="form")#modal-form.form-horizontal
-                input(type="hidden", name="post_id")#modal-input-id
+                div.col-md-10.col-md-offset-1
+                  span.error-text
                 div.form-group
                   div.col-md-10.col-md-offset-1
-                    input(type="text", name="title" maxlength="255", placeholder="Title", parsley-trigger="change", required)#modal-input-title.form-control
+                    input(type="text", name="title" maxlength="255", placeholder="Title")#modal-input-title.form-control
                 div.form-group
                   div.col-md-10.col-md-offset-1
                     label.upload-input-wrapper
+                      div.upload-preview
+                        div.upload-layer
+                        img(src="")
                       div.upload-input-content
-                        span.text Click here to upload
-                        span
-                          i.fa.fa-upload
+                        div.upload-texts
+                          span.text Click here to upload
+                          span
+                            i.fa.fa-upload
                         input(type="file", name="post_image" style="display:none;", accept="image/*")#modal-input-image.form-control
         div.modal-footer
           button(type="submit", form="modal-form").btn.btn-primary Send
           button(type="button", data-dismiss="modal").btn.btn-default Cancel
 
+  div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade
+    div.modal-dialog.modal-sm
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#DeleteModalLabel.modal-title Thumbnail Delete Confirm
+        div.modal-body
+        div.modal-footer
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type="button", data-dismiss="modal").btn.btn-danger Delete
+
+  div(tabindex="-1", role="dialog", aria-labelledby="ViewModalLabel", aria-hidden="true", style="display:none;")#view-modal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h3#ViewModalLabel.modal-title.text-center
+        div.modal-body
+          img(src="")
+
   div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#success-dialog.alert.alert-success
   div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#error-dialog.alert.alert-danger
   div
-    a(data-toggle="modal", data-target="#edit-modal")#image-wrapper
+    a(data-toggle="modal", data-target="#add-modal")#image-wrapper
       span.upload-wrapper
         i.fa.fa-cloud-upload
   div

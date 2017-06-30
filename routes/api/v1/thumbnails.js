@@ -15,7 +15,7 @@ let storage = multer.diskStorage({
         let today = new Date().toISOString().substr(0, 19).replace(/:/g, '-');
         let splitName = file.originalname.split('.');
         let name = (req.body.title !== undefined && req.body.title !== null && req.body.title !== '') ? req.body.title : splitName[0];
-        let fileName = name + "_" + today + "." + splitName[1];
+        let fileName = (name + "_" + today + "." + splitName[1]).replace(/ /g, '_');
         cb(null, fileName);
     }
 });
@@ -29,6 +29,16 @@ router.get('/', function (req, res) {
         util.sendResponse(res, 500, e.message);
         console.log(e);
     });
+});
+
+router.get('/search/:text', function (req, res) {
+    co(function *() {
+        let result = (yield thumbnailModel.findByText(req.params.text));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    })
 });
 
 router.get('/:id', function (req, res) {
