@@ -16,7 +16,7 @@ module.exports = {
     count () {
         let _self = this;
         return new Promise((resolve, reject) => {
-            db.query("select COUNT(*) as count from " + _self.table, null, function (error, result) {
+            db.query("select COUNT(is_active=true) as count from " + _self.table, null, function (error, result) {
                 if (error) reject(error);
                 else resolve(result[0]);
             });

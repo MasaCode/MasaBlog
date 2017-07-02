@@ -30,10 +30,10 @@ router.get('/:id', function (req, res) {
 
 router.post('/', function (req, res) {
     co(function *() {
-        if (!util.isValidId(parseInt(req.cookies.admin))) throw new Error('Admin id is not defined...');
+        if (!util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Admin id is not defined...');
         if (!util.isValidId(parseInt(req.body.category))) throw new Error('Invalid Category ID...');
         if (!validateTagId(req.body.tags)) throw new Error('Invalid Tag ID...');
-        let validateResult = validateParams(req.body.post, req.cookies.admin);
+        let validateResult = validateParams(req.body.post, req.cookies.admin.id);
         if (validateResult.error) throw new Error(validateResult.error);
         let postResult = (yield postModel.insert(validateResult.data));
         let categoryResult = (yield relationModel.insertPostCategory({post_id: postResult, category_id: req.body.category}));
