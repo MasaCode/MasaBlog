@@ -15,6 +15,8 @@ let admin = require('./routes/admin');
 let categories = require('./routes/api/v1/categories');
 let tags = require('./routes/api/v1/tags');
 let thumbnails = require('./routes/api/v1/thumbnails');
+let tasks = require('./routes/api/v1/tasks');
+let events = require('./routes/api/v1/events');
 let db = require('./models/db');
 db.connect();
 
@@ -49,6 +51,8 @@ app.use('/admin', admin);
 app.use('/api/v1/categories', categories);
 app.use('/api/v1/tags', tags);
 app.use('/api/v1/thumbnails', thumbnails);
+app.use('/api/v1/tasks', tasks);
+app.use('/api/v1/events', events);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

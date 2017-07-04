@@ -3,18 +3,14 @@
 let db = require('./db.js');
 
 module.exports = {
-    table: 'masa_posts',
+    table: 'masa_comments',
 
     findById (id) {
         return db.getRow("select * from " + this.table + " where id=?", [id]);
     },
 
     findAll () {
-        return db.getResult("select * from " + this.table + " where is_active=true order by sequence DESC", null);
-    },
-
-    findRecent (limit) {
-        return db.getResult("select * from " + this.table + " where is_active=true order by created_at limit ?", [limit]);
+        return db.getResult("select * from " + this.table + " where is_active=true", null);
     },
 
     count () {
@@ -36,6 +32,6 @@ module.exports = {
     },
 
     delete (id) {
-        return db.updateSync(this.table, id, {is_active: false});
+        return db.updateSync(this.table, id, {is_active: true});
     }
 };

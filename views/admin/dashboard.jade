@@ -2,9 +2,12 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/plugins/fullCalendar/css/fullcalendar.min.css')
+  link(rel='stylesheet', href='/plugins/datetimePicker/css/bootstrap-datetimepicker.min.css')
   link(rel='stylesheet', href='/stylesheets/admin/dashboard_v.css')
   script(src='/plugins/moment/js/moment.min.js')
   script(src='/plugins/fullCalendar/js/fullCalendar.min.js')
+  script(src='/plugins/datetimePicker/js/bootstrap-datetimepicker.min.js')
+  script(src="/javascripts/admin/dashboard_v.js")
 block content
   include sidebar
   div.admin-content-wrapper
@@ -18,9 +21,9 @@ block content
               div.tasks
 
               div.task-input.input-group
-                input(type="text").form-control.task-input
+                input(type="text").form-control#input-task
                 span.input-group-btn
-                  button(type="submit").btn.btn-primary Add  <span class="fa fa-plus"></span>
+                  button(type="submit").btn.btn-primary#add-task Add  <span class="fa fa-plus"></span>
             div.col-lg-4.col-md-5.col-sm-12.admin-top-right
               div.admin-motto
                 h4.text-center Stay hungry, Stay foolish
@@ -29,11 +32,11 @@ block content
                 h3.text-center Weather
                 hr
                 div.weather-wrapper
-                  span
+                  span.weather-icon
                     i.wi.wi-day-cloudy-high
                   div.weather
-                    h3.text-center 27<small>&deg;C</small>
-                    h3.text-center 29<small>&deg;C</small>
+                    h3.text-center.min-temp 27<small>&deg;C</small>
+                    h3.text-center.max-temp 29<small>&deg;C</small>
                     div.location
                       h4.text-center Vancouver
                       h5.text-center Canada
@@ -43,38 +46,38 @@ block content
               a(href="/admin/posts").btn.btn-box.box-danger
                 span.icon-wrapper
                   i.fa.fa-rocket.fa-3x
-                h3.text-center.info-number 0
+                h3.text-center.info-number.post-count 0
                 span Posts
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
               a(href="/admin/categories").btn.btn-box.box-success
                 span.icon-wrapper
                   i.fa.fa-th-large.fa-3x
-                h3.text-center.info-number 0
+                h3.text-center.info-number.category-count 0
                 span Categories
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
               a(href="/admin/tags").btn.btn-box.box-info
                 span.icon-wrapper
                   i.fa.fa-tags.fa-3x
-                h3.text-center.info-number 0
+                h3.text-center.info-number.tag-count 0
                 span Tags
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
               a(href="/admin/thumbnails").btn.btn-box.box-primary
                 span.icon-wrapper
                   i.fa.fa-image.fa-3x
-                h3.text-center.info-number 0
+                h3.text-center.info-number.thumbnail-count 0
                 span Thumbnails
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
               a(href="javascript:void(0);").btn.btn-box.box-warning
                 span.icon-wrapper
                   i.fa.fa-users.fa-3x
-                h3.text-center.info-number 0
+                h3.text-center.info-number.visitor-count 0
                 span Visiting
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
-              a(href="/admin/messages").btn.btn-normal.btn-box
+              a(href="javascript:void(0);").btn.btn-normal.btn-box
                 span.icon-wrapper
-                  i.fa.fa-envelope.fa-3x
-                h3.text-center.info-number 0
-                span Messages
+                  i.fa.fa-commenting.fa-3x
+                h3.text-center.info-number.comment-count 0
+                span Comments
 
           div
             div.col-lg-8.col-md-8.col-sm-12.col-xs-12.calendar-wrapper
@@ -83,28 +86,48 @@ block content
               div.panel.panel-default
                 div.panel-heading
                   h3 Recent Posts
-                ul.list-group
-                  li.list-group-item
-                    a(href="/posts")
-                      h4.text-left How to set up Docker environment on Mac OS
-                  li.list-group-item
-                    a(href="/posts")
-                      h4.text-left How to set up Docker environment on Mac OS
-                  li.list-group-item
-                    a(href="/posts")
-                      h4.text-left How to set up Docker environment on Mac OS
-                  li.list-group-item
-                    a(href="/posts")
-                      h4.text-left How to set up Docker environment on Mac OS
+                ul.list-group.post-board
 
-    include ../include/footer
+        include ../include/footer
+    div(tabindex="-1", role="dialog", aria-labelledby="AddModalLabel", aria-hidden="true", style="display:none; top:30px;")#event-edit-modal.modal.fade
+      div.modal-dialog.modal-md
+        div.modal-content
+          div.modal-header
+            button(type="button", data-dismiss="modal", aria-hidden="true").close x
+            h3#AddModalLabel.text-center Edit Event
+          div.modal-body
+            div.row
+              div.col-md-12
+                form(role="form")#modal-form.form-horizontal
+                  input(type="hidden", value="")#modal-input-id
+                  div.col-md-10.col-md-offset-1
+                    span.error-text
+                  div.form-group
+                    div.col-md-11.col-md-offset-0-5
+                      input(type="text", name="title" maxlength="255", placeholder="Title")#modal-input-title.form-control
+                  div.form-group
+                    div.col-md-5.col-md-offset-0-5.date-start
+                      div.input-group.date.event-date-start
+                        input(type="text", name="start", placeholder="Start Date (mm/dd/yyyy)")#modal-input-start.form-control
+                        span.input-group-addon
+                          span.fa.fa-calendar-o
+                    div.date-to.col-md-1
+                      span To
+                    div.col-md-5.date-end
+                      div.input-group.date.event-date-end
+                        input(type="text", name="end", placeholder="End Date (mm/dd/yyyy)")#modal-input-end.form-control
+                        span.input-group-addon
+                          span.fa.fa-calendar-o
+                  div.form-group
+                    div.col-md-offset-0-5.all-day
+                      label.switch
+                        input(type="checkbox", name="allDay")#modal-input-all-day.form-control
+                        div.slider.round
+                    div.col-md-2.col-sm-2.col-xs-3
+                      span All Day
+          div.modal-footer
+            button(type="submit", form="modal-form")#modal-input-submit.btn.btn-primary Send
+            button(type="button", data-dismiss="modal").btn.btn-default Cancel
 
-
-    script.
-      $('#calendar').fullCalendar({
-          header: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'month,agendaWeek,agendaDay'
-          }
-      });
+    div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#success-dialog.alert.alert-success
+    div(style="display:none; width: 300px; position: fixed; top: 15%; left: 50%; margin-left: -175px; text-align: center; z-index: 5;")#error-dialog.alert.alert-danger

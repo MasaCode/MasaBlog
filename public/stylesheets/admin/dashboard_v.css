@@ -32,6 +32,27 @@ div.tasks {
     height: 190px;
 }
 
+div.task-item {
+    margin: 0 5px 10px 5px;
+    padding: 5px 10px;
+    background: #c9302c;
+    display: block;
+    float: left;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+div.task-item input {
+    float: left;
+}
+
+div.task-item span {
+    float: left;
+    padding-left: 10px;
+}
+
 div.task-input {
     width: 80%;
     margin-left: auto;
@@ -252,15 +273,15 @@ a.btn-box:focus i.fa.fa-users, .box-warning:focus {
     background: #d58512;
 }
 
-a.btn-box i.fa.fa-envelope {
+a.btn-box i.fa.fa-commenting {
     background: #f442e8;
 }
 
-a.btn-box:hover i.fa.fa-envelope {
+a.btn-box:hover i.fa.fa-commenting {
     background: #c435ba;
 }
 
-a.btn-box:focus i.fa.fa-envelope {
+a.btn-box:focus i.fa.fa-commenting {
     color: white;
     background: #992991;
 }
@@ -341,6 +362,77 @@ div.recent-post-wrapper h4 {
     margin: 0;
 }
 
+.col-md-5-5 {
+    float: left;
+    width: 45.83%;
+    padding-right:15px;
+    padding-left:15px
+}
+
+.col-md-offset-0-5 {
+    margin-left: 4.15%;
+}
+
+.all-day {
+    padding-left:15px;
+    float: left;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 24px;
+}
+
+.switch input {display:none;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 4px;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
 @media screen and (max-width: 991px) {
     div.admin-info {
         margin-top: 10px;
@@ -389,6 +481,25 @@ div.recent-post-wrapper h4 {
 
     div.recent-post-wrapper {
         padding-left: 0;
+    }
+
+    .col-md-5-5 {
+        width: 100%;
+        float: none;
+    }
+
+    div.date-to {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    div.date-to span {
+        display: inline-block;
+    }
+
+    div.col-md-5.date-end {
+        margin-left: 4.15%;
     }
 }
 

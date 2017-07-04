@@ -3,9 +3,14 @@ let express = require('express');
 let router = express.Router();
 let co = require('co');
 let util = require('../helper/util.js');
+let apiHelper = require('../helper/apiHelper.js');
+let postModel = require('../models/postModel.js');
 let categoryModel = require('../models/categoryModel.js');
 let tagModel = require('../models/tagModel.js');
 let thumbnailModel = require('../models/thumbnailModel.js');
+let taskModel = require('../models/taskModel.js');
+let commentModel = require('../models/commentModel.js');
+let eventModel = require('../models/eventModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
@@ -57,11 +62,28 @@ router.get('/posts', isAuthenticated, function (req, res) {
 
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
-        let counts = {};
-        counts.category = (yield categoryModel.count());
-        counts.tag = (yield tagModel.count());
-        counts.thumbnail = (yield thumbnailModel.count());
-        util.sendResponse(res, 200, counts);
+        let data = {};
+        data.post = {};
+        data.post.count = (yield postModel.count()).count;
+        data.post.posts = (yield postModel.findRecent(7));
+        data.category = (yield categoryModel.count());
+        data.tag = (yield tagModel.count());
+        data.thumbnail = (yield thumbnailModel.count());
+        data.comment = (yield commentModel.findAll());
+        data.events = (yield eventModel.findByAdmin(req.cookies.admin.id));
+        data.tasks = (yield taskModel.findByAdmin(req.cookies.admin.id));
+        if (!req.cookies.weather) {
+            data.weather = (yield apiHelper.getWeatherInfo());
+            let weather = {main: data.weather.main, weather: data.weather.weather, expired: new Date(new Date().getTime() + 30 * 60000)};
+            res.cookie('weather', weather, null);
+        } else {
+            console.log('Cashed data');
+            data.weather = req.cookies.weather;
+            if (new Date(req.cookies.weather.expired).getTime() < new Date().getTime()) {
+                res.clearCookie('weather', null);
+            }
+        }
+        util.sendResponse(res, 200, data);
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
         console.log(e);
