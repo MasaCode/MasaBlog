@@ -31,9 +31,9 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/search/:text', function (req, res) {
+router.get('/search/:keyword', function (req, res) {
     co(function *() {
-        let result = (yield thumbnailModel.findByText(req.params.text));
+        let result = (yield thumbnailModel.findByText(req.params.keyword));
         util.sendResponse(res, 200, result);
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);

@@ -8,7 +8,6 @@ let bodyParser = require('body-parser');
 let passport = require('passport');
 
 let index = require('./routes/index');
-let posts = require('./routes/posts');
 let login = require('./routes/login');
 let logout = require('./routes/logout');
 let admin = require('./routes/admin');
@@ -44,7 +43,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
-app.use('/posts', posts);
 app.use('/login', login);
 app.use('/logout', logout);
 app.use('/admin', admin);

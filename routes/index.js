@@ -1,6 +1,7 @@
 'use strict';
 let express = require('express');
 let router = express.Router();
+let co = require('co');
 const nodemailer = require('nodemailer');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -9,6 +10,8 @@ let transporter = nodemailer.createTransport({
         pass: 'Masashi0709'
     }
 });
+let util = require('../helper/util.js');
+let postModel = require('../models/postModel.js');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'MasaBlog | Home' });
@@ -20,6 +23,17 @@ router.get('/about', function (req, res) {
 
 router.get('/contact', function (req, res) {
    res.render("contact", {title: "MasaBlog | Contact"});
+});
+
+router.get('/post/:id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let post = (yield postModel.findById(id));
+        res.render('post.jade', {title: "MasaBlog | " + post.title, post: post});
+    }).catch(function (e) {
+        util.renderError(res, e);
+    });
 });
 
 router.post('/contact', function (req, res) {
