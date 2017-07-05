@@ -16,6 +16,7 @@ let tags = require('./routes/api/v1/tags');
 let thumbnails = require('./routes/api/v1/thumbnails');
 let tasks = require('./routes/api/v1/tasks');
 let events = require('./routes/api/v1/events');
+let posts = require('./routes/api/v1/posts');
 let db = require('./models/db');
 db.connect();
 
@@ -51,6 +52,7 @@ app.use('/api/v1/tags', tags);
 app.use('/api/v1/thumbnails', thumbnails);
 app.use('/api/v1/tasks', tasks);
 app.use('/api/v1/events', events);
+app.use('/api/v1/posts', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

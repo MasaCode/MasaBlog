@@ -16,6 +16,16 @@ router.get('/', function (req, res) {
     });
 });
 
+router.get('/search/:keyword', function (req, res) {
+    co(function *() {
+        let searchedResult = (yield postModel.findByText(req.params.keyword));
+        util.sendResponse(res, 200, searchedResult);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
 router.get('/:id', function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);

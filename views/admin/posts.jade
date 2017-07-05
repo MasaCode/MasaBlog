@@ -9,69 +9,22 @@ block content
     div.admin-content
       div.container-fluid
         div.row.post-wrapper
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/cat.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/computer.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/camera.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/mountain.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/trail.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/view.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
-          div.post-thumbnail-wrapper
-            div.thumbnail.post-thumbnail
-              div(style="background-image: url('/assets/samples/cafe.jpg');").img-post
-              div.caption
-                h3.text-center Thumbnail sample
-                p.thumbnail-desc  This is sample thumbnail to see if this is what i want. So far I think this is goooood.
-                p.btn-thumbnail
-                  a.btn.btn-success.btn-edit Edit
-                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-danger.btn-delete Delete
+          - var length = posts.length;
+          - if (length !== 0) {
+            - for (var i = 0; i < length; i++) {
+              div.post-thumbnail-wrapper
+                div.thumbnail.post-thumbnail
+                  div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").img-post
+                  div.caption
+                    h3.text-center.post-title #{posts[i].title}
+                    p.thumbnail-desc #{posts[i].description}
+                    p.btn-thumbnail
+                      a(href="/admin/posts/edit/#{posts[i].id}").btn.btn-success.btn-edit Edit
+                      a(data-toggle="modal", data-target="#delete-modal", data-id="#{posts[i].id}").btn.btn-danger.btn-delete Delete
+            - }
+          - } else {
+            // TODO: Implement Not found
+          - }
 
         include ../include/footer
 

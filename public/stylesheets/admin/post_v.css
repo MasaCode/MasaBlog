@@ -35,12 +35,13 @@ p.btn-thumbnail a {
 
 p.btn-thumbnail a.btn-edit {
     margin-right: 10px;
+    float: left;
 }
 
 span.search-wrappr {
     padding: 3px 12px;
     position: fixed;
-    top: 10px;
+    top: 75px;
     right: 10px;
     font-size: 210%;
     -webkit-border-radius: 50%;
@@ -94,10 +95,32 @@ span.search-close:hover {
     background: #ccc;
 }
 
+span.upload-wrapper {
+    padding: 3px 14px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-size: 210%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    color: white;
+    background: rgba(43, 50, 58, 0.7);
+}
+
 @media screen and (max-width: 768px){
     span.search-wrappr {
         background: transparent;
         font-size: 210%;
+        right: 100px;
+        top: 2px;
+        position: absolute;
+        z-index: 3;
+    }
+
+    span.upload-wrapper {
+        background: transparent;
+        font-size: 230%;
         right: 55px;
         top: 2px;
         position: absolute;

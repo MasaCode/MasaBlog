@@ -9,6 +9,11 @@ module.exports = {
         return db.getRow("select * from " + this.table + " where id=?", [id]);
     },
 
+    findByText(text) {
+        text = '%' + text + '%';
+        return db.getResult("select * from " + this.table + " where title like ? or description like ? or body like ?", [text, text, text]);
+    },
+
     findAll () {
         return db.getResult("select * from " + this.table + " where is_active=true order by sequence DESC", null);
     },

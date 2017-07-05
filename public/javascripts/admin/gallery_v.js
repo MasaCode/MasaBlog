@@ -1,3 +1,4 @@
+// TODO: Implement Not Found
 (function ($) {
     'use strict';
 
@@ -150,6 +151,7 @@
                                 success.fadeIn(1000).delay(3000).fadeOut(1000);
                                 modal.find('button:first-child').click();
                                 _self.refresh();
+                                executeButton.off('click');
                             },
                             error (data, status, errorThrown) {
                                 let error = $('#error-dialog');
@@ -157,6 +159,7 @@
                                 error.fadeIn(1000).delay(3000).fadeOut(1000);
                                 modal.find('button:first-child').click();
                                 _self.refresh();
+                                executeButton.off('click');
                             }
                         });
                     });

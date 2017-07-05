@@ -55,9 +55,15 @@ router.get('/tags', isAuthenticated, function (req, res) {
 });
 
 router.get('/posts', isAuthenticated, function (req, res) {
-    res.render(
-        'admin/posts.jade', {title: 'MasaBlog | Posts'}
-    );
+    co(function *() {
+        let posts = (yield postModel.findAll());
+        res.render(
+            'admin/posts.jade', {title: 'MasaBlog | Posts', posts: posts}
+        );
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
 });
 
 router.get('/data', isAuthenticated, function (req, res) {
