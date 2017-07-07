@@ -16,6 +16,10 @@ module.exports = {
         return db.getResult("select * from masa_tags where id in (select tag_id from masa_post_tag where post_id=?)", [post_id]);
     },
 
+    findCategoryByPost (post_id) {
+        return db.getRow("select * from masa_categories where id = (select category_id from masa_post_category where post_id=?)", [post_id]);
+    },
+
     insertPostTag (data) {
         return db.insertSync('masa_post_tag', data);
     },
@@ -50,6 +54,15 @@ module.exports = {
 
     insertPostCategory (data) {
         return db.insertSync('masa_post_category', data);
+    },
+
+    updatePostCategoryByPostId (post_id, category_id) {
+        return new Promise((resolve, reject) => {
+            db.query("update masa_post_category set ? where post_id = ?", [{category_id: category_id}, post_id], (error, result) => {
+                if (error) reject(error);
+                else resolve(result);
+            });
+        });
     },
 
     deletePostCategoryById (id) {

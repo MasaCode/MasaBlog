@@ -11,6 +11,7 @@ let thumbnailModel = require('../models/thumbnailModel.js');
 let taskModel = require('../models/taskModel.js');
 let commentModel = require('../models/commentModel.js');
 let eventModel = require('../models/eventModel.js');
+let relationModel = require('../models/relationModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
@@ -66,6 +67,33 @@ router.get('/posts', isAuthenticated, function (req, res) {
     });
 });
 
+router.get('/posts/new', function (req, res) {
+    co(function *() {
+        let categories = (yield categoryModel.findAll());
+        res.render(
+            'admin/post_editor.jade', {title: 'MasaBlog | Post Editor', post: null, categories: categories}
+        );
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
+router.get('/posts/edit/:id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let post = (yield postModel.findById(id));
+        let categories = (yield categoryModel.findAll());
+        res.render(
+            'admin/post_editor.jade', {title: 'MasaBlog | Post Editor', post: post, categories: categories}
+        );
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
         let data = {};
@@ -90,6 +118,19 @@ router.get('/data', isAuthenticated, function (req, res) {
             }
         }
         util.sendResponse(res, 200, data);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
+router.get('/posts/data/:id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let selectedCategory = (yield relationModel.findCategoryByPost(id));
+        let relatedTags = (yield relationModel.findTagsByPost(id));
+        util.sendResponse(res, 200, {category: selectedCategory.id, tags: relatedTags});
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
         console.log(e);

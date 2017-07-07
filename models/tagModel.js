@@ -9,6 +9,14 @@ module.exports = {
         return db.getRow("select * from " + this.table + " where id=?", [id]);
     },
 
+    findsByText (text) {
+        return db.getResult("select * from " + this.table + " where name=?", [('%' + name + '%')]);
+    },
+
+    findByName (name) {
+        return db.getRow("select * from " + this.table + " where name=?", [name]);
+    },
+
     findAll () {
         return db.getResult("select * from " + this.table + " where is_active=true", null);
     },

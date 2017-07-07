@@ -42,12 +42,13 @@ router.post('/', function (req, res) {
     co(function *() {
         if (!util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Admin id is not defined...');
         if (!util.isValidId(parseInt(req.body.category))) throw new Error('Invalid Category ID...');
-        if (!validateTagId(req.body.tags)) throw new Error('Invalid Tag ID...');
-        let validateResult = validateParams(req.body.post, req.cookies.admin.id);
+        let tags = req.body.tags.split(',');
+        if (!validateTagId(tags)) throw new Error('Invalid Tag ID...');
+        let validateResult = validateParams(req.body, req.cookies.admin.id);
         if (validateResult.error) throw new Error(validateResult.error);
         let postResult = (yield postModel.insert(validateResult.data));
         let categoryResult = (yield relationModel.insertPostCategory({post_id: postResult, category_id: req.body.category}));
-        let tagResult = (yield relationModel.insertPostTags(postResult, req.body.tags));
+        let tagResult = (yield relationModel.insertPostTags(postResult, tags));
         util.sendResponse(res, 200, {post: postResult, category: categoryResult, tag: tagResult});
     }).catch(function (e) {
         console.log(e);
@@ -55,15 +56,51 @@ router.post('/', function (req, res) {
     });
 });
 
+router.post('/relatedTag', function (req, res) {
+    co(function *() {
+        let post_id = parseInt(req.body.post_id);
+        let tag_id = parseInt(req.body.tag_id);
+        if (!util.isValidId(post_id)) throw new Error('Invalid Post ID...');
+        if (!util.isValidId(tag_id)) throw new Error('Invalid Tag ID...');
+        let result = (yield relationModel.insertPostTag({post_id: post_id, tag_id: tag_id}));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
 router.put('/:id', function (req, res) {
     co(function *() {
-        let id = req.params.id;
+        let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
-        let result = (yield postModel.update(id, req.body));
+        let result = (yield postModel.update(id, {
+            title: req.body.title,
+            description: req.body.description,
+            body: req.body.body,
+            image_path: req.body.image_path
+        }));
+        if (req.body.category) {
+            let cateogryResul = (yield relationModel.updatePostCategoryByPostId(id, req.body.category));
+        }
         util.sendResponse(res, 200, result);
     }).catch(function (e) {
         console.log(e);
         util.sendResponse(res, 500, e.message);
+    });
+});
+
+router.delete('/relatedTag', function (req, res) {
+    co(function *() {
+        let post_id = parseInt(req.body.post_id);
+        let tag_id = parseInt(req.body.tag_id);
+        if (!util.isValidId(post_id)) throw new Error('Invalid Post ID...');
+        if (!util.isValidId(tag_id)) throw new Error('Invalid Tag ID...');
+        let result = (yield relationModel.deletePostTagByIds(post_id, tag_id));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
     });
 });
 

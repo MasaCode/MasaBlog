@@ -43,6 +43,22 @@ router.post('/', function (req, res) {
     });
 });
 
+router.post('/searchInsert', function (req, res) {
+    co(function *() {
+        if (req.body === undefined || req.body.name === undefined || req.body.name === '' || req.body.name === null) throw new Error('Tag Name is required...');
+        let name = req.body.name;
+        let tag = (yield tagModel.findByName(name));
+        if (tag !== null) {
+            return util.sendResponse(res, 200, tag.id);
+        }
+        let result = (yield tagModel.insert({name: name, description: '', is_active: true}));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
 router.put('/:id', function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
