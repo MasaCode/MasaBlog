@@ -39,6 +39,7 @@ DEFAULT CHARACTER SET = utf8;
 CREATE TABLE `masa_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `image_path` varchar(255) NOT NULL,
@@ -48,7 +49,9 @@ CREATE TABLE `masa_posts` (
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`)
-  REFERENCES `masa_admins` (`id`))
+  REFERENCES `masa_admins` (`id`),
+  FOREIGN KEY (`category_id`)
+  REFERENCES `masa_categories` (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -87,18 +90,6 @@ CREATE TABLE `masa_events` (
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`)
   REFERENCES `masa_admins` (`id`))
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE `masa_post_category` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`post_id`)
-  REFERENCES `masa_posts` (`id`),
-  FOREIGN KEY (`category_id`)
-  REFERENCES `masa_categories` (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 

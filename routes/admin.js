@@ -128,9 +128,8 @@ router.get('/posts/data/:id', function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
-        let selectedCategory = (yield relationModel.findCategoryByPost(id));
         let relatedTags = (yield relationModel.findTagsByPost(id));
-        util.sendResponse(res, 200, {category: selectedCategory.id, tags: relatedTags});
+        util.sendResponse(res, 200, {tags: relatedTags});
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
         console.log(e);

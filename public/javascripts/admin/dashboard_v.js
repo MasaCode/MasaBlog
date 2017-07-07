@@ -338,7 +338,7 @@
             for (let i = 0; i < length; i++) {
                 if (i >= postItemLength) {
                     let newPost = [
-                        '<li class="list-group-item post-item"><a href="admin/posts/' + posts[i].id + '">',
+                        '<li class="list-group-item post-item"><a href="admin/posts/edit/' + posts[i].id + '">',
                         '<h4 class="text-left post-title">' + posts[i].title + '</h4></a></li>'
                     ].join(' ');
                     postBoard.append(newPost);

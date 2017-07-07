@@ -8,7 +8,6 @@
             tagSearchedResult: 'datalist#tag-searched-list',
             thumbnailModal: '#thumbnail-modal',
         },
-        previouseCategory: null,
 
         initialize () {
             this._POST = POST;
@@ -112,14 +111,13 @@
         },
 
         thumbnailEvents () {
-            let _self = this;
             let isSaved = false;
 
             this.$thumbnailModal.on('click', 'a.post-img', function (event) {
                 let selectedItem = $(this);
                 if (selectedItem.hasClass('thumbnail-active')) return false;
-                let previoiusItem = $('a.post-img.thumbnail-active');
-                previoiusItem.removeClass('thumbnail-active');
+                let previousItem = $('a.post-img.thumbnail-active');
+                previousItem.removeClass('thumbnail-active');
                 selectedItem.addClass('thumbnail-active');
             });
 
@@ -171,15 +169,9 @@
                 data.description = $('#post-input-description').val().trim();
                 data.body = _self.editor.codemirror.getValue();
                 data.image_path = $('#post-input-img').val().trim();
+                data.category_id = $('#post-input-category').val().trim();
                 let error = _self.validateParams(data);
                 if (error !== null) return _self.showError(error);
-
-                // Getting Category
-                let category = $('#post-input-category').val().trim();
-                if (_self.previouseCategory === null || parseInt(_self.previouseCategory) !== parseInt(category)) {
-                    data.category = category;
-                    if (data.category === '') return _self.showError('Please choose category...');
-                }
 
                 if (id === null) {
                     // It's Creating Post so I need to get tags too.
@@ -225,8 +217,6 @@
                 timeout: 10000,
 
                 success (data, status, errorThrown) {
-                    $('select#post-input-category option[value="' + data.category + '"]').prop('selected', true);
-                    _self.previouseCategory = data.category;
                     let length = data.tags.length;
                     if (length === 0) return;
                     for (let i = 0; i < length; i++) {
@@ -306,6 +296,7 @@
             if (params.description === null || params.description === undefined || params.description === '') error = "Post description is required...";
             if (params.body === null || params.body === undefined || params.body === '') error = "Post content is required...";
             if (params.image_path === null || params.image_path === undefined || params.image_path === '') error ="Post thumbnail is required...";
+            if (params.category_id === null || params.category_id === undefined || params.category_id === '') error = "Category is required...";
             return error;
         },
 

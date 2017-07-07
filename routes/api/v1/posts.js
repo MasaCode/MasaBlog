@@ -41,15 +41,14 @@ router.get('/:id', function (req, res) {
 router.post('/', function (req, res) {
     co(function *() {
         if (!util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Admin id is not defined...');
-        if (!util.isValidId(parseInt(req.body.category))) throw new Error('Invalid Category ID...');
+        if (!util.isValidId(parseInt(req.body.category_id))) throw new Error('Invalid Category ID...');
         let tags = req.body.tags.split(',');
         if (!validateTagId(tags)) throw new Error('Invalid Tag ID...');
         let validateResult = validateParams(req.body, req.cookies.admin.id);
         if (validateResult.error) throw new Error(validateResult.error);
         let postResult = (yield postModel.insert(validateResult.data));
-        let categoryResult = (yield relationModel.insertPostCategory({post_id: postResult, category_id: req.body.category}));
         let tagResult = (yield relationModel.insertPostTags(postResult, tags));
-        util.sendResponse(res, 200, {post: postResult, category: categoryResult, tag: tagResult});
+        util.sendResponse(res, 200, {post: postResult, tag: tagResult});
     }).catch(function (e) {
         console.log(e);
         util.sendResponse(res, 500, e.message);
@@ -75,14 +74,12 @@ router.put('/:id', function (req, res) {
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
         let result = (yield postModel.update(id, {
+            category_id: req.body.category_id,
             title: req.body.title,
             description: req.body.description,
             body: req.body.body,
             image_path: req.body.image_path
         }));
-        if (req.body.category) {
-            let cateogryResul = (yield relationModel.updatePostCategoryByPostId(id, req.body.category));
-        }
         util.sendResponse(res, 200, result);
     }).catch(function (e) {
         console.log(e);
@@ -132,6 +129,7 @@ function validateParams(params, admin_id) {
     data.is_active = true;
     data.created_at = new Date();
     data.admin_id = admin_id;
+    data.category_id = params.category_id;
     data.sequence = 0;
     return {error: null, data: data};
 }

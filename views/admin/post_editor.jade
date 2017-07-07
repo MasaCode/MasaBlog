@@ -38,7 +38,12 @@ block content
                   option(value="")
                   - var length = categories.length;
                   - for (var i = 0; i < length; i++) {
-                    option(value="#{categories[i].id}") #{categories[i].name}
+                    - var selected = (isEditing && post.category_id === categories[i].id);
+                      - if (selected) {
+                        option(value="#{categories[i].id}", selected) #{categories[i].name}
+                      - } else {
+                        option(value="#{categories[i].id}") #{categories[i].name}
+                      - }
                   - }
 
             div.panel.panel-default

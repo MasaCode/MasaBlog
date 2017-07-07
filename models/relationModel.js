@@ -51,30 +51,4 @@ module.exports = {
             });
         });
     },
-
-    insertPostCategory (data) {
-        return db.insertSync('masa_post_category', data);
-    },
-
-    updatePostCategoryByPostId (post_id, category_id) {
-        return new Promise((resolve, reject) => {
-            db.query("update masa_post_category set ? where post_id = ?", [{category_id: category_id}, post_id], (error, result) => {
-                if (error) reject(error);
-                else resolve(result);
-            });
-        });
-    },
-
-    deletePostCategoryById (id) {
-        return db.deleteSync('masa_post_category', id);
-    },
-
-    deletePostCategoryByIds (post_id, category_id){
-        return new Promise((resolve, reject) => {
-            db.query("delete from masa_post_category where post_id=? and category_id=?", [post_id, category_id], (error, result) => {
-                if (error) reject(error);
-                else resolve(result);
-            });
-        });
-    }
 };
