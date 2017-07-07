@@ -1,16 +1,18 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
-var admin_model = require('../models/admin_model.js');
+let express = require('express');
+let router = express.Router();
+let co = require('co');
+let adminModel = require('../models/adminModel.js');
 
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+let passport = require('passport');
+let LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(function(username, password, done){
-    admin_model.findByUsername(username).then(function (admins) {
+    co(function *() {
+        let admins = (yield adminModel.findByUsername(username));
         if (admins !== null && admins.length !== 0) {
-            var length = admins.length;
-            for (var i = 0; i < length; i++) {
-                if (admin_model.verifyPassword(password, admins[i].password)) {
+            let length = admins.length;
+            for (let i = 0; i < length; i++) {
+                if (adminModel.verifyPassword(password, admins[i].password)) {
                     return done(null, admins[i]);
                 }
             }
@@ -27,7 +29,7 @@ router.get('/', function (req, res) {
     if (req.cookies.admin) {
         res.redirect('/admin');
     } else {
-        var message = req.cookies.loginMessage !== undefined ? req.cookies.loginMessage : null;
+        let message = req.cookies.loginMessage !== undefined ? req.cookies.loginMessage : null;
         res.render(
             'login', {title: 'MasaBlog | Login', message: message}
         );

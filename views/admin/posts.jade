@@ -1,0 +1,53 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/post_v.css')
+  script(src="/javascripts/admin/post_v.js")
+block content
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.post-wrapper
+          - var length = posts.length;
+          - if (length !== 0) {
+            - for (var i = 0; i < length; i++) {
+              div.post-thumbnail-wrapper
+                div.thumbnail.post-thumbnail
+                  div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").img-post
+                  div.caption
+                    h3.text-center.post-title #{posts[i].title}
+                    p.thumbnail-desc #{posts[i].description}
+                    p.btn-thumbnail
+                      a(href="/admin/posts/edit/#{posts[i].id}").btn.btn-success.btn-edit Edit
+                      a(data-toggle="modal", data-target="#delete-modal", data-id="#{posts[i].id}").btn.btn-danger.btn-delete Delete
+            - }
+          - } else {
+            // TODO: Implement Not found
+          - }
+
+        include ../include/footer
+
+  div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade
+    div.modal-dialog.modal-sm
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#DeleteModalLabel.modal-title Post Delete Confirm
+        div.modal-body
+        div.modal-footer
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type="button", data-dismiss="modal").btn.btn-danger Delete
+
+  div
+    a(href="/admin/posts/new")#image-wrapper
+      span.upload-wrapper
+        i.fa.fa-plus
+  div
+    a(href="")#search-icon-wrapper
+      span.search-wrappr
+        i.fa.fa-search
+  div.search-input-wrapper
+    span.search-close
+      i.fa.fa-times
+    input(type="text").search-input

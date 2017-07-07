@@ -1,0 +1,21 @@
+div.nav-side-menu
+  div.brand
+    img(src="/assets/images/logo.png").img-logo
+  div.admin-user
+    img(src="/assets/images/masashi.jpg").img-circle.img-responsive.img-me
+    h3.text-center MasaCode
+  i(data-toggle="collapse", data-target="#menu-content").fa.fa-bars.fa-2x.toggle-btn
+  div.menu-list
+    ul#menu-content.menu-content.collapse.out
+      li
+        a(href="/admin") <i class="fa fa-dashboard fa-lg"></i> Dashboard
+      li
+        a(href="/admin/posts") <i class="fa fa-rocket fa-lg"></i> Posts
+      li
+        a(href="/admin/categories") <i class="fa fa-th-large fa-lg"></i> Categories
+      li
+        a(href="/admin/tags") <i class="fa fa-tags fa-lg"></i> Tags
+      li
+        a(href="/admin/thumbnails") <i class="fa fa-picture-o fa-lg"></i> Thumbnails
+      li
+        a(href="/logout") <i class="fa fa-sign-out fa-lg"></i> Logout

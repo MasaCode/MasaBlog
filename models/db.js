@@ -1,12 +1,12 @@
 'use strict';
 
-var mysql = require("mysql");
-var config = require(__dirname + '/../docs/environments.js');
+let mysql = require("mysql");
+let config = require(__dirname + '/../docs/environments.js');
 
 module.exports = {
     conn: null,
 
-    connect: function () {
+    connect () {
         this.conn = mysql.createConnection({
             host: 'localhost',
             user: config.MYSQL_USER,
@@ -15,12 +15,12 @@ module.exports = {
         });
     },
 
-    query: function (query, params, callback) {
+    query (query, params, callback) {
         this.conn.query(query, params, callback);
     },
 
-    getRow: function (query, params) {
-        var _self = this;
+    getRow (query, params) {
+        let _self = this;
         return new Promise(function (resolve, reject) {
             _self.conn.query(query, params, function (err, rows) {
                 if (err) reject(err);
@@ -29,8 +29,8 @@ module.exports = {
         });
     },
 
-    getResult: function (query, params) {
-        var _self = this;
+    getResult (query, params) {
+        let _self = this;
         return new Promise(function (resolve, reject) {
             _self.conn.query(query, params, function (err, rows) {
                 if (err) reject(err);
@@ -39,8 +39,8 @@ module.exports = {
         });
     },
 
-    insertSync: function (table, data) {
-        var _self = this;
+    insertSync (table, data) {
+        let _self = this;
         return new Promise(function (resolve, reject) {
             _self.conn.query("insert into " + table + " set ?", data, function (err, result, fields) {
                 if (err) reject(err);
@@ -49,12 +49,12 @@ module.exports = {
         });
     },
 
-    insert: function (table, data, callback) {
+    insert (table, data, callback) {
         this.conn.query("insert into " + table + " set ?", data, callback);
     },
 
-    updateSync: function (table, id, data) {
-        var _self = this;
+    updateSync (table, id, data) {
+        let _self = this;
         return new Promise(function (resolve, reject) {
             _self.conn.query("update " + table + " set ? where id = ?", [data, id], function (err, result) {
                 if (err) reject(err);
@@ -63,12 +63,12 @@ module.exports = {
         });
     },
 
-    update: function (table, id, data, callback) {
+    update (table, id, data, callback) {
         this.conn.query("update " + table + " set ? where id = ?", [data, id], callback);
     },
 
-    deleteSync: function (table, id) {
-        var _self = this;
+    deleteSync (table, id) {
+        let _self = this;
         return new Promise(function (resolve, reject) {
             _self.conn.query("delete from " + table + " where id = ?", [id], function (err, result) {
                 if (err) reject(err);
@@ -77,7 +77,7 @@ module.exports = {
         });
     },
 
-    delete: function (table, id, callback) {
+    delete (table, id, callback) {
         this.conn.query("delete from " + table + " where id = ?", [id], callback);
     }
 };

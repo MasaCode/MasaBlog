@@ -1,0 +1,607 @@
+div.admin-info {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.admin-tools {
+    margin-bottom: 15px;
+    height: 300px;
+}
+
+div.admin-todo {
+    background: #fff;
+    height: 300px;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+div.admin-todo hr, div.admin-motto hr, div.admin-weather hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+div.admin-todo hr {
+    border-color: #bbb;
+}
+
+div.tasks {
+    width: 100%;
+    height: 190px;
+}
+
+div.task-item {
+    margin: 0 5px 10px 5px;
+    padding: 5px 10px;
+    background: #c9302c;
+    display: block;
+    float: left;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    color: white;
+}
+
+div.task-item input {
+    float: left;
+}
+
+div.task-item span {
+    float: left;
+    padding-left: 10px;
+}
+
+div.task-input {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.task-input input {
+    background: #eee;
+}
+
+div.admin-top-right {
+    padding-right: 0;
+}
+
+div.admin-motto, div.admin-weather {
+    display: block;
+    height: 140px;
+    width: 100%;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+div.admin-motto {
+    display: block;
+    color: white;
+    width: 100%;
+    background: url('../../assets/images/motto-bg.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    margin-bottom: 20px;
+}
+
+div.admin-weather h3 {
+    padding-top: 10px;
+    margin-top: 0;
+}
+
+div.admin-motto h4 {
+    margin-top: 0;
+    padding-top: 45px;
+    font-size: 150%;
+}
+
+div.admin-motto span {
+    display: block;
+}
+
+div.admin-weather {
+    color: white;
+    display: block;
+    width: 100%;
+    background: url('../../assets/images/weather-bg.jpg') no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+div.weather-wrapper {
+    display: block;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.weather-wrapper span {
+    display: block;
+    width: 30%;
+    float: left;
+}
+
+div.weather {
+    margin-left: 30%;
+    width: 70%;
+    display: block;
+}
+
+div.weather h3 {
+    width: 50%;
+    padding-top: 18px;
+    font-size: 250%;
+    color: white;
+    float: left;
+}
+
+div.weather h3 small {
+    color: white;
+}
+
+div.weather-wrapper span i.wi {
+    font-size: 3.8em;
+    color: white;
+    padding-top: 10px;
+}
+
+div.location {
+    color: white;
+    display: none;
+}
+
+div.location h4 {
+    padding-top: 6px;
+    margin-bottom: 0;
+}
+
+div.location h5 {
+    margin-top: 3px;
+    font-size: 110%;
+}
+
+div.admin-panel-wrapper {
+    padding-right: 0;
+}
+
+div.admin-panels {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+}
+
+div.btn-wrapper {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+a.btn-box {
+    width: 100%;
+    height: 100px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+span.icon-wrapper {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a.btn-box, a.btn-box:hover, a.btn-box:focus {
+    color: white;
+}
+
+a.btn-box i.fa {
+    position: absolute;
+    left: 50%;
+    margin-left: -0.75em;
+    margin-top: -0.80em;
+    text-align: center;
+    padding: 12px;
+    padding-bottom: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
+a.btn-box i.fa.fa-rocket, .box-danger {
+    background: #d9534f;
+}
+
+a.btn-box:hover i.fa.fa-rocket, .box-danger:hover {
+    background: #c9302c;
+}
+
+a.btn-box:focus i.fa.fa-rocket, .box-danger:focus {
+    background: #ac2925;
+}
+
+a.btn-box i.fa.fa-image, .box-primary {
+    background: #337ab7;
+}
+
+a.btn-box:hover i.fa.fa-image, .box-primary:hover {
+    background: #286090;
+}
+
+a.btn-box:focus i.fa.fa-image, .box-primary:focus {
+    background: #204d74;
+}
+
+a.btn-box i.fa.fa-tags, .box-info {
+    background: #5bc0de;
+}
+
+a.btn-box:hover i.fa.fa-tags, .box-info:hover {
+    background: #31b0d5;
+}
+
+a.btn-box:focus i.fa.fa-tags, .box-info:focus {
+    background: #269abc;
+}
+
+a.btn-box i.fa.fa-th-large, .box-success {
+    background: #5cb85c;
+}
+
+a.btn-box:hover i.fa.fa-th-large, .box-success:hover {
+    background: #449d44;
+}
+
+a.btn-box:focus i.fa.fa-th-large, .box-success:focus {
+    background: #398439;
+}
+
+a.btn-box i.fa.fa-users, .box-warning {
+    background: #f0ad4e;
+}
+
+a.btn-box:hover i.fa.fa-users, .box-warning:hover {
+    background: #ec971f;
+}
+
+a.btn-box:focus i.fa.fa-users, .box-warning:focus {
+    background: #d58512;
+}
+
+a.btn-box i.fa.fa-commenting {
+    background: #f442e8;
+}
+
+a.btn-box:hover i.fa.fa-commenting {
+    background: #c435ba;
+}
+
+a.btn-box:focus i.fa.fa-commenting {
+    color: white;
+    background: #992991;
+}
+
+a.btn-box h3.info-number {
+    display: block;
+    width: 100%;
+    font-size: 250%;
+    margin-bottom: 0;
+    margin-top: 25px;
+}
+
+a.btn-box span {
+    display: block;
+    font-size: 120%;
+}
+
+.btn-normal {
+    background: #f442e8;
+    color: white;
+}
+
+.btn-normal:hover {
+    background: #c435ba;
+    color: white;
+}
+
+.btn-normal:focus {
+    background: #992991;
+    color: white;
+}
+
+div.calendar-wrapper {
+    padding: 0;
+}
+
+div#calendar {
+    padding: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+}
+
+div#calendar h2 {
+    font-size: 190%;
+    font-weight: 400;
+}
+
+div.recent-post-wrapper {
+    padding-right: 0;
+}
+
+div.recent-post-wrapper div.panel {
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    padding: 5px;
+    background: #fff;
+}
+
+div.recent-post-wrapper div.panel-heading {
+    background: #fff;
+}
+
+div.recent-post-wrapper h3 {
+    margin: 0;
+    padding-top: 10px;
+    font-weight: 400;
+}
+
+div.recent-post-wrapper li {
+    background: #fff;
+}
+
+div.recent-post-wrapper h4 {
+    margin: 0;
+}
+
+.col-md-5-5 {
+    float: left;
+    width: 45.83%;
+    padding-right:15px;
+    padding-left:15px
+}
+
+.col-md-offset-0-5 {
+    margin-left: 4.15%;
+}
+
+.all-day {
+    padding-left:15px;
+    float: left;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 24px;
+}
+
+.switch input {display:none;}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 4px;
+    bottom: 0;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #2196F3;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 30px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+@media screen and (max-width: 991px) {
+    div.admin-info {
+        margin-top: 10px;
+    }
+
+    div.admin-tools {
+        height: 400px;
+    }
+
+    div.admin-todo {
+        height: 250px;
+    }
+
+    div.tasks {
+        width: 100%;
+        height: 140px;
+    }
+
+    div.admin-top-right {
+        padding-left: 0;
+    }
+
+    div.admin-motto, div.admin-weather {
+        width: calc(50% - 5px);
+    }
+
+    div.admin-motto {
+        margin-bottom: 0;
+        margin-right: 5px;
+        float: left;
+    }
+
+    div.admin-motto span {
+        padding-top: 10px;
+    }
+
+    div.admin-weather {
+        float: right;
+        margin-left: 5px;
+    }
+
+    div.admin-panel-wrapper {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    div.recent-post-wrapper {
+        padding-left: 0;
+    }
+
+    .col-md-5-5 {
+        width: 100%;
+        float: none;
+    }
+
+    div.date-to {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+
+    div.date-to span {
+        display: inline-block;
+    }
+
+    div.col-md-5.date-end {
+        margin-left: 4.15%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.tasks {
+        width: 100%;
+        height: 153px;
+    }
+
+    div.admin-todo h3 {
+        margin-top: 0;
+        padding-top: 10px;
+    }
+
+    div.admin-motto h4 {
+        font-size: 150%;
+    }
+
+    div.admin-motto span {
+        font-size: 110%;
+    }
+}
+
+@media screen and (max-width: 661px) {
+    div.admin-tools {
+        height: 530px;
+        margin-bottom: 10px;
+    }
+
+    div.admin-motto, div.admin-weather {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    div.admin-motto {
+        margin-bottom: 10px;
+        height: 120px;
+    }
+
+    div.admin-motto h4 {
+        margin-bottom: 6px;
+    }
+
+    div.admin-motto span {
+        padding-right: 30px;
+        padding-top: 0;
+    }
+
+    div.weather-wrapper span {
+        width: 20%;
+    }
+
+    div.weather {
+        margin-left: 20%;
+    }
+
+    div.weather h3 {
+        width: 30%;
+    }
+
+    div.location {
+        display: block;
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+        float: left;
+    }
+
+    a.btn-box {
+        height: 100px;
+    }
+
+    a.btn-box i.fa {
+        font-size: 2.3em;
+        position: absolute;
+        left: 50%;
+        margin-top: -0.80em;
+        text-align: center;
+        padding: 12px;
+        padding-bottom: 0;
+    }
+
+    a.btn-box h3.info-number {
+        margin-top: 16px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    div.location {
+        display: none;
+    }
+
+    div.weather-wrapper span {
+        width: 30%;
+    }
+
+    div.weather {
+        margin-left: 30%;
+    }
+
+    div.weather h3 {
+        width: 50%;
+    }
+}

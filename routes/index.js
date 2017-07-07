@@ -1,14 +1,17 @@
 'use strict';
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
+let co = require('co');
 const nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
+let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: 'masacode.vancouver@gmail.com',
         pass: 'Masashi0709'
     }
 });
+let util = require('../helper/util.js');
+let postModel = require('../models/postModel.js');
 
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'MasaBlog | Home' });
@@ -22,15 +25,26 @@ router.get('/contact', function (req, res) {
    res.render("contact", {title: "MasaBlog | Contact"});
 });
 
+router.get('/post/:id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let post = (yield postModel.findById(id));
+        res.render('post.jade', {title: "MasaBlog | " + post.title, post: post});
+    }).catch(function (e) {
+        util.renderError(res, e);
+    });
+});
+
 router.post('/contact', function (req, res) {
-    var html = [
+    let html = [
         '<h2>This is from MasaBlog</h2>',
         '<h3>From : ' + req.body.email + '</h3>',
         '<h3>Name : ' + req.body.name + '</h3>',
         '<h4>Content Body</h4>',
         '<p>' + req.body.body + '</p>'
     ].join('<br>');
-    var options = {
+    let options = {
         from: '"MasaBlog" <masacode.vancouver@gmail.com>',
         to: 'masacode.masablog@gmail.com',
         subject: 'Email from MasaBlog [' + req.body.subject + ']',

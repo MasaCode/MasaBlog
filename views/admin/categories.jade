@@ -1,0 +1,66 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/category_v.css')
+  script(src="/javascripts/admin/category_v.js")
+block content
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.category-wrapper
+          div.col-md-12
+            div.categories
+              div.category-header
+                h3.text-center Categories
+                span(data-toggle="modal", data-target="#edit-modal")
+                  i.fa.fa-plus
+              hr
+              div.category-board
+                - var length = categories.length;
+                - for(var i = 0; i < length; i++) {
+                  div.category-item
+                    input(type="hidden", value="#{categories[i].id}").category-id
+                    input(type="checkbox").checkbox.category-checkbox
+                    span.category-name #{categories[i].name}
+                - }
+              hr
+              div.buttons
+                a(data-toggle="modal", data-target="#delete-modal")#delete.btn.btn-danger.pull-right Delete
+                a(data-toggle="modal", data-target="#edit-modal")#edit.btn.btn-success.pull-right Edit
+
+        include ../include/footer
+
+  div(tabindex="-1", role="dialog", aria-labelledby="EditModalLabel", aria-hidden="true", style="display:none; top:30px;")#edit-modal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h3#EditModalLabel.text-center New Category
+        div.modal-body
+          div.row
+            div.col-md-12
+              form(role="form")#modal-form.form-horizontal
+                input(type="hidden", name="post_id")#modal-input-id
+                div.col-md-10.col-md-offset-1
+                  span(style="font-size: 90%; padding:0; margin:0; display: none;").text-danger#input-error
+                div.form-group
+                  div.col-md-10.col-md-offset-1
+                    input(type="text", name="name" maxlength="255", placeholder="Category Name")#modal-input-name.form-control
+                div.form-group
+                  div.col-md-10.col-md-offset-1
+                    textarea(name="description", placeholder="Description")#modal-input-description.form-control
+        div.modal-footer
+          button(type="submit", form="modal-form")#input-submit.btn.btn-primary Send
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+  div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade
+    div.modal-dialog.modal-sm
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#DeleteModalLabel.modal-title Category Delete Confirm
+        div.modal-body
+        div.modal-footer
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+          button(type="button", data-dismiss="modal").btn.btn-danger Delete

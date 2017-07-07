@@ -12,15 +12,16 @@ INSERT INTO `masa_admins` (`username`, `password`, `is_active`) VALUES
 
 CREATE TABLE `masa_thumbnails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
   `image_path` varchar(255) NOT NULL,
-  `is_active` tinyint(11) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE `masa_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
@@ -28,7 +29,8 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE `masa_tags` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `description` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
@@ -38,25 +40,15 @@ CREATE TABLE `masa_posts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
-  `created_date` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
   `image_path` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
   `sequence` int(11) NOT NULL,
+  `body` mediumtext NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`)
   REFERENCES `masa_admins` (`id`))
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE `masa_post_details` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) NOT NULL,
-  `body` mediumtext NOT NULL,
-  `is_active` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`post_id`)
-  REFERENCES `masa_posts` (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -73,7 +65,32 @@ CREATE TABLE `masa_comments` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `masa_relation_post_category` (
+CREATE TABLE `masa_tasks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `created_at` datetime NOT NULL,
+  PRIMARY KEY(`id`),
+  FOREIGN KEY (`admin_id`)
+  REFERENCES `masa_admins` (`id`))
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `masa_events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `start` datetime NOT NULL,
+  `end` datetime NOT NULL,
+  `all_day` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`admin_id`)
+  REFERENCES `masa_admins` (`id`))
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `masa_post_category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `category_id` int(11) NOT NULL,
@@ -85,25 +102,13 @@ CREATE TABLE `masa_relation_post_category` (
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-CREATE TABLE `masa_relation_post_tag` (
+CREATE TABLE `masa_post_tag` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) NOT NULL,
   `tag_id` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`post_id`)
   REFERENCES `masa_posts` (`id`),
-  FOREIGN KEY (`tag_id`)
-  REFERENCES `masa_tags` (`id`))
-ENGINE=InnoDB
-DEFAULT CHARACTER SET = utf8;
-
-CREATE TABLE `masa_relation_category_tag` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL,
-  `tag_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`category_id`)
-  REFERENCES `masa_categories` (`id`),
   FOREIGN KEY (`tag_id`)
   REFERENCES `masa_tags` (`id`))
 ENGINE=InnoDB

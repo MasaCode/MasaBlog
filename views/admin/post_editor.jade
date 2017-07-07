@@ -1,0 +1,85 @@
+extends layout
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/post_editor_v.css')
+  link(rel="stylesheet", href="http://lab.lepture.com/editor/editor.css")
+  script(type="text/javascript", src="http://lab.lepture.com/editor/editor.js")
+  script(type="text/javascript", src="http://lab.lepture.com/editor/marked.js")
+block content
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.content-wrapper
+          div.editor-wrapper.col-md-9
+            form()
+              - var isEditing = post !== null;
+              div.form-group
+                - var title = (isEditing ? post.title : '');
+                input(type="text" placeholder="Enter Title", name="title", value="#{title}")#post-input-title.form-control
+              div.form-group
+                - var description = (isEditing ? post.description : '');
+                textarea(name="description" placeholder="Enter Summary of Post *(should be less than 250 letters)")#post-input-description.form-control #{description}
+              - var body = (isEditing ? post.body : '');
+              textarea(name="body")#post-editor #{body}
+          div.col-md-3#post-right-side
+
+            div.panel.panel-default
+              div.panel-heading#post-publish
+                h4.text-center Publish
+              div.panel-body.btn-actions
+                a.btn.btn-primary#btn-save Save
+                a(href="/admin/posts/").btn.btn-default#btn-cancel Cancel
+
+            div.panel.panel-default
+              div.panel-heading#post-category
+                h4.text-center Categories
+              div.post-body.form-group#post-category-body
+                select(name="category")#post-input-category.form-control
+                  option(value="")
+                  - var length = categories.length;
+                  - for (var i = 0; i < length; i++) {
+                    option(value="#{categories[i].id}") #{categories[i].name}
+                  - }
+
+            div.panel.panel-default
+              div.panel-heading#post-tag
+                h4.text-center Tags
+              div.panel-body
+                div.form-group#tag-input-wrapper
+                  div.input-group
+                    input(type="text", autocomplete="on", list="tag-searched-list").form-control#tag-input
+                    datalist#tag-searched-list
+                    span.input-group-btn
+                      button(type="button").btn.btn-primary.tag-add
+                        span.fa.fa-plus
+                div.tag-board
+
+            div.panel.panel-default
+              div.panel-heading#post-thumbnail
+                h4.text-center Cover Image
+              div.panel-body#post-thumbnail-body
+                a(data-toggle="modal", data-target="#thumbnail-modal")#thumbnail-input
+                  - var path = (isEditing ? post.image_path : '');
+                  input(type="hidden" value="#{path}")#post-input-img
+                  - if (isEditing) {
+                    img(src="/assets/uploads/#{post.image_path}").img-preview
+                  - } else {
+                    span.text-center.fa.fa-picture-o.fa-4x
+                  - }
+
+      include ../include/footer
+
+  div(tabindex="-1", role="dialog", aria-labelledby="ThumbnailModalLabel", aria-hidden="true", style="display:none;")#thumbnail-modal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#ThumbnailModalLabel.modal-title.text-center Choose Cover Image
+        div.modal-body
+        div.modal-footer
+          button(type="button", data-dismiss="modal").btn-image-save.btn.btn-primary Save
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+  script.
+    var POST = !{JSON.stringify(post)};
+  script(type="text/javascript", src="/javascripts/admin/post_editor_v.js")

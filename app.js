@@ -1,20 +1,26 @@
-var express = require('express');
-var session = require('express-session');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var passport = require('passport');
+let express = require('express');
+let session = require('express-session');
+let path = require('path');
+let favicon = require('serve-favicon');
+let logger = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser = require('body-parser');
+let passport = require('passport');
 
-var index = require('./routes/index');
-var posts = require('./routes/posts');
-var login = require('./routes/login');
-var logout = require('./routes/logout');
-var db = require('./models/db');
+let index = require('./routes/index');
+let login = require('./routes/login');
+let logout = require('./routes/logout');
+let admin = require('./routes/admin');
+let categories = require('./routes/api/v1/categories');
+let tags = require('./routes/api/v1/tags');
+let thumbnails = require('./routes/api/v1/thumbnails');
+let tasks = require('./routes/api/v1/tasks');
+let events = require('./routes/api/v1/events');
+let posts = require('./routes/api/v1/posts');
+let db = require('./models/db');
 db.connect();
 
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,13 +44,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', index);
-app.use('/posts', posts);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/admin', admin);
+app.use('/api/v1/categories', categories);
+app.use('/api/v1/tags', tags);
+app.use('/api/v1/thumbnails', thumbnails);
+app.use('/api/v1/tasks', tasks);
+app.use('/api/v1/events', events);
+app.use('/api/v1/posts', posts);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
