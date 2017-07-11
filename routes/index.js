@@ -65,7 +65,7 @@ router.get('/categories/:id', function (req, res) {
         let selectedCategory = (yield categoryModel.findById(id));
         let posts = (yield postModel.findByCategory(id));
         res.render(
-            'post_list.jade', {title: 'MasaBlog | Category Posts', categories: categories, posts: posts, selectedCategory: selectedCategory, selectedTag: null}
+            'post_list.jade', {title: 'MasaBlog | Category Posts', categories: categories, posts: posts, selectedCategory: selectedCategory, menuData: null}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -80,7 +80,24 @@ router.get('/tags/:id', function (req, res) {
         let posts = (yield relationModel.findPostsByTag(id));
         let selectedTag = (yield tagModel.findById(id));
         res.render(
-            'post_list.jade', {title: 'MasaBlog | Tag Posts', categories: categories, posts: posts, selectedCategory: null, selectedTag: selectedTag}
+            'post_list.jade', {title: 'MasaBlog | Tag Posts', categories: categories, posts: posts, selectedCategory: null, menuData: selectedTag}
+        );
+    }).catch(function (e) {
+        util.renderError(res, e);
+    });
+});
+
+router.get('/search/:text', function (req, res) {
+    co(function *() {
+        let text = req.params.text;
+        if (text === undefined || text === null || text === '') throw new Error('Invalid searching keyword...');
+        let resultPosts = (yield postModel.findByText(text));
+        let categories = (yield categoryModel.findAll());
+        let data = {};
+        data.name ="Searched result of " + text;
+        data.description = "";
+        res.render(
+            'post_list.jade', {title: 'MasaBlog | Search Result', categories: categories, posts: resultPosts, selectedCategory: null, menuData: data}
         );
     }).catch(function (e) {
         util.renderError(res, e);

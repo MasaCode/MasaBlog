@@ -6,9 +6,10 @@ block append script
 block header
   header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
     block headerVariables
+      - var data = selectedCategory || menuData;
       - var menuActive = (selectedCategory !== null ? selectedCategory.id : '');
-      - var pageTitle = (selectedCategory !== null ? selectedCategory.name : selectedTag.name);
-      - var description = (selectedCategory !== null ? selectedCategory.description : selectedTag.description);å
+      - var pageTitle = data.name;
+      - var description = data.description;
       - var pageDescription = '<h4 class="text-center">' + description + '</h4>';
     include include/header
 block content
@@ -41,6 +42,5 @@ block content
 
   include include/footer
   script.
-    var POSTS]
-    = !{JSON.stringify(posts)};
+    var POSTS = !{JSON.stringify(posts)};
   script(src="/javascripts/post_list_v.js")
