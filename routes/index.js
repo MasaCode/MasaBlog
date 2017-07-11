@@ -46,12 +46,14 @@ router.get('/contact', function (req, res) {
     });
 });
 
-router.get('/post/:id', function (req, res) {
+router.get('/posts/:id', function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let categories = (yield categoryModel.findAll());
         let post = (yield postModel.findById(id));
-        res.render('post.jade', {title: "MasaBlog | " + post.title, post: post});
+        let tags = (yield relationModel.findTagsByPost(id));
+        res.render('post.jade', {title: "MasaBlog | " + post.title, categories: categories, post: post, tags: tags});
     }).catch(function (e) {
         util.renderError(res, e);
     });

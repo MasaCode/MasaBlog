@@ -2,25 +2,41 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/post_v.css')
+  script(type="text/javascript", src="/plugins/moment/js/moment.min.js")
+  script(type="text/javascript", src="http://lab.lepture.com/editor/marked.js")
 block header
-  header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
-    - var pageTitle = "Post Story one";
-    - var pageDescription = '<p class="text-center post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-tags"></i> Webdevelopment, Docker</p>';
+  header(style="background-image: url('/assets/uploads/#{post.image_path}');").bg-wrapper
+    - var pageTitle = post.title;
+    - var pageDescription = '<p class="text-center post-info"></p>';
     include include/header
 block content
   main.page-content-wrapper
     div.page-content
-      div.row
-        div.col-md-9
-          div.well.blog-post
-            p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            p Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+      div.container-fluid
+        div.row
+          div.col-md-9
+            div.well.blog-post
 
-        block barVariables
-          - var show_about = true;
-        include include/rightSideBar
+          block barVariables
+            - var show_about = true;
+          include include/rightSideBar
 
   include include/footer
+
+  script.
+    $(window).ready(function(event) {
+        var POST = !{JSON.stringify(post)};
+        var body = marked(POST.body);
+        $('div.blog-post').html(body);
+
+        var date = moment(new Date('#{post.created_at}')).format('MMMM Do YYYY');
+        var tags = !{JSON.stringify(tags)};
+        var tagLength = tags.length;
+        var tagInfo = '', glue = '';
+        for (var i = 0; i < tagLength; i++) {
+            tagInfo += (glue + tags[i].name);
+            if (glue === '') glue = ', ';
+        }
+        var info = '<i class="fa fa-calendar"></i> ' + date + (tagInfo !== '' ? ' <i class="fa fa-tags"></i> ' + tagInfo : '');
+        $('p.post-info').html(info);
+    });

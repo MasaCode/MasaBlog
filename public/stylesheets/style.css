@@ -50,7 +50,7 @@ h4 {
 header.bg-wrapper {
   display: block;
   width: 100%;
-  height: 560px;
+  height: 500px;
   top: 0;
   bottom: 0;
   color: white;
@@ -212,7 +212,7 @@ span.icon-bar {
 }
 
 div.title-wrapper {
-  padding-top: 145px;
+  padding-top: 100px;
 }
 
 div.title-wrapper h2 {
@@ -280,6 +280,24 @@ div.category-list a {
   border-radius: 12px;
 }
 
+div.recent-post div.panel-body {
+  padding-top: 0;
+}
+
+#recent-board li {
+  padding-bottom: 5px;
+  padding-top: 15px;
+}
+
+#recent-board li:last-child {
+  border-bottom: none;
+}
+
+#recent-board h5 {
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
 div.recent-post a {
   color: #d35299;
   outline: none;
@@ -314,6 +332,14 @@ div#error-dialog {
 }
 
 @media screen and (max-width: 991px) {
+  header.bg-wrapper {
+    height: 460px;
+  }
+
+  div.title-wrapper {
+    padding-top: 80px;
+  }
+
   .img-me {
     max-width: 200px;
   }
@@ -376,11 +402,11 @@ div#error-dialog {
   }
 
   header.bg-wrapper {
-    height: 380px;
+    height: 330px;
   }
 
   div.title-wrapper {
-    padding-top: 70px;
+    padding-top: 30px;
   }
 
   main.page-content-wrapper {
