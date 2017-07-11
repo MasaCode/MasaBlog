@@ -32,7 +32,7 @@ div.bg-content
             a(href="/") <i class="fa fa-home"></i> Home
           - for (var i = 0; i < menuLength; i++) {
             li(class=(menuActive === categories[i].id ? 'active' : ''))
-              a(href="/categories/#{categories[i].id}") #{categories[i].name}
+              a(href="/categories/#{categories[i].id}") <i class="#{categories[i].icon}"></i> #{categories[i].name}
           - }
           li(class=(menuActive==="about" ? 'active' : ''))
             a(href="/about") <i class="fa fa-user"></i> About

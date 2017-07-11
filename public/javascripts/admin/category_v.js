@@ -108,10 +108,14 @@
                     success (data, status, errorThrown) {
                         $('#modal-input-id').val(data.id);
                         $('#modal-input-name').val(data.name);
+                        $('#modal-input-icon').val(data.icon);
                         $('#modal-input-description').val(data.description);
                     },
                     error (data, status, errorThrown) {
                         console.log(status);
+                        let error = $('#error-dialog');
+                        error.text('Error occurred : ' + errorThrown);
+                        error.fadeIn(1000).delay(3000).fadeOut(1000);
                     }
                 });
             });
@@ -123,6 +127,7 @@
                 let id = parseInt($('#modal-input-id').val());
                 let data = {};
                 data.name = $('#modal-input-name').val().trim();
+                data.icon = $('#modal-input-icon').val().trim();
                 data.description = $('#modal-input-description').val().trim();
 
                 if (!_self.validateParam(data.name)) {

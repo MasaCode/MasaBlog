@@ -31,9 +31,11 @@ router.post('/', function (req, res) {
     co(function *() {
         let body = req.body;
         if (body.name === '' || body.name === null || body.name === undefined) throw new Error('Category name is required..');
+        if (body.icon === '' || body.icon === null || body.icon === undefined) throw new Error('Category icon class is required..');
         let result = (yield categoryModel.insert({
             name: body.name,
             description: (body.description !== '' && body.description !== null && body.description !== undefined) ? body.description : '',
+            icon: body.icon,
             is_active: true
         }));
         util.sendResponse(res, 200, result);
@@ -49,6 +51,7 @@ router.put('/:id', function (req, res) {
         let data = {};
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
         if (req.body.name !== null && req.body.name !== undefined && req.body.name !== '') data.name = req.body.name;
+        if (req.body.icon !== null && req.body.icon !== undefined && req.body.icon !== '') data.icon = req.body.icon;
         if (req.body.description !== null && req.body.description !== undefined && req.body.description !== '') data.description = req.body.description;
         if (util.isEmpty(data)) throw new Error('No updated data is found...');
         let result = (yield categoryModel.update(id, data));
