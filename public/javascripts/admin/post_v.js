@@ -71,7 +71,6 @@
                 let $this = $(this);
                 let id = $this.data('id');
                 let title = $this.parent().parent().find('h3.post-title').text();
-                console.log(title);
                 let executeButton = _self.$deleteModal.find('button:last-child');
                 _self.$deleteModal.find('div.modal-body').text("Are you sure you want to delete " + title + "?");
                 executeButton.on('click', function (event) {
@@ -168,7 +167,7 @@
                         '<div class="post-thumbnail-wrapper"><div class="thumbnail post-thumbnail">',
                         '<div class="img-post" style="background-image: url(' + imagePath + ');"></div>',
                         '<div class="caption"><h3 class="text-center post-title">' + posts[i].title + '</h3>',
-                        '<p class="thumbnail-desc">' + posts[i].description + '</p>',
+                        '<p class="thumbnail-desc">' + posts[i].description.substr(0, 150) + '</p>',
                         '<p class="btn-thumbnail"><a href="' + editReference + '" class="btn btn-success btn-edit">Edit</a>',
                         '<a data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-delete" data-id="' + posts[i].id + '">Delete</a></p></div></div></div>'
                     ].join(' ');
@@ -178,7 +177,7 @@
                     item.get(0).style = '';
                     item.find('div.img-post').css('background-image', 'url("/assets/uploads/' + posts[i].image_path + '");');
                     item.find('.post-title').text(posts[i].title);
-                    item.find('p.thumbnail-desc').text(posts[i].description);
+                    item.find('p.thumbnail-desc').text(posts[i].description.substr(0, 150));
                     item.find('.btn-edit').attr('href', '/admin/posts/edit/' + posts[i].id);
                 }
             }
