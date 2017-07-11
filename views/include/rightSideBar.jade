@@ -3,9 +3,9 @@ div.col-md-3.right-bar
   div.well
     h4 Blog Search
     div.input-group
-      input(type="text").form-control
+      input(type="text")#search-input.form-control
       span.input-group-btn
-        button(type="button").btn.btn-default
+        button(type="button")#btn-search.btn.btn-default
           span.fa.fa-search
   - if (show_about) {
     div.well.about-me
@@ -19,26 +19,10 @@ div.col-md-3.right-bar
   - if (show_categories !== false) {
     div.panel.panel-info
       div.panel-heading
-        h4.no-margin Categories / Tags
+        h4.no-margin Tags
       div.panel-body.row.category-list
         div.col-md-12.col-sm-12
-          ul.list-unstyled
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Web Development
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Wordpress
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Javascript
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Node.js
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Technology
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> MySQL / PHP
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Docker
-            li
-              a(href="/tags").label.label-primary <i class="fa fa-tag"></i> Test
+          ul.list-unstyled#tag-borad
   - }
 
   - if (show_post !== false) {
@@ -46,16 +30,12 @@ div.col-md-3.right-bar
       div.panel-heading
         h4.no-margin Recent Posts
       div.panel-body
-        ul.list-unstyled
-          li.col-md-12.col-sm-6
-            a(href="/posts")
-              div.recent-post-contents
-                img(src="/assets/images/slide1.jpg").recent-post-img
-                h5 How to create a wordpress development environment width docker-compose
-          li.col-md-12.col-sm-6
-            a(href="/posts")
-              div.recent-post-contents
-                img(src="/assets/images/slide2.jpg").recent-post-img
-                h5 How to set up node.js + express application
+        ul.list-unstyled#recent-board
 
   - }
+  script.
+    $('#btn-search').on('click', function () {
+        var searchText = $('#search-input').val().trim();
+        if (searchText === '') return false;
+        window.location.href = '/search/' + searchText;
+    });

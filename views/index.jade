@@ -2,6 +2,7 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/index_v.css')
+  script(src="/plugins/pagination/jquery.twbsPagination.min.js")
 block header
   header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
     block headerVariables
@@ -15,39 +16,29 @@ block content
       div.container-fluid
         div.row
           div.col-md-9
-            div.well.blog-post
-              h3
-                a(href="/posts") Blog Post One
-              <p class="post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-tags"></i>  Web Development, Docker</p>
-              hr.post-line
-              img(src="/assets/images/blog1.jpg").img-responsive
-              hr
-              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-              a(href="/posts").btn.btn-primary Read More
-                span.fa.fa-chevron-right
-            div.well.blog-post
-              h3
-                a(href="/posts") Blog Post Two
-              <p class="post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-tags"></i>  Web Development, Docker</p>
-              hr.post-line
-              img(src="/assets/images/blog2.jpg").img-responsive
-              hr
-              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-              a(href="/posts").btn.btn-primary Read More
-                span.fa.fa-chevron-right
-            div.well.blog-post
-              h3
-                a(href="/posts") Blog Post Three
-              <p class="post-info"><i class="fa fa-calendar"></i> August 9th 2017 <i class="fa fa-tags"></i>  Web Development, Docker</p>
-              hr.post-line
-              img(src="/assets/images/blog3.jpg").img-responsive
-              hr
-              p Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.
-              a(href="/posts").btn.btn-primary Read More
-                span.fa.fa-chevron-right
+            div.post-body-wrapper.row
+              - var postLength = posts.length;
+              - for (var i = 0; i < postLength; i++) {
+                div.blog-post-wrapper.col-md-6.col-sm-6
+                  div.blog-post
+                    h3
+                      a(href="/posts/#{posts[i].id}") #{posts[i].title}
+                    p.post-info
+                    hr.post-line
+                    div(style="background: url('/assets/uploads/#{posts[i].image_path}');").post-img
+                    hr.post-line
+                    p.post-desc #{posts[i].description.substr(0, 150)}
+                    a(href="/posts/#{posts[i].id}").btn-read.btn.btn-primary Read More
+                      span.fa.fa-chevron-right
+              - }
+            nav(style="text-align: center;").pagination-wrapper
+              ul(style="margin: 0 auto;")#post-pagination.pagination
 
           block barVariables
             - var show_about = true;
           include include/rightSideBar
 
   include include/footer
+  script.
+    var POST_INFO = !{JSON.stringify(count)};
+  script(src="/javascripts/index_v.js")

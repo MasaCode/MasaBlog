@@ -4,6 +4,7 @@ let router = express.Router();
 let co = require('co');
 let util = require('../../../helper/util.js');
 let postModel = require('../../../models/postModel.js');
+let tagModel = require('../../../models/tagModel.js');
 let relationModel = require('../../../models/relationModel.js');
 
 router.get('/', function (req, res) {
@@ -20,6 +21,29 @@ router.get('/search/:keyword', function (req, res) {
     co(function *() {
         let searchedResult = (yield postModel.findByText(req.params.keyword));
         util.sendResponse(res, 200, searchedResult);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
+router.get('/range', function (req, res) {
+    co(function *() {
+        let offset = req.query.offset;
+        let limit = req.query.limit;
+        let posts = (yield postModel.findInRange(parseInt(offset), parseInt(limit)));
+        util.sendResponse(res, 200, posts);
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
+router.get('/data', function (req, res) {
+    co(function *() {
+        let tags = (yield tagModel.findAll());
+        let recentPosts = (yield postModel.findRecent(4));
+        util.sendResponse(res, 200, {tags: tags, recentPosts: recentPosts});
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
         console.log(e);

@@ -11,7 +11,11 @@ module.exports = {
 
     findByText(text) {
         text = '%' + text + '%';
-        return db.getResult("select * from " + this.table + " where title like ? or description like ? or body like ?", [text, text, text]);
+        return db.getResult("select * from " + this.table + " where is_active=true and (title like ? or description like ? or body like ?) order by sequence DESC", [text, text, text]);
+    },
+
+    findByCategory (id) {
+        return db.getResult("select * from " + this.table + " where is_active=true and category_id=? order by sequence DESC", [id]);
     },
 
     findAll () {
@@ -19,7 +23,15 @@ module.exports = {
     },
 
     findRecent (limit) {
-        return db.getResult("select * from " + this.table + " where is_active=true order by created_at limit ?", [limit]);
+        return db.getResult("select * from " + this.table + " where is_active=true order by created_at DESC limit ?", [limit]);
+    },
+
+    findInRange (offset, limit) {
+        return db.getResult("select * from " + this.table + " where is_active=true order by sequence DESC limit ? offset ?", [limit, offset]);
+    },
+
+    findByCategoryInRange (id, offset, limit) {
+        return db.getResult("select * from " + this.table + " where is_active=true and category_id = ? order by sequence DESC limit ? offset ?", [id, limit, offset]);
     },
 
     count () {

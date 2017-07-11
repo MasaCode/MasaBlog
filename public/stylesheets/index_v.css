@@ -2,6 +2,10 @@ p.post-info i {
     padding-left: 3px;
 }
 
+div.blog-post-wrapper {
+    padding: 10px;
+}
+
 div.blog-post {
     color: #333;
     background: #eeeeee;
@@ -9,4 +13,35 @@ div.blog-post {
     -moz-border-radius: 10px;
     border-radius: 10px;
     border: 0;
+    padding: 10px;
+    padding-bottom: 15px;
+    width: 100%;
+    display: block;
+}
+
+div.blog-post h3{
+    margin-top: 10px;
+}
+
+hr.post-line {
+    margin: 10px auto;
+}
+
+div.post-img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    background: no-repeat center center;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+
+nav.pagination-wrapper {
+    margin-top: 20px;
+}
+
+@media screen and (max-width: 450px) {
+    div.post-img {
+        height: 120px;
+    }
 }

@@ -7,12 +7,17 @@ div.bg-content
           span.icon-bar
           span.icon-bar
           span.icon-bar
-        a(href="#").navbar-brand.masablog-logo
+        a(href="/").navbar-brand.masablog-logo
           img(src="/assets/images/logo.png").img-responsive
       div#navbar.collapse.navbar-collapse.navbar-right
         ul.nav.navbar-nav
           li(class=(menuActive==="home" ? 'active' : ''))
             a(href="/") Home
+          - var menuLength = categories.length;
+          - for (var i = 0; i < menuLength; i++) {
+            li(class=(menuActive===categories[i].id ? 'active' : ''))
+              a(href="/categories/#{categories[i].id}") #{categories[i].name}
+          - }
           li(class=(menuActive==="about" ? 'active' : ''))
             a(href="/about") About
           li(class=(menuActive==="contact" ? 'active' : ''))
@@ -22,9 +27,13 @@ div.bg-content
       div#sidebar-wrapper
         ul.sidebar-nav
           li.sidebar-brand
-            a(href="#") MasaBlog
+            a(href="/") MasaBlog
           li(class=(menuActive==="home" ? 'active' : ''))
             a(href="/") <i class="fa fa-home"></i> Home
+          - for (var i = 0; i < menuLength; i++) {
+            li(class=(menuActive === categories[i].id ? 'active' : ''))
+              a(href="/categories/#{categories[i].id}") #{categories[i].name}
+          - }
           li(class=(menuActive==="about" ? 'active' : ''))
             a(href="/about") <i class="fa fa-user"></i> About
           li(class=(menuActive==="contact" ? 'active' : ''))
@@ -34,8 +43,44 @@ div.bg-content
     h2.text-center #{pageTitle}
     div.title-description
       !{pageDescription}
+
 script.
+    var active = !{JSON.stringify(menuActive)}
     $("#menu-toggle").on('click', function (e) {
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
+    });
+    $(window).ready(function (event) {
+        if (active === 'about' || active === 'contact') return false;
+        $.ajax({
+            url: '/api/v1/posts/data',
+            type: 'GET',
+            dataType: 'json',
+            timeout: 10000,
+
+            success: function (data, status, errorThrown) {
+                var tagWrapper = $('#tag-borad');
+                var tagLength = data.tags.length;
+                for (var i = 0; i < tagLength; i++) {
+                    var tag = '<li><a href="/tags/' + data.tags[i].id + '" class="label label-primary"><i class="fa fa-tag"></i> ' + data.tags[i].name + '</a></li>';
+                    tagWrapper.append(tag);
+                }
+                var recentWrapper = $('#recent-board');
+                var postLength = data.recentPosts.length;
+                for (var i = 0; i < postLength; i++) {
+                    var post = [
+                        '<li class="col-md-12 col-sm-6"><a href="/posts/' + data.recentPosts[i].id + '">',
+                        '<div class="recent-post-contents"><img class="recent-post-img" src="/assets/uploads/' + data.recentPosts[i].image_path + '" />',
+                        '<h5>' + data.recentPosts[i].title + '</h5></div></a></li>'
+                    ].join(' ');
+                    recentWrapper.append(post);
+                }
+            },
+            error : function (data, status, errorThrown) {
+                console.log(errorThrown);
+                let error = $('#error-dialog');
+                error.text('Errorr Occurred.. Please check your internet connection and contact administrator.');
+                error.fadeIn(1000).delay(3000).fadeOut(1000);
+            }
+        });
     });
