@@ -4,6 +4,7 @@
     let Index = {
 
         currentPage: 1,
+        postNum: 10,
 
         initialize () {
             this.build();
@@ -11,39 +12,21 @@
 
         build () {
             let _self = this;
-            this._POST_INFO = POST_INFO;
-            let totalPage = Math.ceil(parseInt(POST_INFO.length) / parseFloat(POST_INFO.postNum));
+            this._POSTS = POSTS;
+            let totalPage = Math.ceil(parseInt(this._POSTS.length) / parseFloat(this.postNum));
+            if (totalPage === 0) return;
             let nav = $('ul#post-pagination');
             nav.twbsPagination({
                 totalPages: totalPage,
                 visiblePages: 7,
                 onPageClick: function (event, page) {
-                    let offset = (page - 1) * _self._POST_INFO.postNum;
-                    let limit = page * _self._POST_INFO.postNum;
+                    let offset = (page - 1) * _self.postNum;
+                    let limit = page * _self.postNum;
                     if (page === _self.currentPage) return false;
                     _self.currentPage = page;
-
-                    $.ajax({
-                        url: '/api/v1/posts/range',
-                        type: 'GET',
-                        dataType: 'json',
-                        data: {
-                            offset: offset,
-                            limit: limit
-                        },
-                        timeout: 10000,
-
-                        success (data, status, errorThrown) {
-                            _self.changePage(data);
-                            let anchor = $('div.post-body-wrapper');
-                            window.scrollTo(0, anchor.offset().top - 50);
-                        },
-                        error (data, status, errorThrown) {
-                            let error = $('#error-dialog');
-                            error.text('Error occurred : ' + errorThrown);
-                            error.fadeIn(1000).delay(3000).fadeOut(1000);
-                        }
-                    });
+                    let anchor = $('div.post-body-wrapper');
+                    window.scrollTo(0, anchor.offset().top - 50);
+                    _self.changePage(_self._POSTS.slice(offset, limit));
                 }
             });
 

@@ -19,10 +19,14 @@ let relationModel = require('../models/relationModel.js');
 router.get('/', function(req, res, next) {
     co(function *() {
         let postNum = 10;
-        let posts = (yield postModel.findInRange(0, postNum));
+        let posts = (yield postModel.findAll());
         let count = (yield postModel.count());
         let categories = (yield categoryModel.findAll());
-        res.render('index', { title: 'MasaBlog | Home', posts: posts, categories: categories, count: {length: count.count, postNum: postNum}});
+        let data = {};
+        data.title = 'MasaBlog';
+        data.description = 'MasaCode\'s Blog about gaming and programming';
+        data.active = 'home';
+        res.render('index', { title: 'MasaBlog | Home', posts: posts, categories: categories, menuData: data});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -66,8 +70,12 @@ router.get('/categories/:id', function (req, res) {
         let categories = (yield categoryModel.findAll());
         let selectedCategory = (yield categoryModel.findById(id));
         let posts = (yield postModel.findByCategory(id));
+        let data = {};
+        data.title = selectedCategory.name;
+        data.description = selectedCategory.description;
+        data.active = selectedCategory.id;
         res.render(
-            'post_list.jade', {title: 'MasaBlog | Category Posts', categories: categories, posts: posts, selectedCategory: selectedCategory, menuData: null}
+            'index.jade', {title: 'MasaBlog | Category Posts', categories: categories, posts: posts, menuData: data}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -81,8 +89,12 @@ router.get('/tags/:id', function (req, res) {
         let categories = (yield categoryModel.findAll());
         let posts = (yield relationModel.findPostsByTag(id));
         let selectedTag = (yield tagModel.findById(id));
+        let data = {};
+        data.title = selectedTag.name;
+        data.description = selectedTag.description;
+        data.active = '';
         res.render(
-            'post_list.jade', {title: 'MasaBlog | Tag Posts', categories: categories, posts: posts, selectedCategory: null, menuData: selectedTag}
+            'index.jade', {title: 'MasaBlog | Tag Posts', categories: categories, posts: posts, menuData: data}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -96,10 +108,11 @@ router.get('/search/:text', function (req, res) {
         let resultPosts = (yield postModel.findByText(text));
         let categories = (yield categoryModel.findAll());
         let data = {};
-        data.name ="Searched result of " + text;
+        data.title = 'Searched result of <span class="search-keyword">' + text + '</span>';
         data.description = "";
+        data.active = '';
         res.render(
-            'post_list.jade', {title: 'MasaBlog | Search Result', categories: categories, posts: resultPosts, selectedCategory: null, menuData: data}
+            'index.jade', {title: 'MasaBlog | Search Result of' + text, categories: categories, posts: resultPosts, menuData: data}
         );
     }).catch(function (e) {
         util.renderError(res, e);

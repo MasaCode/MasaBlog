@@ -6,9 +6,9 @@ block append script
 block header
   header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
     block headerVariables
-      - var menuActive = 'home';
-      - var pageTitle = "MasaBlog";
-      - var pageDescription = '<h4 class="text-center">MasaCode\'s Blog about gaming and programming</h4>';
+      - var menuActive = menuData.active;
+      - var pageTitle = menuData.title;
+      - var pageDescription = '<h4 class="text-center">' + menuData.description + '</h4>';
     include include/header
 block content
   main.page-content-wrapper
@@ -17,7 +17,7 @@ block content
         div.row
           div.col-md-9
             div.post-body-wrapper.row
-              - var postLength = posts.length;
+              - var postLength = Math.min(posts.length, 10);
               - for (var i = 0; i < postLength; i++) {
                 div.blog-post-wrapper.col-md-6.col-sm-6
                   div.blog-post
@@ -40,5 +40,5 @@ block content
 
   include include/footer
   script.
-    var POST_INFO = !{JSON.stringify(count)};
+    var POSTS = !{JSON.stringify(posts)};
   script(src="/javascripts/index_v.js")
