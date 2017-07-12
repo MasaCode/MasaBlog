@@ -1,9 +1,10 @@
 extends layout
 block append script
   link(rel='stylesheet', href='/stylesheets/admin/post_editor_v.css')
-  link(rel="stylesheet", href="http://lab.lepture.com/editor/editor.css")
-  script(type="text/javascript", src="http://lab.lepture.com/editor/editor.js")
-  script(type="text/javascript", src="http://lab.lepture.com/editor/marked.js")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css")
+  link(rel="stylesheet", href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css")
+  script(src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js")
+  script(src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js")
 block content
   include sidebar
   div.admin-content-wrapper

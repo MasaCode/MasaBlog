@@ -22,10 +22,12 @@
         },
 
         buildEditor () {
-            this.editor = new Editor({
-                element: document.getElementById('post-editor')
+            this.editor = new SimpleMDE({
+                element: document.getElementById('post-editor'),
+                renderingConfig: {
+                    codeSyntaxHighlighting: true,
+                }
             });
-            this.editor.render();
 
             return this;
         },
@@ -167,7 +169,7 @@
                 let data = {};
                 data.title = $('#post-input-title').val().trim();
                 data.description = $('#post-input-description').val().trim();
-                data.body = _self.editor.codemirror.getValue();
+                data.body = _self.editor.value();
                 data.image_path = $('#post-input-img').val().trim();
                 data.category_id = $('#post-input-category').val().trim();
                 let error = _self.validateParams(data);

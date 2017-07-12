@@ -8,7 +8,7 @@ div.blog-post-wrapper {
 
 div.blog-post {
     color: #333;
-    background: #eeeeee;
+    background: #fefefe;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -17,6 +17,10 @@ div.blog-post {
     padding-bottom: 15px;
     width: 100%;
     display: block;
+}
+
+div.blog-post-wrapper:nth-child(1), div.blog-post-wrapper:nth-child(2) {
+    padding-top: 0;
 }
 
 div.blog-post h3{
@@ -38,6 +42,12 @@ div.post-img {
 
 nav.pagination-wrapper {
     margin-top: 20px;
+}
+
+@media screen and (max-width: 767px) {
+    div.blog-post-wrapper:nth-child(2) {
+        padding-top: 10px;
+    }
 }
 
 @media screen and (max-width: 450px) {

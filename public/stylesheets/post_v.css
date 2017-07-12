@@ -2,16 +2,9 @@ div.title-wrapper {
     padding-top: 100px;
 }
 
-div.title-wrapper h2 {
-    font-size: 230%;
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 div.blog-post {
     color: #333;
-    background: #eeeeee;
+    background: #fefefe;
     -webkit-border-radius: 10px;
     -moz-border-radius: 10px;
     border-radius: 10px;
@@ -28,6 +21,11 @@ p.post-info {
 
 p.post-info i:nth-child(2) {
     padding-left: 12px;
+}
+
+pre {
+    background: #f6f8fa;
+    border: none;
 }
 
 @media screen and (max-width: 768px) {

@@ -7,7 +7,7 @@ body {
   font-size: 16px;
   min-height: 100%;
   position: relative;
-  background: #eeeeee;
+  background: #fefefe;
   overflow-x: hidden;
 }
 
@@ -225,7 +225,7 @@ main.page-content-wrapper {
   margin-left: 25px;
   margin-right: 25px;
   margin-top: -80px;
-  background: #e0e0e0;
+  background: #eee;
   padding: 10px;
   padding-top: 20px;
   -webkit-border-radius: 20px;
@@ -257,7 +257,7 @@ a.about-more {
 }
 
 div.right-bar div.well, div.right-bar div.panel {
-  background: #eeeeee;
+  background: #fefefe;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
