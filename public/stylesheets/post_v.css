@@ -5,10 +5,14 @@ div.title-wrapper {
 div.blog-post {
     color: #333;
     background: #fefefe;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
     border: 0;
+    width: 100%;
+}
+
+div.blog-post img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 div.blog-post p {

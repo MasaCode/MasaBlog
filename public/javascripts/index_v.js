@@ -14,7 +14,7 @@
             let _self = this;
             this._POSTS = POSTS;
             let totalPage = Math.ceil(parseInt(this._POSTS.length) / parseFloat(this.postNum));
-            if (totalPage === 0) return;
+            if (totalPage < 2) return;
             let nav = $('ul#post-pagination');
             nav.twbsPagination({
                 totalPages: totalPage,

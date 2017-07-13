@@ -4,9 +4,6 @@ main.about-wrapper {
     padding-left: 30px;
     padding-right: 30px;
     color: #333;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
 }
 
 div.about {

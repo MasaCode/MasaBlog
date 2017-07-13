@@ -228,9 +228,6 @@ main.page-content-wrapper {
   background: #eee;
   padding: 10px;
   padding-top: 20px;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
 }
 
 div.right-bar {
@@ -258,9 +255,6 @@ a.about-more {
 
 div.right-bar div.well, div.right-bar div.panel {
   background: #fefefe;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
   border: 0;
 }
 
@@ -275,9 +269,6 @@ div.category-list li {
 div.category-list a {
   font-size: 80%;
   padding: 6px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  border-radius: 12px;
 }
 
 div.recent-post div.panel-body {

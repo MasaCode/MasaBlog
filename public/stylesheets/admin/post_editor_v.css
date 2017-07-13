@@ -11,6 +11,12 @@ div.editor-wrapper {
     padding-top: 15px;
 }
 
+div.editor-wrapper img {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
 div#post-right-side {
     padding-right: 0;
 }

@@ -1,3 +1,7 @@
+.post-body-wrapper {
+    position: relative;
+}
+
 p.post-info i {
     padding-left: 3px;
 }
@@ -9,9 +13,6 @@ div.blog-post-wrapper {
 div.blog-post {
     color: #333;
     background: #fefefe;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
     border: 0;
     padding: 10px;
     padding-bottom: 15px;
