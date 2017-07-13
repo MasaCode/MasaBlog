@@ -3,6 +3,7 @@ extends layout
 block append script
   link(rel='stylesheet', href='/stylesheets/index_v.css')
   script(src="/plugins/pagination/jquery.twbsPagination.min.js")
+  script(type="text/javascript", src="/plugins/moment/js/moment.min.js")
 block header
   header(style="background-image: url('/assets/images/homeCover.jpg');").bg-wrapper
     block headerVariables
@@ -18,15 +19,18 @@ block content
           div.col-md-9
             div.post-body-wrapper.row
               - var postLength = Math.min(posts.length, 10);
+              - var ids = [];
               - for (var i = 0; i < postLength; i++) {
+                - ids.push(posts[i].id);
+                - var date = moment(new Date(posts[i].created_at)).format('MMMM Do YYYY');
                 div.blog-post-wrapper.col-md-6.col-sm-6
                   div.blog-post
                     h3
                       a(href="/posts/#{posts[i].id}") #{posts[i].title}
-                    p.post-info
                     hr.post-line
                     div(style="background: url('/assets/uploads/#{posts[i].image_path}');").post-img
-                    hr.post-line
+                    p.post-info <i class="fa fa-calendar"></i> <span class="post-created">#{date}</span> <i class="fa fa-tags"></i> <span class="post-tags"></span>
+                    hr.post-line.m-t-0
                     p.post-desc #{posts[i].description.substr(0, 150)}
                     a(href="/posts/#{posts[i].id}").btn-read.btn.btn-primary Read More
                       span.fa.fa-chevron-right
@@ -41,4 +45,5 @@ block content
   include include/footer
   script.
     var POSTS = !{JSON.stringify(posts)};
+    var IDS = !{JSON.stringify(ids)};
   script(src="/javascripts/index_v.js")

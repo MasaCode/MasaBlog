@@ -16,6 +16,10 @@ module.exports = {
         return db.getResult("select * from masa_tags where id in (select tag_id from masa_post_tag where post_id=?)", [post_id]);
     },
 
+    findTagNamesByPost (post_id) {
+        return db.getRow("select group_concat(name separator ', ') as tags from masa_tags where id in (select tag_id from masa_post_tag where post_id=?)", [post_id]);
+    },
+
     findCategoryByPost (post_id) {
         return db.getRow("select * from masa_categories where id = (select category_id from masa_post_category where post_id=?)", [post_id]);
     },
