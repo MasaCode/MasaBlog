@@ -8,6 +8,7 @@
             tagSearchedResult: 'datalist#tag-searched-list',
             thumbnailModal: '#thumbnail-modal',
         },
+        isPostEditing: false,
 
         initialize () {
             this._POST = POST;
@@ -22,11 +23,27 @@
         },
 
         buildEditor () {
+            let _self = this;
             this.editor = new SimpleMDE({
                 element: document.getElementById('post-editor'),
                 renderingConfig: {
                     codeSyntaxHighlighting: true,
-                }
+                },
+                toolbar: [
+                    "bold", "italic", "heading", "|", "quote", "unordered-list", "ordered-list",  "|", "link",
+                    {
+                        name: "image",
+                        action: function (editor) {
+                            _self.isPostEditing = true;
+                            _self.$thumbnailModal.modal('show');
+                            _self.$thumbnailModal.find('#modal-image-link').css('display', 'block');
+                            _self.$thumbnailModal.find('.modal-title').text('Choose Image or Input link');
+                        },
+                        className: "fa fa-image",
+                        title: "Draw Image"
+                    },
+                    "|", "preview", "side-by-side", "fullscreen", "|", "guide"
+                ],
             });
 
             return this;
@@ -51,6 +68,7 @@
                         let imageItem = '<a data-path="' + data[i].image_path + '" class="post-img' + active + '" style="background-image: url(' + url + ')" ></a>';
                         modalBody.append(imageItem);
                     }
+                    modalBody.append('<div class="form-group" id="modal-image-link" style="display: none;"><input type="text" placeholder="Insert Image link" class="form-control" id="modal-input-link"></div>');
                 },
                 error (data, status, errorThrown) {
                     let error = $('#error-dialog');
@@ -113,6 +131,7 @@
         },
 
         thumbnailEvents () {
+            let _self = this;
             let isSaved = false;
 
             this.$thumbnailModal.on('click', 'a.post-img', function (event) {
@@ -126,21 +145,36 @@
             this.$thumbnailModal.on('click', 'button.btn-image-save', function (event) {
                 isSaved = true;
                 let path = $('a.post-img.thumbnail-active').data('path');
-                let thumbnail = $('a#thumbnail-input');
-                let icon = thumbnail.find('span');
-                if (icon.length !== 0) icon.remove();
-                let preview = $('img.img-preview');
-                if (preview.length !== 0) {
-                    preview.attr('src', '/assets/uploads/' + path);
+                if (_self.isPostEditing) {
+                    let linkInput = $('#modal-input-link');
+                    let link = linkInput.val().trim();
+                    linkInput.val('');
+                    if (link) path = link;
+                    else path = '/assets/uploads/' + path;
+                    let pos = _self.editor.codemirror.getCursor();
+                    _self.editor.codemirror.setSelection(pos, pos);
+                    _self.editor.codemirror.replaceSelection('![](' + path + ')');
                 } else {
-                    let newPreview = '<img src="/assets/uploads/' + path + '" class="img-preview" />';
-                    thumbnail.append(newPreview);
+                    let thumbnail = $('a#thumbnail-input');
+                    let icon = thumbnail.find('span');
+                    if (icon.length !== 0) icon.remove();
+                    let preview = $('img.img-preview');
+                    if (preview.length !== 0) {
+                        preview.attr('src', '/assets/uploads/' + path);
+                    } else {
+                        let newPreview = '<img src="/assets/uploads/' + path + '" class="img-preview" />';
+                        thumbnail.append(newPreview);
+                    }
+                    $('input#post-input-img').val(path);
                 }
-                $('input#post-input-img').val(path);
             });
 
             this.$thumbnailModal.on({
                 'hidden.bs.modal': function (event) {
+                    if (_self.isPostEditing) {
+                        _self.$thumbnailModal.find('#modal-image-link').css('display', 'none');
+                        _self.$thumbnailModal.find('.modal-title').text('Choose Cover Image');
+                    }
                     if (isSaved) {
                         isSaved = false;
                         return;
