@@ -9,6 +9,8 @@ block append script
   script(src='/plugins/datetimePicker/js/bootstrap-datetimepicker.min.js')
   script(src="/javascripts/admin/dashboard_v.js")
 block content
+  block menuVariables
+    - var menuActive = 'dashboard';
   include sidebar
   div.admin-content-wrapper
     div.admin-content

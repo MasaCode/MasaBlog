@@ -4,6 +4,8 @@ block append script
   link(rel='stylesheet', href='/stylesheets/admin/post_v.css')
   script(src="/javascripts/admin/post_v.js")
 block content
+  block menuVariables
+    - var menuActive = 'post';
   include sidebar
   div.admin-content-wrapper
     div.admin-content

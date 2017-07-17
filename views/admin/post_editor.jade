@@ -6,6 +6,8 @@ block append script
   script(src="/plugins/simplemde/js/simplemde.min.js")
   script(src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js")
 block content
+  block menuVariables
+    - var menuActive = 'post';
   include sidebar
   div.admin-content-wrapper
     div.admin-content

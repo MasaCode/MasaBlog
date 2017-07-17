@@ -4,6 +4,8 @@ block append script
   link(rel='stylesheet', href='/stylesheets/admin/category_v.css')
   script(src="/javascripts/admin/category_v.js")
 block content
+  block menuVariables
+    - var menuActive = 'category';
   include sidebar
   div.admin-content-wrapper
     div.admin-content

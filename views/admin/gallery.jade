@@ -4,6 +4,8 @@ block append script
   link(rel='stylesheet', href='/stylesheets/admin/gallery_v.css')
   script(src="/javascripts/admin/gallery_v.js")
 block content
+  block menuVariables
+    - var menuActive = 'thumbnail';
   include sidebar
   div.admin-content-wrapper
     div.admin-content

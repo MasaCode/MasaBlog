@@ -4,6 +4,8 @@ block append script
   link(rel='stylesheet', href='/stylesheets/admin/tag_v.css')
   script(src="/javascripts/admin/tag_v.js")
 block content
+  block menuVariables
+    - var menuActive = 'tag';
   include sidebar
   div.admin-content-wrapper
     div.admin-content
