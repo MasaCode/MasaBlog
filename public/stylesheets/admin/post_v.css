@@ -4,6 +4,10 @@ div.post-wrapper {
     margin-right: auto;
 }
 
+div.post-wrapper.wrapper-height {
+    min-height: 74vh;
+}
+
 div.post-thumbnail {
     margin-bottom: 0;
 }
@@ -106,6 +110,11 @@ span.upload-wrapper {
     border-radius: 50%;
     color: white;
     background: rgba(43, 50, 58, 0.7);
+}
+
+nav.pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 768px){

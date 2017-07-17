@@ -23,6 +23,8 @@
         menuOffsetTop: 76,
         menuTop: 216,
         isResized: false,
+        pagePost: 0,
+        currentPage: 1,
 
         initialize () {
             this.$searchIcon = $(this.options.searchIcon);
@@ -32,16 +34,46 @@
             this.$wrapper = $(this.options.wrapper);
             this.$post = $(this.options.post);
             this.$deleteModal = $(this.options.deleteModal);
+            this._POSTS = POSTS;
+            this.pagePost = parseInt(POST_PER_PAGE);
             this.setVariables();
             this.stylePost();
-            this.events();
+            this.build(false, this._POSTS).events();
         },
 
         refresh () {
             let _self = this;
             $.getJSON('../../api/v1/posts', null, function (posts) {
                 _self.managePost(posts);
+                _self.build(true, posts);
             });
+        },
+
+        build (rebuild, posts) {
+            let _self = this;
+            let totalPage = Math.ceil(parseInt(posts.length) / parseFloat(this.pagePost));
+            let nav = $('ul#post-pagination');
+            if (rebuild) {
+                nav.empty();
+                nav.removeData("twbs-pagination");
+                nav.unbind("page");
+            }
+
+            if (totalPage < 2) return;
+
+            nav.twbsPagination({
+                totalPages: totalPage,
+                visiblePages: _self.pagePost,
+                onPageClick: function (event, page) {
+                    let offset = (page - 1) * _self.pagePost;
+                    let limit = page * _self.pagePost;
+                    if (page === _self.currentPage) return false;
+                    _self.currentPage = page;
+                    _self.managePost(posts.slice(offset, limit));
+                }
+            });
+
+            return this;
         },
 
         events () {
@@ -55,12 +87,14 @@
                 $('body').css('position', 'fixed');
                 $('input.search-input').focus().select();
             });
+
             this.$searchClose.on('click', function (event) {
                 event.preventDefault();
                 _self.$searchBody.hide();
                 $('body').css('position', 'relative');
                 $('input.search-input').val('');
             });
+
             this.$searchInput.on('keydown', function (event) {
                 if (event.keyCode === 13) {
                     _self.search($(this).val().trim());
@@ -151,7 +185,7 @@
         },
 
         managePost (posts) {
-            let length = posts.length;
+            let length = Math.min(posts.length, this.pagePost);
             let postBox = $(this.options.post);
             let postLength = postBox.length;
             let difference = postLength - length;
@@ -205,6 +239,7 @@
 
                 success (data, status, errorThrown) {
                     _self.managePost(data);
+                    _self.build(true, data);
                     $('body').css('position', 'relative');
                     $('div.search-input-wrapper').hide('fast');
                 },

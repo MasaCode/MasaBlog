@@ -47,6 +47,7 @@ div.tag-board {
     margin: 15px;
     width: calc(100% - 30px);
     min-height: 300px;
+    overflow-y: scroll;
 }
 
 div.tag-item {

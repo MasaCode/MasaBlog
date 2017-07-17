@@ -164,6 +164,10 @@ div.admin-content {
     margin-top: 25px;
 }
 
+.wrapper-height {
+    min-height: 85vh;
+}
+
 img.img-logo {
     padding: 5px;
     max-height: 50px;

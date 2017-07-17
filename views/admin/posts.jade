@@ -2,7 +2,7 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/admin/post_v.css')
-  script(src="/javascripts/admin/post_v.js")
+  script(src="/plugins/pagination/js/jquery.twbsPagination.min.js")
 block content
   block menuVariables
     - var menuActive = 'post';
@@ -10,8 +10,9 @@ block content
   div.admin-content-wrapper
     div.admin-content
       div.container-fluid
-        div.row.post-wrapper
-          - var length = posts.length;
+        div.row.post-wrapper.wrapper-height
+          - var postPerPage = 9;
+          - var length = Math.min(posts.length, postPerPage);
           - if (length !== 0) {
             - for (var i = 0; i < length; i++) {
               div.post-thumbnail-wrapper
@@ -28,6 +29,8 @@ block content
             // TODO: Implement Not found
           - }
 
+        nav(style="text-align: center;").pagination-wrapper
+          ul(style="margin: 0 auto;")#post-pagination.pagination
         include ../include/footer
 
   div(tabindex="-1", role="dialog", aria-labelledby="DeleteModalLabel", aria-hidden="true", style="display:none;")#delete-modal.modal.fade
@@ -53,3 +56,8 @@ block content
     span.search-close
       i.fa.fa-times
     input(type="text").search-input
+
+  script.
+    var POST_PER_PAGE = !{JSON.stringify(postPerPage)};
+    var POSTS = !{JSON.stringify(posts)};
+  script(src="/javascripts/admin/post_v.js")
