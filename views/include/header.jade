@@ -50,37 +50,3 @@ script.
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
-    $(window).ready(function (event) {
-        if (active === 'about' || active === 'contact') return false;
-        $.ajax({
-            url: '/api/v1/posts/data',
-            type: 'GET',
-            dataType: 'json',
-            timeout: 10000,
-
-            success: function (data, status, errorThrown) {
-                var tagWrapper = $('#tag-borad');
-                var tagLength = data.tags.length;
-                for (var i = 0; i < tagLength; i++) {
-                    var tag = '<li><a href="/tags/' + data.tags[i].id + '" class="label label-primary"><i class="fa fa-tag"></i> ' + data.tags[i].name + '</a></li>';
-                    tagWrapper.append(tag);
-                }
-                var recentWrapper = $('#recent-board');
-                var postLength = data.recentPosts.length;
-                for (var i = 0; i < postLength; i++) {
-                    var post = [
-                        '<li class="col-md-12 col-sm-6"><a href="/posts/' + data.recentPosts[i].id + '">',
-                        '<div class="recent-post-contents"><img class="recent-post-img" src="/assets/uploads/' + data.recentPosts[i].image_path + '" />',
-                        '<h5>' + data.recentPosts[i].title + '</h5></div></a></li>'
-                    ].join(' ');
-                    recentWrapper.append(post);
-                }
-            },
-            error : function (data, status, errorThrown) {
-                console.log(errorThrown);
-                let error = $('#error-dialog');
-                error.text('Errorr Occurred.. Please check your internet connection and contact administrator.');
-                error.fadeIn(1000).delay(3000).fadeOut(1000);
-            }
-        });
-    });

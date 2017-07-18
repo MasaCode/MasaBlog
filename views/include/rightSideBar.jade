@@ -1,14 +1,22 @@
 block barVariables
 div.col-md-3.right-bar
   div.well
-    h4 Blog Search
+    h4(style="margin-top:0;").text-center Blog Search
     div.input-group
       input(type="text")#search-input.form-control
       span.input-group-btn
         button(type="button")#btn-search.btn.btn-default
           span.fa.fa-search
+  - if (show_tags !== false) {
+    div.panel.panel-default.post-tags
+      div(style="background-color:#fefefe;").panel-heading
+        h4.no-margin.text-center Tags
+      div.panel-body.row.category-list
+        div.col-md-12.col-sm-12
+          ul.list-unstyled#tag-borad
+  - }
   - if (show_about) {
-    div.well.about-me
+    div(class=(show_post !== false ? 'show-half' : '')).well.about-me
       h4.text-center About Me
       img(src="/assets/images/masashi.jpg").img-responsive.img-me
       br
@@ -16,26 +24,51 @@ div.col-md-3.right-bar
       p I'm 20 years old web developer living in vancouver. I like to watch movies, animes and play games.
       a(href="/about").btn.btn-primary.about-more More Details
   - }
-  - if (show_categories !== false) {
-    div.panel.panel-info
-      div.panel-heading
-        h4.no-margin Tags
-      div.panel-body.row.category-list
-        div.col-md-12.col-sm-12
-          ul.list-unstyled#tag-borad
-  - }
-
   - if (show_post !== false) {
-    div.panel.panel-info.recent-post
-      div.panel-heading
-        h4.no-margin Recent Posts
+    div.panel.panel-default.recent-post.show-half
+      div(style="background-color:#fefefe;").panel-heading
+        h4.no-margin.text-center Recent Posts
       div.panel-body
         ul.list-unstyled#recent-board
-
   - }
   script.
+    var getData = !{JSON.stringify(show_post !== false || show_tags !== false)};
     $('#btn-search').on('click', function () {
         var searchText = $('#search-input').val().trim();
         if (searchText === '') return false;
         window.location.href = '/search/' + searchText;
+    });
+    $(window).ready(function (event) {
+        if (!getData) return false;
+        $.ajax({
+            url: '/api/v1/posts/data',
+            type: 'GET',
+            dataType: 'json',
+            timeout: 10000,
+
+            success: function (data, status, errorThrown) {
+                var tagWrapper = $('#tag-borad');
+                var tagLength = data.tags.length;
+                for (var i = 0; i < tagLength; i++) {
+                    var tag = '<li><a href="/tags/' + data.tags[i].id + '" class="label label-primary"><i class="fa fa-tag"></i> ' + data.tags[i].name + '</a></li>';
+                    tagWrapper.append(tag);
+                }
+                var recentWrapper = $('#recent-board');
+                var postLength = data.recentPosts.length;
+                for (var i = 0; i < postLength; i++) {
+                    var post = [
+                        '<li class="col-md-12"><a href="/posts/' + data.recentPosts[i].id + '">',
+                        '<div class="recent-post-contents"><img class="recent-post-img" src="/assets/uploads/' + data.recentPosts[i].image_path + '" />',
+                        '<h5>' + data.recentPosts[i].title + '</h5></div></a></li>'
+                    ].join(' ');
+                    recentWrapper.append(post);
+                }
+            },
+            error: function (data, status, errorThrown) {
+                console.log(errorThrown);
+                    let error = $('#error-dialog');
+                error.text('Errorr Occurred.. Please check your internet connection and contact administrator.');
+                error.fadeIn(1000).delay(3000).fadeOut(1000);
+            }
+        });
     });
