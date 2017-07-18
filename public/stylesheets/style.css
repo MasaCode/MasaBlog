@@ -213,6 +213,8 @@ span.icon-bar {
 
 div.title-wrapper {
   padding-top: 100px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 div.title-wrapper h2 {
@@ -406,6 +408,11 @@ span.search-keyword {
 
   main.page-content-wrapper {
     margin-top: -50px;
+    width: calc(100% - 30px);
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 0;
+    padding-top: 15px;
   }
 
   .img-me {
@@ -430,7 +437,7 @@ span.search-keyword {
 
 @media screen and (max-width: 580px) {
   div.title-description {
-    width: 85%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
   }

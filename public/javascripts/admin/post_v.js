@@ -58,8 +58,7 @@
                 nav.removeData("twbs-pagination");
                 nav.unbind("page");
             }
-
-            if (totalPage < 2) return;
+            if (totalPage < 1) return;
 
             nav.twbsPagination({
                 totalPages: totalPage,
