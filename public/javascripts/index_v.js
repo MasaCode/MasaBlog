@@ -5,20 +5,32 @@
 
         currentPage: 1,
         postNum: 10,
+        paginationBreak: 433,
+        visiblePages: 7,
 
         initialize () {
-            this.build();
+            let width = $(window).width();
+            this.visivisiblePage = (width > this.paginationBreak) ? 7 : 3;
+            this._POSTS = POSTS;
+            this.getTags(IDS);
+            this.build(false, this.visivisiblePage).events();
         },
 
-        build () {
+        build (rebuild, page) {
             let _self = this;
-            this._POSTS = POSTS;
             let totalPage = Math.ceil(parseInt(this._POSTS.length) / parseFloat(this.postNum));
-            if (totalPage < 1) return;
             let nav = $('ul#post-pagination');
+            if (rebuild) {
+                nav.empty();
+                nav.removeData("twbs-pagination");
+                nav.unbind("page");
+            }
+            if (totalPage < 1) return this;
             nav.twbsPagination({
                 totalPages: totalPage,
-                visiblePages: 7,
+                visiblePages: page,
+                lastClass: 'display-none',
+                firstClass: 'display-none',
                 onPageClick: function (event, page) {
                     let offset = (page - 1) * _self.postNum;
                     let limit = page * _self.postNum;
@@ -30,9 +42,19 @@
                     _self.getTags(ids);
                 }
             });
-            _self.getTags(IDS);
 
             return this;
+        },
+
+        events () {
+            let _self = this;
+            $(window).on('resize', function (event) {
+                let width = $(this).width();
+                let page = (width > _self.paginationBreak) ? 7 : 3;
+                if (page === _self.visivisiblePage) return false;
+                _self.visivisiblePage = page;
+                _self.build(true, page);
+            });
         },
 
         getTags (ids) {

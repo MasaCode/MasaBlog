@@ -87,7 +87,7 @@ router.get('/posts/tags/range', function (req, res) {
     co(function *() {
         let ids = req.query.ids;
         let tags = [];
-        let length = ids.length;
+        let length = (ids !== undefined ? ids.length : 0);
         for (let i = 0; i < length; i++) {
             tags.push((yield relationModel.findTagNamesByPost(ids[i])).tags);
         }

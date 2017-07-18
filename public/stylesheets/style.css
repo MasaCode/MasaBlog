@@ -47,6 +47,10 @@ h4 {
   margin-bottom: 3px;
 }
 
+.display-none {
+  display: none !important;
+}
+
 header.bg-wrapper {
   display: block;
   width: 100%;
@@ -318,7 +322,7 @@ div#error-dialog {
   width: 300px;
   position: fixed;
   top: 15%;
-  left: calc((100% - 250px) / 2.0 + 75px);
+  left: calc(50% - 150px);
   text-align: center;
   z-index: 5;
   opacity: 0.7;
