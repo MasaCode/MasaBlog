@@ -53,6 +53,7 @@
             let _self = this;
             let totalPage = Math.ceil(parseInt(posts.length) / parseFloat(this.pagePost));
             let nav = $('ul#post-pagination');
+            this.currentPage = 1;
             if (rebuild) {
                 nav.empty();
                 nav.removeData("twbs-pagination");
