@@ -93,6 +93,19 @@ router.post('/relatedTag', function (req, res) {
     });
 });
 
+router.put('/sequence/:id', function (req, res) {
+    co(function *() {
+        if (req.cookies.admin) return util.sendResponse(res, 200, null);
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let result = (yield postModel.updateSequence(id));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        console.log(e);
+        util.sendResponse(res, 500, e.message);
+    });
+});
+
 router.put('/:id', function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);

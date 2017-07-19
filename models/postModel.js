@@ -52,6 +52,16 @@ module.exports = {
         return db.updateSync(this.table, id, data);
     },
 
+    updateSequence (id) {
+        let _self = this;
+        return new Promise((resolve, reject) => {
+            db.query("update " + _self.table + " set sequence = sequence + 1 where id=?", [id], function (error, result) {
+                if (error) reject(error);
+                else resolve(result);
+            });
+        });
+    },
+
     delete (id) {
         return db.updateSync(this.table, id, {is_active: false});
     }

@@ -65,8 +65,7 @@ div.col-md-3.right-bar
                 }
             },
             error: function (data, status, errorThrown) {
-                console.log(errorThrown);
-                    let error = $('#error-dialog');
+                var error = $('#error-dialog');
                 error.text('Errorr Occurred.. Please check your internet connection and contact administrator.');
                 error.fadeIn(1000).delay(3000).fadeOut(1000);
             }
