@@ -467,6 +467,12 @@ div.not-found {
   }
 }
 
+@media screen and (max-width: 720px) {
+  body {
+    font-size: 15px;
+  }
+}
+
 @media screen and (max-width: 580px) {
   div.title-description {
     width: 90%;
@@ -484,5 +490,11 @@ div.not-found {
 
   #recent-board li {
     display: block;
+  }
+}
+
+@media screen and (max-width: 496px) {
+  body {
+    font-size: 13px;
   }
 }
