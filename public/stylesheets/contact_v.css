@@ -7,3 +7,15 @@ div.contact {
 div.contact textarea {
     height: 210px;
 }
+
+@media screen and (max-width: 720px) {
+    div.contact textarea {
+        height: 150px;
+    }
+}
+
+@media screen and (max-width: 496px) {
+    div.contact textarea {
+        height: 80px;
+    }
+}

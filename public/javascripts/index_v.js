@@ -37,7 +37,7 @@
                     if (page === _self.currentPage) return false;
                     _self.currentPage = page;
                     let anchor = $('div.post-body-wrapper');
-                    window.scrollTo(0, anchor.offset().top - 50);
+                    $('html,body').animate({scrollTop: 0}, 800, 'swing');
                     let ids = _self.changePage(_self._POSTS.slice(offset, limit));
                     _self.getTags(ids);
                 }
