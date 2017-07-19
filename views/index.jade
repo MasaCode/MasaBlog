@@ -35,7 +35,11 @@ block content
                     a(href="/posts/#{posts[i].id}").btn-read.btn.btn-primary Read More
                       span.fa.fa-chevron-right
               - }
-            nav(style="text-align: center; margin-bottom: 20px;").pagination-wrapper
+              - if (postLength === 0) {
+                div.not-found-wrapper
+                  div.not-found
+              - }
+            nav(style="text-align: center; margin-bottom: 20px;" class=(postLength === 0 ? 'display-none' : '')).pagination-wrapper
               ul(style="margin: 0 auto;")#post-pagination.pagination
 
           block barVariables

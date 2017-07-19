@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+div.gallery-wrapper.wrapper-height {
+    min-height: 74vh;
+}
+
 span.upload-wrapper {
     padding: 3px 10px;
     position: fixed;
@@ -231,6 +235,11 @@ div.upload-input-content span.text {
 
 div.upload-input-content span i.fa {
     font-size: 180%;
+}
+
+nav.pagination-wrapper {
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 @media screen and (max-width: 768px) {

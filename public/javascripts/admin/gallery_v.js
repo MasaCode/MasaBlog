@@ -1,4 +1,3 @@
-// TODO: Implement Not Found
 (function ($) {
     'use strict';
 
@@ -16,6 +15,8 @@
         menuOffsetTop: 76,
         menuTop: 216,
         isResized: false,
+        maxThumbnailNumber: 0,
+        currentPage: 1,
 
         initialize () {
             this.$addModal = $('#add-modal');
@@ -24,18 +25,49 @@
             this.$viewModal = $('#view-modal');
             this.$gallery = $(this.gallery);
             this.$wrapper = $(this.wrapper);
-            if (this.$gallery.length !== 0) {
-                this.setVariables();
-                this.styleGallery();
-            }
-            this.events();
+            this.maxThumbnailNumber = parseInt(MAX_CONTENT_NUMBER);
+            this._THUMBNAILS = THUMBNAILS;
+            this.setVariables();
+            this.styleGallery();
+            this.build(false, this._THUMBNAILS).events();
         },
 
         refresh () {
             let _self = this;
             $.getJSON('../../api/v1/thumbnails/', null, function (thumbnails) {
                 _self.manageGalleryItem(thumbnails);
+                _self.build(true, thumbnails);
+                if (thumbnails.length === 0) return _self.showNotFound();
+                let notFound = $('div.not-found');
+                if (notFound.length !== 0) notFound.remove();
             });
+        },
+
+        build (rebuild, thumbnails) {
+            let _self = this;
+            let totalPage = Math.ceil(parseInt(thumbnails.length) / parseFloat(this.maxThumbnailNumber));
+            let nav = $('ul#thumbnail-pagination');
+            this.currentPage = 1;
+            if (rebuild) {
+                nav.empty();
+                nav.removeData("twbs-pagination");
+                nav.unbind("page");
+            }
+            if (totalPage < 1) return;
+
+            nav.twbsPagination({
+                totalPages: totalPage,
+                visiblePages: _self.maxThumbnailNumber,
+                onPageClick: function (event, page) {
+                    let offset = (page - 1) * _self.maxThumbnailNumber;
+                    let limit = page * _self.maxThumbnailNumber;
+                    if (page === _self.currentPage) return false;
+                    _self.currentPage = page;
+                    _self.manageGalleryItem(thumbnails.slice(offset, limit));
+                }
+            });
+
+            return this;
         },
 
         events () {
@@ -208,7 +240,6 @@
 
         styleGallery () {
             let length = this.$gallery.length;
-            if (length === 0) return;
             let lastRows = length - (this.rowCounts[this.index] + 1);
             let count = this.rowCounts[this.index];
             let bottom = 0;
@@ -266,9 +297,13 @@
                 timeout: 10000,
 
                 success (data, status, errorThrown) {
-                    _self.manageGalleryItem(data, (data.length === 0 ? 'No thumbnail like "' + searchText + '" is found...' : null));
+                    _self.manageGalleryItem(data);
+                    _self.build(true, data);
                     $('body').css('position', 'relative');
                     $('div.search-input-wrapper').hide('fast');
+                    if (data.length === 0) return _self.showNotFound();
+                    let notFound = $('div.not-found');
+                    if (notFound.length !== 0) notFound.remove();
                 },
                 error (data, status, errorThrown) {
                     $('body').css('position', 'relative');
@@ -281,15 +316,11 @@
             })
         },
 
-        manageGalleryItem (thumbnails, message) {
+        manageGalleryItem (thumbnails) {
             let thumbnailLength = thumbnails.length;
             let galleryLength = this.$gallery.length;
             let difference = galleryLength - thumbnailLength;
             let galleryWrapper = $('div.gallery-wrapper');
-            let notFoundMessage = $('div.gallery-not-found');
-            if (notFoundMessage.length !== 0) {
-                notFoundMessage.remove();
-            }
             if (difference > 0) {
                 this.$gallery.slice((galleryLength - difference), galleryLength).remove();
             }
@@ -314,26 +345,20 @@
             }
 
             this.$gallery = $(this.gallery);
-            if (thumbnailLength === 0) {
-                this.showNotFound((message !== null && message !== undefined ? message : 'No thumbnail is found...'));
-            } else {
-                this.setVariables();
-                this.styleGallery();
-            }
+            this.setVariables();
+            this.styleGallery();
         },
 
         showError (error) {
             $('span.error-text').text(error);
         },
 
-        showNotFound (message) {
-            let notFoundMessage = [
-                '<div class="gallery-not-found">',
-                '<h3 class="text-center">' + message + '</h3></div>',
-            ].join(' ');
-            this.$wrapper.prepend(notFoundMessage);
-            this.$wrapper.css('height', '100px');
-        }
+        showNotFound () {
+            let notFound = $('div.not-found');
+            if (notFound.length !== 0) return;
+            let item = '<div class="not-found"><div class="not-found-content"></div></div>';
+            $('div.gallery-wrapper').append(item);
+        },
     };
 
     $(function () {

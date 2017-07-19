@@ -1,4 +1,3 @@
-// TODO: Implement Not Found
 (function ($) {
     'use strict';
 
@@ -46,6 +45,9 @@
             $.getJSON('../../api/v1/posts', null, function (posts) {
                 _self.managePost(posts);
                 _self.build(true, posts);
+                if (posts.length === 0) return _self.showNotFound();
+                let notFound = $('div.not-found');
+                if (notFound.length !== 0) notFound.remove();
             });
         },
 
@@ -221,6 +223,13 @@
             this.stylePost();
         },
 
+        showNotFound () {
+            let notFound = $('div.not-found');
+            if (notFound.length !== 0) return;
+            let item = '<div class="not-found"><div class="not-found-content"></div></div>';
+            $('div.post-wrapper').append(item);
+        },
+
         search (searchText) {
             let _self = this;
             if (searchText === '') {
@@ -242,6 +251,9 @@
                     _self.build(true, data);
                     $('body').css('position', 'relative');
                     $('div.search-input-wrapper').hide('fast');
+                    if (data.length === 0) return _self.showNotFound();
+                    let notFound = $('div.not-found');
+                    if (notFound.length !== 0) notFound.remove();
                 },
                 error (data, status, errorThrown) {
                     $('body').css('position', 'relative');
