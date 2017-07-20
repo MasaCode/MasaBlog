@@ -4,11 +4,12 @@ let router = express.Router();
 let co = require('co');
 let moment = require('moment');
 const nodemailer = require('nodemailer');
+let config = require('../docs/environments.js');
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'masacode.vancouver@gmail.com',
-        pass: 'Masashi0709'
+        user: config.MAIL_USER,
+        pass: config.MAIL_PASSWORD
     }
 });
 let util = require('../helper/util.js');

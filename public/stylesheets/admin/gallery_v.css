@@ -115,7 +115,7 @@ div.gallery-layer:hover {
 .gallery-title {
     color: white;
     display: none;
-    padding-top: 15%;
+    padding-top: 7%;
 }
 
 div.gallery-layer:hover .gallery-title {
@@ -139,7 +139,7 @@ div.gallery-button-wrapper button {
     position: absolute;
     color: white;
     background: transparent;
-    top: 10%;
+    top: 5%;
     outline: none;
 }
 
