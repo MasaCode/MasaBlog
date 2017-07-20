@@ -28,7 +28,7 @@ block content
                     h3
                       a(href="/posts/#{posts[i].id}") #{posts[i].title}
                     hr.post-line
-                    div(style="background: url('/assets/uploads/#{posts[i].image_path}');").post-img
+                    div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").post-img
                     p.post-info <i class="fa fa-calendar"></i> <span class="post-created">#{date}</span> <i class="fa fa-tags"></i> <span class="post-tags"></span>
                     hr.post-line.m-t-0
                     p.post-desc #{posts[i].description.substr(0, 150)}
