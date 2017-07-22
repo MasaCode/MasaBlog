@@ -41,6 +41,7 @@ router.post('/', function (req, res, next) {
         if (err) return next(err);
         res.cookie('loginMessage', "Username or Password is not correct.", null);
         if (!user) return res.redirect('/login');
+        delete user.password;
         res.cookie('admin', user, null);
         res.redirect('/admin');
     })(req, res, next);

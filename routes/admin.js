@@ -94,6 +94,12 @@ router.get('/posts/edit/:id', function (req, res) {
     });
 });
 
+router.get('/passwordReset', function (req, res) {
+    res.render(
+        'admin/password_reset.jade', {title: 'MasaBlog | Password Reset'}
+    );
+});
+
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
         let data = {};

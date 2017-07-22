@@ -34,6 +34,21 @@ module.exports = {
         return bcrypt.compareSync(inputPassword, hashedPassword);
     },
 
+    resetPassword (id, currentPassword, newPassword) {
+        let _self = this;
+        return new Promise((resolve, reject) => {
+            db.query("select password from " + _self.table + " where id=?", [id], function (error, admin) {
+                if (error) return reject(error);
+                if (!_self.verifyPassword(currentPassword, admin[0].password)) return resolve({error: "Current Password did not match..."});
+                let hashedPassword = bcrypt.hashSync(newPassword, 10);
+                db.update(_self.table, id, {password: hashedPassword}, function (error, result) {
+                    if (error) reject(error);
+                    else resolve(result);
+                });
+            });
+        });
+    },
+
     hashPassword (password) {
         let salt = bcrypt.genSaltSync(10);
         return bcrypt.hashSync(password, salt);
