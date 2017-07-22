@@ -9,27 +9,12 @@ div.blog-post {
     width: 100%;
 }
 
-div.blog-post img {
-    display: block;
-    max-width: 100%;
-    margin: 0 auto;
-}
-
-div.blog-post p {
-    font-size: 105%;
-}
-
 p.post-info {
     margin-top: 30px;
 }
 
 p.post-info i:nth-child(2) {
     padding-left: 12px;
-}
-
-pre {
-    background: #f6f8fa;
-    border: none;
 }
 
 @media screen and (max-width: 768px) {

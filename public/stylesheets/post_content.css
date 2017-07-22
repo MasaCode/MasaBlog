@@ -1,0 +1,59 @@
+#post-content {
+    color: #333;
+    background: #fefefe;
+}
+
+#post-content h1, #post-content h2, #post-content h3,
+.editor-preview h1, .editor-preview h2, .editor-preview h3,
+.editor-preview-side h1, .editor-preview-side h2, .editor-preview-side h3{
+    border-left: 4px solid #31b0d5;
+    padding-left: 15px;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    background: #fcfcfc;
+}
+
+#post-content img,
+.editor-preview img,
+.editor-preview-side img {
+    display: block;
+    width: 100%;
+    margin: 20px auto;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+#post-content p,
+.editor-preview p,
+.editor-preview-side p {
+    font-size: 105%;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+#post-content pre,
+.editor-preview pre,
+.editor-preview-side pre {
+    background: #f6f8fa;
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#post-content ol, #post-content ul,
+.editor-preview ol, .editor-preview ul,
+.editor-preview-side ol, .editor-preview-side ul{
+    padding: 0 0 0 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#post-content ol li, #post-content ul li,
+.editor-preview ol li, .editor-preview ul li,
+.editor-preview-side ol li, .editor-preview-side ul li {
+    margin-bottom: 10px;
+}

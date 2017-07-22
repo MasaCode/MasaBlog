@@ -61,12 +61,14 @@
                     _self.thumbnails = data;
                     let length = data.length;
                     let modalBody = _self.$thumbnailModal.find('div.modal-body');
+                    modalBody.append('<div class="post-img-wrapper"></div>');
+                    let imageWrapper = _self.$thumbnailModal.find('div.post-img-wrapper');
                     let activePath = (_self._POST !== null) ? _self._POST.image_path : '';
                     for (let i = 0; i  < length; i++) {
                         let url = '/assets/uploads/' + data[i].image_path;
                         let active = (data[i].image_path === activePath ? ' thumbnail-active' : '');
                         let imageItem = '<a data-path="' + data[i].image_path + '" class="post-img' + active + '" style="background-image: url(' + url + ')" ></a>';
-                        modalBody.append(imageItem);
+                        imageWrapper.append(imageItem);
                     }
                     modalBody.append('<div class="form-group" id="modal-image-link" style="display: none;"><input type="text" placeholder="Insert Image link" class="form-control" id="modal-input-link"></div>');
                 },

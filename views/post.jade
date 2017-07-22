@@ -2,6 +2,7 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/post_v.css')
+  link(rel='stylesheet', href='/stylesheets/post_content.css')
   link(rel="stylesheet", href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css")
   script(type="text/javascript", src="/plugins/moment/js/moment.min.js")
   script(type="text/javascript", src="/plugins/marked/js/marked.js")
@@ -17,7 +18,7 @@ block content
       div.container-fluid
         div.row
           div.col-md-9
-            div.well.blog-post
+            div#post-content.well.blog-post
 
           block barVariables
             - var show_about = true;

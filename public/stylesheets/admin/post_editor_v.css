@@ -11,10 +11,8 @@ div.editor-wrapper {
     padding-top: 15px;
 }
 
-div.editor-wrapper img {
-    display: block;
-    max-width: 100%;
-    margin: 0 auto;
+.editor-preview, .editor-preview-side {
+    background-color: #fefefe !important;
 }
 
 div#post-right-side {
@@ -94,11 +92,15 @@ div#thumbnail-modal {
     z-index: 10000;
 }
 
-div#thumbnail-modal div.modal-body {
+div#thumbnail-modal div.modal-body div.post-img-wrapper{
     overflow-y: scroll;
     height: 60vh;
     width: 550px;
     margin: 0 auto;
+}
+
+#modal-image-link {
+    margin-top: 15px;
 }
 
 a.post-img {
@@ -110,6 +112,7 @@ a.post-img {
     background: no-repeat center center;
     -webkit-background-size: cover;
     background-size: cover;
+    border: 1px solid rgba(50, 50, 50, 0.2)
 }
 
 div#post-thumbnail-body a span {
