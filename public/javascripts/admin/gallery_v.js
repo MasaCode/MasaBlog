@@ -15,7 +15,6 @@
         menuOffsetTop: 76,
         menuTop: 216,
         isResized: false,
-        maxThumbnailNumber: 0,
         currentPage: 1,
 
         initialize () {
@@ -25,49 +24,20 @@
             this.$viewModal = $('#view-modal');
             this.$gallery = $(this.gallery);
             this.$wrapper = $(this.wrapper);
-            this.maxThumbnailNumber = parseInt(MAX_CONTENT_NUMBER);
             this._THUMBNAILS = THUMBNAILS;
             this.setVariables();
             this.styleGallery();
-            this.build(false, this._THUMBNAILS).events();
+            this.events();
         },
 
         refresh () {
             let _self = this;
             $.getJSON('../../api/v1/thumbnails/', null, function (thumbnails) {
                 _self.manageGalleryItem(thumbnails);
-                _self.build(true, thumbnails);
                 if (thumbnails.length === 0) return _self.showNotFound();
                 let notFound = $('div.not-found');
                 if (notFound.length !== 0) notFound.remove();
             });
-        },
-
-        build (rebuild, thumbnails) {
-            let _self = this;
-            let totalPage = Math.ceil(parseInt(thumbnails.length) / parseFloat(this.maxThumbnailNumber));
-            let nav = $('ul#thumbnail-pagination');
-            this.currentPage = 1;
-            if (rebuild) {
-                nav.empty();
-                nav.removeData("twbs-pagination");
-                nav.unbind("page");
-            }
-            if (totalPage < 1) return this;
-
-            nav.twbsPagination({
-                totalPages: totalPage,
-                visiblePages: _self.maxThumbnailNumber,
-                onPageClick: function (event, page) {
-                    let offset = (page - 1) * _self.maxThumbnailNumber;
-                    let limit = page * _self.maxThumbnailNumber;
-                    if (page === _self.currentPage) return false;
-                    _self.currentPage = page;
-                    _self.manageGalleryItem(thumbnails.slice(offset, limit));
-                }
-            });
-
-            return this;
         },
 
         events () {
@@ -249,24 +219,6 @@
                 let rowIndex = (i % count);
                 let left = rowIndex * (this.galleryWidth + this.margin) + this.margin * rowIndex;
                 let top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : defTop;
-                if (i > lastRows && count !== 1 && i >= count) {
-                    let topIndex = 0;
-                    let defaultTop = 9999;
-                    for (let j = i - overrideCount; j < i; j++) {
-                        let elementTop = parseInt(this.$gallery[j].style.top.replace('px', ''));
-                        if (defaultTop > elementTop) {
-                            topIndex = j;
-                            defaultTop = elementTop;
-                        }
-                    }
-
-                    if (topIndex !== (i - overrideCount)) {
-                        top = this.$gallery[topIndex].offsetHeight + defaultTop + 10;
-                        let overrideRowIndex = (topIndex % overrideCount);
-                        left = overrideRowIndex * (this.galleryWidth + this.margin) + this.margin * overrideRowIndex;
-                        overrideCount--;
-                    }
-                }
                 this.$gallery[i].style.cssText += ''.concat(
                     'top: ' + top + 'px;', 'left: ' + left + 'px;', 'width: ' + this.galleryWidth + 'px;', 'position: absolute;'
                 );
@@ -298,7 +250,6 @@
 
                 success (data, status, errorThrown) {
                     _self.manageGalleryItem(data);
-                    _self.build(true, data);
                     $('body').css('position', 'relative');
                     $('div.search-input-wrapper').hide('fast');
                     if (data.length === 0) return _self.showNotFound();

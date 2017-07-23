@@ -11,8 +11,7 @@ block content
     div.admin-content
       div.container-fluid
         div.row.gallery-wrapper.wrapper-height
-          - var maxContentNum = 10;
-          - var length = Math.min(thumbnails.length, maxContentNum);
+          - var length = thumbnails.length;
           - if (length !== 0) {
             - for (var i = 0; i < length; i++) {
               div.img-gallery
@@ -29,8 +28,6 @@ block content
             div.not-found
               div.not-found-content
           - }
-        nav(style="text-align: center;").pagination-wrapper
-          ul(style="margin: 0 auto;")#thumbnail-pagination.pagination
         include ../include/footer
 
   div(tabindex="-1", role="dialog", aria-labelledby="AddModalLabel", aria-hidden="true", style="display:none; top:30px;")#add-modal.modal.fade
@@ -98,6 +95,5 @@ block content
     input(type="text").search-input
 
   script.
-    var MAX_CONTENT_NUMBER = !{JSON.stringify(maxContentNum)};
     var THUMBNAILS = !{JSON.stringify(thumbnails)};
   script(src="/javascripts/admin/gallery_v.js")
