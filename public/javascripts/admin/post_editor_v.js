@@ -176,6 +176,7 @@
                     if (_self.isPostEditing) {
                         _self.$thumbnailModal.find('#modal-image-link').css('display', 'none');
                         _self.$thumbnailModal.find('.modal-title').text('Choose Cover Image');
+                        _self.isPostEditing = false;
                     }
                     if (isSaved) {
                         isSaved = false;
