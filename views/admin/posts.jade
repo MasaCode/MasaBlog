@@ -20,7 +20,7 @@ block content
                   div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").img-post
                   div.caption
                     h3.text-center.post-title #{posts[i].title}
-                    p.thumbnail-desc #{posts[i].description.substr(0, 150)}
+                    p.thumbnail-desc #{posts[i].description.substr(0, 150) + '...'}
                     p.btn-thumbnail
                       a(href="/admin/posts/edit/#{posts[i].id}").btn.btn-success.btn-edit Edit
                       a(data-toggle="modal", data-target="#delete-modal", data-id="#{posts[i].id}").btn.btn-danger.btn-delete Delete

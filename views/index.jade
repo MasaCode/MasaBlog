@@ -31,7 +31,7 @@ block content
                     div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").post-img
                     p.post-info <i class="fa fa-calendar"></i> <span class="post-created">#{date}</span> <i class="fa fa-tags"></i> <span class="post-tags"></span>
                     hr.post-line.m-t-0
-                    p.post-desc #{posts[i].description.substr(0, 150)}
+                    p.post-desc #{posts[i].description.substr(0, 150) + '...'}
                     a(href="/posts/#{posts[i].id}").btn-read.btn.btn-primary Read More
                       span.fa.fa-chevron-right
               - }
