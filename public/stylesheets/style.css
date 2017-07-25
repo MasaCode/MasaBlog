@@ -446,7 +446,7 @@ div.not-found {
   }
 
   div.title-wrapper {
-    padding-top: 30px;
+    padding-top: 30px !important;
   }
 
   main.page-content-wrapper {
@@ -496,5 +496,9 @@ div.not-found {
 @media screen and (max-width: 496px) {
   body {
     font-size: 13px;
+  }
+
+  div.title-wrapper {
+    padding-top: 15px !important;
   }
 }
