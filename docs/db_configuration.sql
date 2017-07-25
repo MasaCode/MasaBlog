@@ -8,7 +8,7 @@ ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 INSERT INTO `masa_admins` (`username`, `password`, `is_active`) VALUES
-( 'masablog', '$2a$10$GP1qV10f7FV4c.W3xSMM1ejE.88GrEs5u.k7tnIBtq0tsGGUrk..i', 1);
+( 'root', '$2a$10$ma45FOGkIpA1okd720b3ZOG.Okmk24eFIW2/uhRa24OpxnKbDYEdm', 1);
 
 CREATE TABLE `masa_thumbnails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
