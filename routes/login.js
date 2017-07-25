@@ -42,7 +42,9 @@ router.post('/', function (req, res, next) {
         res.cookie('loginMessage', "Username or Password is not correct.", null);
         if (!user) return res.redirect('/login');
         delete user.password;
+        user.expired = new Date().getTime() + (24 * 60 * 60 * 1000); // Current Time + 1 day
         res.cookie('admin', user, null);
+        res.clearCookie('loginMessage', null);
         res.redirect('/admin');
     })(req, res, next);
 });

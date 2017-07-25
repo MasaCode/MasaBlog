@@ -33,8 +33,27 @@ function isValidId(id) {
     return (typeof id === 'number' && !isNaN(id) && id !== undefined && id !== null);
 }
 
+function isAuthenticated(req, res) {
+    if (!req.cookies.admin) return false;
+    let now = new Date().getTime();
+    if (!req.cookies.admin.expired || now >= parseInt(req.cookies.admin.expired)) {
+        res.clearCookie('admin', null);
+        return false;
+    }
+    return true;
+}
+
+function allowAction (req, res, next) {
+    if (!isAuthenticated(req, res)) {
+        return sendResponse(res, 500, 'Invalid Admin ID or Admin permission expired...');
+    }
+    next();
+}
+
 exports.sendResponse = sendResponse;
 exports.renderError = renderError;
 exports.getImagePath = getImagePath;
 exports.isEmpty = isEmpty;
 exports.isValidId = isValidId;
+exports.isAuthenticated = isAuthenticated;
+exports.allowAction = allowAction;

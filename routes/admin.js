@@ -143,11 +143,8 @@ router.get('/posts/data/:id', function (req, res) {
 });
 
 function isAuthenticated(req, res, next) {
-    if (!req.cookies.admin) {
-        res.redirect('/login');
-    } else {
-        next();
-    }
+    if (!util.isAuthenticated(req, res)) return res.redirect('/login');
+    next();
 }
 
 module.exports = router;

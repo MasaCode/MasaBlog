@@ -5,7 +5,7 @@ let co = require('co');
 let util = require('../../../helper/util.js');
 let adminModel = require('../../../models/adminModel.js');
 
-router.put('/resetPassword', function (req, res) {
+router.put('/resetPassword', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.cookies.admin.id);
         if (!util.isValidId(id)) throw new Error('Invalid Admin ID...');

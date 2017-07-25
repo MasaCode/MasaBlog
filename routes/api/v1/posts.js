@@ -62,7 +62,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.post('/', function (req, res) {
+router.post('/', util.allowAction, function (req, res) {
     co(function *() {
         if (!util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Admin id is not defined...');
         if (!util.isValidId(parseInt(req.body.category_id))) throw new Error('Invalid Category ID...');
@@ -79,7 +79,7 @@ router.post('/', function (req, res) {
     });
 });
 
-router.post('/relatedTag', function (req, res) {
+router.post('/relatedTag', util.allowAction, function (req, res) {
     co(function *() {
         let post_id = parseInt(req.body.post_id);
         let tag_id = parseInt(req.body.tag_id);
@@ -93,7 +93,7 @@ router.post('/relatedTag', function (req, res) {
     });
 });
 
-router.put('/sequence/:id', function (req, res) {
+router.put('/sequence/:id', util.allowAction, function (req, res) {
     co(function *() {
         if (req.cookies.admin) return util.sendResponse(res, 200, null);
         let id = parseInt(req.params.id);
@@ -106,7 +106,7 @@ router.put('/sequence/:id', function (req, res) {
     });
 });
 
-router.put('/:id', function (req, res) {
+router.put('/:id', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
@@ -124,7 +124,7 @@ router.put('/:id', function (req, res) {
     });
 });
 
-router.delete('/relatedTag', function (req, res) {
+router.delete('/relatedTag', util.allowAction, function (req, res) {
     co(function *() {
         let post_id = parseInt(req.body.post_id);
         let tag_id = parseInt(req.body.tag_id);
@@ -138,7 +138,7 @@ router.delete('/relatedTag', function (req, res) {
     });
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('/:id', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (id !== parseInt(req.body.id) || !util.isValidId(id)) throw new Error('Invalid ID...');

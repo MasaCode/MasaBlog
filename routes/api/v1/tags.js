@@ -27,7 +27,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.post('/', function (req, res) {
+router.post('/', util.allowAction, function (req, res) {
     co(function *() {
         let body = req.body;
         if (body.name === '' || body.name === null || body.name === undefined) throw new Error('Category name is required..');
@@ -43,7 +43,7 @@ router.post('/', function (req, res) {
     });
 });
 
-router.post('/searchInsert', function (req, res) {
+router.post('/searchInsert', util.allowAction, function (req, res) {
     co(function *() {
         if (req.body === undefined || req.body.name === undefined || req.body.name === '' || req.body.name === null) throw new Error('Tag Name is required...');
         let name = req.body.name;
@@ -59,7 +59,7 @@ router.post('/searchInsert', function (req, res) {
     });
 });
 
-router.put('/:id', function (req, res) {
+router.put('/:id', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         let data = {};
@@ -75,7 +75,7 @@ router.put('/:id', function (req, res) {
     });
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('/:id', util.allowAction, function (req, res) {
     co(function *() {
         if (parseInt(req.params.id) !== parseInt(req.body.id)) throw new Error('Invalid ID...');
         let id = parseInt(req.params.id);

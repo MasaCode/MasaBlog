@@ -28,7 +28,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.post('/', function (req, res) {
+router.post('/', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.cookies.admin.id);
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
@@ -42,7 +42,7 @@ router.post('/', function (req, res) {
     });
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('/:id', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (id !== parseInt(req.body.id) || !util.isValidId(id)) throw new Error('Invalid ID...');

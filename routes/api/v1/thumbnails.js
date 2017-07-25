@@ -53,7 +53,7 @@ router.get('/:id', function (req, res) {
     });
 });
 
-router.post('/', function (req, res) {
+router.post('/', util.allowAction, function (req, res) {
     upload(req, res, function (error) {
         co(function *() {
             if (error) throw new Error(error.message);
@@ -75,7 +75,7 @@ router.post('/', function (req, res) {
     });
 });
 
-router.delete('/:id', function (req, res) {
+router.delete('/:id', util.allowAction, function (req, res) {
     co(function *() {
         if (parseInt(req.params.id) !== parseInt(req.body.id)) throw new Error('Invalid ID...');
         let id = parseInt(req.params.id);
