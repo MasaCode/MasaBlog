@@ -64,11 +64,11 @@ router.get('/:id', function (req, res) {
 
 router.post('/', util.allowAction, function (req, res) {
     co(function *() {
-        if (!util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Admin id is not defined...');
+        if (!util.isValidId(parseInt(req.cookies.user.id))) throw new Error('User ID is not defined...');
         if (!util.isValidId(parseInt(req.body.category_id))) throw new Error('Invalid Category ID...');
         let tags = req.body.tags.split(',');
         if (!validateTagId(tags)) throw new Error('Invalid Tag ID...');
-        let validateResult = validateParams(req.body, req.cookies.admin.id);
+        let validateResult = validateParams(req.body, req.cookies.user.id);
         if (validateResult.error) throw new Error(validateResult.error);
         let postResult = (yield postModel.insert(validateResult.data));
         let tagResult = (yield relationModel.insertPostTags(postResult, tags));
@@ -95,7 +95,7 @@ router.post('/relatedTag', util.allowAction, function (req, res) {
 
 router.put('/sequence/:id', util.allowAction, function (req, res) {
     co(function *() {
-        if (req.cookies.admin) return util.sendResponse(res, 200, null);
+        if (req.cookies.user) return util.sendResponse(res, 200, null);
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
         let result = (yield postModel.updateSequence(id));

@@ -1,14 +1,17 @@
 CREATE TABLE `masa_admins` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` text NOT NULL,
+  `image_path` varchar(255) NULL,
+  `location` varchar(255) NOT NULL,
+  `weather_api` text NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
 
-INSERT INTO `masa_admins` (`username`, `password`, `is_active`) VALUES
-( 'root', '$2a$10$ma45FOGkIpA1okd720b3ZOG.Okmk24eFIW2/uhRa24OpxnKbDYEdm', 1);
+INSERT INTO `masa_admins` (`username`, `password`, `is_active`, `location`, `weather_api`) VALUES
+( 'root', '$2a$10$ma45FOGkIpA1okd720b3ZOG.Okmk24eFIW2/uhRa24OpxnKbDYEdm', 1, 'Vancouver,CA', 'you need to initialize');
 
 CREATE TABLE `masa_thumbnails` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -44,7 +47,7 @@ CREATE TABLE `masa_posts` (
   `title` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `image_path` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `sequence` int(11) NOT NULL,
   `body` mediumtext NOT NULL,
   `is_active` tinyint(1) NOT NULL,

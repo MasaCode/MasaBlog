@@ -3,17 +3,17 @@ let express = require('express');
 let router = express.Router();
 let co = require('co');
 let config = require('../docs/environments.js');
-let adminModel = require('../models/adminModel.js');
+let userModel = require('../models/userModel.js');
 
 let passport = require('passport');
 let LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy(function(username, password, done){
     co(function *() {
-        let admins = (yield adminModel.findByUsername(username));
+        let admins = (yield userModel.findByUsername(username));
         if (admins !== null && admins.length !== 0) {
             let length = admins.length;
             for (let i = 0; i < length; i++) {
-                if (adminModel.verifyPassword(password, admins[i].password)) {
+                if (userModel.verifyPassword(password, admins[i].password)) {
                     return done(null, admins[i]);
                 }
             }
@@ -27,7 +27,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 }));
 
 router.get('/', function (req, res) {
-    if (req.cookies.admin) {
+    if (req.cookies.user) {
         res.redirect('/admin');
     } else {
         let message = req.cookies.loginMessage !== undefined ? req.cookies.loginMessage : null;
@@ -44,7 +44,7 @@ router.post('/', function (req, res, next) {
         if (!user) return res.redirect('/login');
         delete user.password;
         user.expired = new Date().getTime() + (24 * 60 * 60 * 1000); // Current Time + 1 day
-        res.cookie('admin', user, null);
+        res.cookie('user', user, null);
         res.clearCookie('loginMessage', null);
         res.redirect('/admin');
     })(req, res, next);

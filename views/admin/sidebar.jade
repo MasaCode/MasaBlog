@@ -4,8 +4,12 @@ div.nav-side-menu
     a(href="/admin")
       img(src="/assets/images/logo.png").img-logo
   div.admin-user
-    img(src="/assets/images/masashi.jpg").img-circle.img-responsive.img-me
-    h3.text-center MasaCode
+    - var photoPath = "/assets/images/default-me.png";
+    - if (user.photo !== undefined && user.photo !== null && user.photo !== "") {
+        - photoPath = "/assets/images/" + user.photo;
+    - }
+    img(src=photoPath).img-circle.img-responsive.img-me
+    h3.text-center #{user.username}
   i(data-toggle="collapse", data-target="#menu-content").fa.fa-bars.fa-2x.toggle-btn
   div.menu-list
     ul#menu-content.menu-content.collapse.out

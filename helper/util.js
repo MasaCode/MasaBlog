@@ -34,10 +34,10 @@ function isValidId(id) {
 }
 
 function isAuthenticated(req, res) {
-    if (!req.cookies.admin) return false;
+    if (!req.cookies.user) return false;
     let now = new Date().getTime();
-    if (!req.cookies.admin.expired || now >= parseInt(req.cookies.admin.expired)) {
-        res.clearCookie('admin', null);
+    if (!req.cookies.user.expired || now >= parseInt(req.cookies.user.expired)) {
+        res.clearCookie('user', null);
         return false;
     }
     return true;
@@ -45,7 +45,7 @@ function isAuthenticated(req, res) {
 
 function allowAction (req, res, next) {
     if (!isAuthenticated(req, res)) {
-        return sendResponse(res, 500, 'Invalid Admin ID or Admin permission expired...');
+        return sendResponse(res, 500, 'Invalid User ID or User permission has expired...');
     }
     next();
 }
