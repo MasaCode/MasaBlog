@@ -12,6 +12,7 @@
             let width = $(window).width();
             this.visivisiblePage = (width > this.paginationBreak) ? 7 : 3;
             this._POSTS = POSTS;
+            this.postNum = POST_NUMBER;
             this.getTags(IDS);
             this.build(false, this.visivisiblePage).events();
         },

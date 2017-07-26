@@ -6,10 +6,10 @@ let moment = require('moment');
 const nodemailer = require('nodemailer');
 let config = require('../docs/environments.js');
 let transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: config.MAIL_PROVIDER,
     auth: {
-        user: config.MAIL_USER,
-        pass: config.MAIL_PASSWORD
+        user: config.MAIL_SENDER_USER,
+        pass: config.MAIL_SENDER_PASSWORD
     }
 });
 let util = require('../helper/util.js');
@@ -25,10 +25,10 @@ router.get('/', function(req, res, next) {
         let count = (yield postModel.count());
         let categories = (yield categoryModel.findAll());
         let data = {};
-        data.title = 'MasaBlog';
-        data.description = 'MasaCode\'s Blog about gaming and programming';
+        data.title = config.BLOG_NAME;
+        data.description = config.BLOG_HOME_DESC;
         data.active = 'home';
-        res.render('index', { title: 'MasaBlog | Home', posts: posts, categories: categories, menuData: data, moment: moment});
+        res.render('index', { title: config.BLOG_NAME + " | Home", posts: posts, categories: categories, menuData: data, moment: moment});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -37,7 +37,7 @@ router.get('/', function(req, res, next) {
 router.get('/about', function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
-        res.render('about', {title: "MasaBlog | About", categories: categories});
+        res.render('about', {title: config.BLOG_NAME + " | About", categories: categories});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -46,7 +46,7 @@ router.get('/about', function (req, res) {
 router.get('/contact', function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
-        res.render("contact", {title: "MasaBlog | Contact", categories: categories});
+        res.render("contact", {title: config.BLOG_NAME + " | Contact", categories: categories});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -59,7 +59,7 @@ router.get('/posts/:id', function (req, res) {
         let categories = (yield categoryModel.findAll());
         let post = (yield postModel.findById(id));
         let tags = (yield relationModel.findTagsByPost(id));
-        res.render('post.jade', {title: "MasaBlog | " + post.title, categories: categories, post: post, tags: tags});
+        res.render('post.jade', {title: config.BLOG_NAME + " | " + post.title, categories: categories, post: post, tags: tags});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -77,7 +77,7 @@ router.get('/categories/:id', function (req, res) {
         data.description = selectedCategory.description;
         data.active = selectedCategory.id;
         res.render(
-            'index.jade', {title: 'MasaBlog | Category Posts', categories: categories, posts: posts, menuData: data, moment: moment}
+            'index.jade', {title: config.BLOG_NAME + " | Category Posts", categories: categories, posts: posts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -111,7 +111,7 @@ router.get('/tags/:id', function (req, res) {
         data.description = selectedTag.description;
         data.active = '';
         res.render(
-            'index.jade', {title: 'MasaBlog | Tag Posts', categories: categories, posts: posts, menuData: data, moment: moment}
+            'index.jade', {title: config.BLOG_NAME + " | Tag Posts", categories: categories, posts: posts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -129,7 +129,7 @@ router.get('/search/:text', function (req, res) {
         data.description = "";
         data.active = '';
         res.render(
-            'index.jade', {title: 'MasaBlog | Search Result of' + text, categories: categories, posts: resultPosts, menuData: data, moment: moment}
+            'index.jade', {title: config.BLOG_NAME + " | Search Result of" + text, categories: categories, posts: resultPosts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -138,16 +138,16 @@ router.get('/search/:text', function (req, res) {
 
 router.post('/contact', function (req, res) {
     let html = [
-        '<h2>This is from MasaBlog</h2>',
+        '<h2>This is from ' + config.BLOG_NAME + '</h2>',
         '<h3>From : ' + req.body.email + '</h3>',
         '<h3>Name : ' + req.body.name + '</h3>',
         '<h4>Content Body</h4>',
         '<p>' + req.body.body + '</p>'
     ].join('<br>');
     let options = {
-        from: '"MasaBlog" <masacode.vancouver@gmail.com>',
-        to: 'masacode.masablog@gmail.com',
-        subject: 'Email from MasaBlog [' + req.body.subject + ']',
+        from: '"' + config.BLOG_NAME + '" <' + config.MAIL_SENDER_USER + '>',
+        to: config.MAIL_RECEIVER_USER,
+        subject: 'Email from ' + config.BLOG_NAME + ' [' + req.body.subject + ']',
         html: html,
     };
 

@@ -16,9 +16,14 @@ environments.js
 exports.MYSQL_DATABASE = "{Database Name}";
 exports.MYSQL_USER = "{MySQL User}";
 exports.MYSQL_PASSWORD = "{MySQL Password}";
-
-exports.MAIL_USER = "{Email address}";
-exports.MAIL_PASSWORD = "{Email Password}";
+    
+exports.BLOG_NAME = '{Blog Name}';
+exports.BLOG_HOME_DESC = '{Blog Description}';
+    
+exports.MAIL_PROVIDER = '{Mail Provider}';
+exports.MAIL_SENDER_USER = '{Mail address that you want to use to send mail from}';
+exports.MAIL_SENDER_PASSWORD = '{Password for Mail Sender}';
+exports.MAIL_RECEIVER_USER = '{Mail address that you want to receive email}';
 ```
 
 Step 3.Start MySQL by command and Create Database from `docs/db_configuration.sql`

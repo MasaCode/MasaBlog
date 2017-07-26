@@ -18,7 +18,8 @@ block content
         div.row
           div.col-md-9
             div.post-body-wrapper.row
-              - var postLength = Math.min(posts.length, 10);
+              - var postNumber = 10;
+              - var postLength = Math.min(posts.length, postNumber);
               - var ids = [];
               - for (var i = 0; i < postLength; i++) {
                 - ids.push(posts[i].id);
@@ -39,7 +40,7 @@ block content
                 div.not-found-wrapper
                   div.not-found
               - }
-            nav(style="text-align: center; margin-bottom: 20px;" class=(postLength === 0 ? 'display-none' : '')).pagination-wrapper
+            nav(style="text-align: center; margin-bottom: 20px;" class=(posts.length <= postNumber ? 'display-none' : '')).pagination-wrapper
               ul(style="margin: 0 auto;")#post-pagination.pagination
 
           block barVariables
@@ -48,6 +49,7 @@ block content
 
   include include/footer
   script.
+    var POST_NUMBER = !{JSON.stringify(postNumber)};
     var POSTS = !{JSON.stringify(posts)};
     var IDS = !{JSON.stringify(ids)};
   script(src="/javascripts/index_v.js")

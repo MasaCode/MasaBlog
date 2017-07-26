@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 let co = require('co');
+let config = require('../docs/environments.js');
 let adminModel = require('../models/adminModel.js');
 
 let passport = require('passport');
@@ -31,7 +32,7 @@ router.get('/', function (req, res) {
     } else {
         let message = req.cookies.loginMessage !== undefined ? req.cookies.loginMessage : null;
         res.render(
-            'login', {title: 'MasaBlog | Login', message: message}
+            'login', {title: config.BLOG_NAME + " | Login", message: message}
         );
     }
 });
