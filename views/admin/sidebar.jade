@@ -4,8 +4,12 @@ div.nav-side-menu
     a(href="/admin")
       img(src="/assets/images/logo.png").img-logo
   div.admin-user
-    img(src="/assets/images/masashi.jpg").img-circle.img-responsive.img-me
-    h3.text-center MasaCode
+    - var photoPath = "/assets/images/default-me.png";
+    - if (user.image_path !== undefined && user.image_path !== null && user.image_path !== "") {
+        - photoPath = "/assets/profile/" + user.image_path;
+    - }
+    img(src=photoPath).img-circle.img-responsive.img-me
+    h3.text-center #{user.username}
   i(data-toggle="collapse", data-target="#menu-content").fa.fa-bars.fa-2x.toggle-btn
   div.menu-list
     ul#menu-content.menu-content.collapse.out
@@ -19,7 +23,9 @@ div.nav-side-menu
         a(href="/admin/tags") <i class="fa fa-tags fa-lg"></i> Tags
       li(class=(menuActive === 'thumbnail' ? 'active' : ''))
         a(href="/admin/thumbnails") <i class="fa fa-picture-o fa-lg"></i> Thumbnails
+      li(class=(menuActive === 'profile' ? 'active' : ''))
+        a(href="/admin/profile") <i class="fa fa-user fa-lg"></i> Profile
       li(class=(menuActive === 'password' ? 'active' : ''))
-        a(href="/admin/passwordReset") <i class="fa fa-key"></i> Password Reset
+        a(href="/admin/passwordReset") <i class="fa fa-key fa-lg"></i> Password Reset
       li
         a(href="/logout") <i class="fa fa-sign-out fa-lg"></i> Logout

@@ -1,0 +1,207 @@
+div.profile-header {
+    background-image: url('/assets/images/profile.jpg');
+    display: block;
+    width: 100%;
+    height: 250px;
+    top: 0;
+    bottom: 0;
+    color: white;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    margin-top: -50px;
+}
+
+div.profile-bg {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+div.profile-photo-wrapper {
+    position: absolute;
+    display: block;
+    margin-top: 150px;
+    border: 5px solid white;
+    margin-left: calc((100% - 200px) / 2.0 - 100px);
+}
+
+div.edit-profile-photo {
+    margin-top: -200px;
+    position: absolute;
+}
+
+div.edit-profile-photo:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+div.edit-profile-photo:hover label#image-wrapper {
+    display: block !important;
+}
+
+label#image-wrapper {
+    display: none;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+span.camera-wrapper {
+    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 15px;
+    background-color: rgba(230, 230, 230, 0.6);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(220, 220, 220, 0.6);
+    box-shadow: 0px 3px 0px rgba(200, 200, 200, 0.3);
+    position: relative;
+    top: 0px;
+    -webkit-transition: all ease 0.2s;
+    -moz-transition: all ease  0.2s;
+    -ms-transition: all ease  0.2s;
+    -o-transition: all ease  0.2s;
+    transition: all ease  0.2s;
+}
+
+span.camera-wrapper:active {
+    box-shadow: 0px 0px 0px rgba(60, 60, 60, 0.5);
+    top: 3px;
+    background: rgba(210, 210, 210, 0.4);
+}
+
+span.camera-wrapper i {
+    font-size: 24px;
+}
+
+div.profile-photo-wrapper img, div.edit-profile-photo {
+    display: block;
+    position: relative;
+    height: 200px;
+    width: 200px;
+    z-index: 10;
+}
+
+div.profile-content-wrapper {
+    background: #f5f5f5;
+    min-height: 300px;
+    margin-top: 30px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form#profile-form {
+    display: block;
+    width: 80%;
+    padding-top: 100px;
+    margin: 0 auto 20px;
+}
+
+button#submit {
+    margin: 0 auto 20px auto;
+}
+
+span.error-text {
+    color: red;
+}
+
+@media screen and (max-width: 991px) {
+    div.profile-photo-wrapper {
+        margin-top: 180px;
+    }
+
+    div.profile-photo-wrapper img, div.edit-profile-photo {
+        width: 170px;
+        height: 170px;
+    }
+
+    div.edit-profile-photo {
+        margin-top: -170px;
+    }
+}
+
+@media screen and (max-width: 952px) {
+    div.profile-content-wrapper {
+        width: 95%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    div.profile-header {
+        width: calc(100% + 20px);
+        margin-left: -10px;
+        height: 200px;
+    }
+
+    div.profile-photo-wrapper {
+        margin-top: 130px;
+        margin-left: calc(50% - 75px);
+    }
+
+    div.profile-photo-wrapper img, div.edit-profile-photo {
+        width: 150px;
+        height: 150px;
+    }
+
+    div.edit-profile-photo {
+        margin-top: -150px;
+    }
+
+    form#profile-form {
+        padding-top: 80px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    div.profile-content-wrapper {
+        width: calc(100% - 50px);
+        margin-left: 25px;
+        margin-right: 25px;
+    }
+}
+
+@media screen and (max-width: 570px) {
+    div.profile-photo-wrapper {
+        margin-top: 65px;
+        margin-left: calc(50% - 50px);
+    }
+
+    div.profile-photo-wrapper img, div.edit-profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    div.edit-profile-photo {
+        margin-top: -100px;
+    }
+
+    form#profile-form {
+        padding-top: 20px;
+    }
+
+    span.camera-wrapper {
+        padding-bottom: 5px;
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-top: 10px;
+    }
+
+    label#image-wrapper {
+        right: 5px;
+        bottom: 5px;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    form#profile-form {
+        width: calc(100% - 20px);
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}

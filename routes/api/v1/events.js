@@ -7,8 +7,8 @@ let eventModel = require('../../../models/eventModel.js');
 
 router.get('/', function (req, res) {
     co(function *() {
-        if (!req.cookies.admin || !util.isValidId(parseInt(req.cookies.admin.id))) throw new Error('Invalid Admin ID...');
-        let events = (yield eventModel.findByAdmin(req.cookies.admin.id));
+        if (!req.cookies.user || !util.isValidId(parseInt(req.cookies.user.id))) throw new Error('Invalid User ID...');
+        let events = (yield eventModel.findByAdmin(req.cookies.user.id));
         util.sendResponse(res, 200, events);
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -32,8 +32,8 @@ router.post('/', util.allowAction, function (req, res) {
     co(function *() {
         let data = req.body;
         data.is_active = true;
-        data.admin_id = parseInt(req.cookies.admin.id);
-        if (!util.isValidId(data.admin_id)) throw new Error('Invalid Admin ID...');
+        data.admin_id = parseInt(req.cookies.user.id);
+        if (!util.isValidId(data.admin_id)) throw new Error('Invalid User ID...');
         if (!validateParams(data, ['title', 'start', 'end'])) throw new Error('You need to input all the required information...');
         let result = (yield eventModel.insert(data));
         util.sendResponse(res, 200, result);

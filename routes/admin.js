@@ -16,7 +16,7 @@ let relationModel = require('../models/relationModel.js');
 
 router.get('/', isAuthenticated, function (req, res) {
     res.render(
-        'admin/dashboard', {title: config.BLOG_NAME + " | Admin"}
+        'admin/dashboard', {title: config.BLOG_NAME + " | Admin", user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
     );
 });
 
@@ -24,7 +24,7 @@ router.get('/thumbnails', isAuthenticated, function (req, res) {
     co(function *() {
         let thumbnails = (yield thumbnailModel.findAll());
         res.render(
-            'admin/gallery.jade', {title: config.BLOG_NAME + " | Gallery", thumbnails: thumbnails}
+            'admin/gallery.jade', {title: config.BLOG_NAME + " | Gallery", thumbnails: thumbnails, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         console.log(e);
@@ -36,7 +36,7 @@ router.get('/categories', isAuthenticated, function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/categories.jade', {title: config.BLOG_NAME + " | Category", categories: categories}
+            'admin/categories.jade', {title: config.BLOG_NAME + " | Category", categories: categories, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         console.log(e);
@@ -48,7 +48,7 @@ router.get('/tags', isAuthenticated, function (req, res) {
     co(function *() {
         let tags = (yield tagModel.findAll());
         res.render(
-            'admin/tags.jade', {title: config.BLOG_NAME + " | Tags", tags: tags}
+            'admin/tags.jade', {title: config.BLOG_NAME + " | Tags", tags: tags, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         console.log(e);
@@ -60,7 +60,7 @@ router.get('/posts', isAuthenticated, function (req, res) {
     co(function *() {
         let posts = (yield postModel.findAll());
         res.render(
-            'admin/posts.jade', {title: config.BLOG_NAME + " | Posts", posts: posts}
+            'admin/posts.jade', {title: config.BLOG_NAME + " | Posts", posts: posts, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -72,7 +72,7 @@ router.get('/posts/new', function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: null, categories: categories}
+            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: null, categories: categories, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -87,7 +87,7 @@ router.get('/posts/edit/:id', function (req, res) {
         let post = (yield postModel.findById(id));
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: post, categories: categories}
+            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: post, categories: categories, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -97,7 +97,13 @@ router.get('/posts/edit/:id', function (req, res) {
 
 router.get('/passwordReset', function (req, res) {
     res.render(
-        'admin/password_reset.jade', {title: config.BLOG_NAME + " | Password Reset"}
+        'admin/password_reset.jade', {title: config.BLOG_NAME + " | Password Reset", user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+    );
+});
+
+router.get('/profile', function (req, res) {
+    res.render(
+        'admin/profile.jade', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user}
     );
 });
 
@@ -111,10 +117,10 @@ router.get('/data', isAuthenticated, function (req, res) {
         data.tag = (yield tagModel.count());
         data.thumbnail = (yield thumbnailModel.count());
         data.comment = (yield commentModel.findAll());
-        data.events = (yield eventModel.findByAdmin(req.cookies.admin.id));
-        data.tasks = (yield taskModel.findByAdmin(req.cookies.admin.id));
+        data.events = (yield eventModel.findByAdmin(req.cookies.user.id));
+        data.tasks = (yield taskModel.findByAdmin(req.cookies.user.id));
         if (!req.cookies.weather || parseInt(req.cookies.weather) < new Date().getTime()) {
-            data.weather = (yield apiHelper.getWeatherInfo());
+            data.weather = (yield apiHelper.getWeatherInfo(req.cookies.user.location, req.cookies.user.weather_api));
             let weather = {main: data.weather.main, weather: data.weather.weather, expired: new Date(new Date().getTime() + 30 * 60000)};
             res.cookie('weather', weather, null);
         } else {

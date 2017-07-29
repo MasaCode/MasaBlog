@@ -7,8 +7,8 @@ let taskModel = require('../../../models/taskModel.js');
 
 router.get('/', function (req, res) {
     co(function *() {
-        if (!req.cookies.admin.id) throw new Error('Invalid admin ID...');
-        let tasks = (yield taskModel.findByAdmin(req.cookies.admin.id));
+        if (!req.cookies.user.id) throw new Error('Invalid User ID...');
+        let tasks = (yield taskModel.findByAdmin(req.cookies.user.id));
         util.sendResponse(res, 200, tasks);
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -30,7 +30,7 @@ router.get('/:id', function (req, res) {
 
 router.post('/', util.allowAction, function (req, res) {
     co(function *() {
-        let id = parseInt(req.cookies.admin.id);
+        let id = parseInt(req.cookies.user.id);
         if (!util.isValidId(id)) throw new Error('Invalid ID...');
         if (req.body.description === '' || req.body.description === undefined || req.body.description === null) throw new Error('Description is required...');
         let data = {admin_id: id, description: req.body.description, created_at: new Date()};
