@@ -1,0 +1,39 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/mail_v.css')
+  script(src="/javascripts/admin/mail_v.js")
+block content
+  block menuVariables
+    - var menuActive = 'mail';
+    include sidebar
+    div.admin-content-wrapper
+      div.admin-content
+        div.container-fluid
+          div.row.wrapper-height
+            div.col-md-12
+              div.mail-wrapper
+                div.table-wrapper
+                  table.table.table-responsive#mail-table
+                    thead
+                      tr
+                        th
+                          a.btn.btn-primary#compose Compose
+                          a.btn.btn-default.btn-refresh.sm-btn <i class="fa fa-refresh"></i>
+                        th
+                          a.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
+                        th
+                          a.btn.btn-default.btn-pagenation.btn-prev <i class="fa fa-chevron-left"></i>
+                          a.btn.btn-default.btn-pagenation.btn-next <i class="fa fa-chevron-right"></i>
+                    tbody
+                      //tr
+                      //  td
+                      //    input(type="checkbox").checkbox.mail-checkbox
+                      //    span.sender Satoshi Morita
+                      //    span.sm-desc This is some sample text to check look an...
+                      //  td This is some sample text to check look an...
+                      //  td May 19th
+
+                div.showing-wrapper
+                  p Showing 1 - 15 of 200
+          include ../include/footer
