@@ -1,8 +1,8 @@
 extends layout
 
 block append script
-  link(rel='stylesheet', href='/stylesheets/admin/mail_v.css')
-  script(src="/javascripts/admin/mail_v.js")
+  link(rel='stylesheet', href='/stylesheets/admin/mail_management_v.css')
+  script(src="/plugins/moment/js/moment.min.js")
 block content
   block menuVariables
     - var menuActive = 'mail';
@@ -13,6 +13,7 @@ block content
           div.row.wrapper-height
             div.col-md-12
               div.mail-wrapper
+                div.loader-bg
                 div.table-wrapper
                   table.table.table-responsive#mail-table
                     thead
@@ -20,20 +21,44 @@ block content
                         th
                           a.btn.btn-primary#compose Compose
                           a.btn.btn-default.btn-refresh.sm-btn <i class="fa fa-refresh"></i>
+                          a.btn.btn-default.btn-remove.sm-btn <i class="fa fa-trash"></i>
+                          a.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
+                          a.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
                         th
                           a.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
+                          a.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
                         th
-                          a.btn.btn-default.btn-pagenation.btn-prev <i class="fa fa-chevron-left"></i>
-                          a.btn.btn-default.btn-pagenation.btn-next <i class="fa fa-chevron-right"></i>
-                    tbody
+                          a.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
+                          a.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
+                    tbody#mail-body
                       //tr
                       //  td
                       //    input(type="checkbox").checkbox.mail-checkbox
                       //    span.sender Satoshi Morita
+                      //    span.sm-date May 19
                       //    span.sm-desc This is some sample text to check look an...
                       //  td This is some sample text to check look an...
                       //  td May 19th
 
+                  div#cssload-loader
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+
                 div.showing-wrapper
-                  p Showing 1 - 15 of 200
+                  p(style="display:none;").showing-text Showing <span class="showing-start">1</span> - <span class="showing-end">15</span> of <span class="showing-length">200</span>
           include ../include/footer
+
+  - if (authURL !== null) {
+    div#auth-modal
+      div.auth-wrapper
+        h3.text-center Authorize Gmail Account
+        a(href=authURL).btn.btn-danger#btn-auth Authorize
+  - } else {
+    script(src="/javascripts/admin/mail_management_v.js")
+  - }

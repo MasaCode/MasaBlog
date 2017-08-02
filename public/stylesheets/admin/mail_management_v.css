@@ -1,0 +1,428 @@
+div.mail-wrapper {
+    background: #fff;
+    padding: 10px 20px;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+div.table-wrapper {
+    position: relative;
+    min-height: 500px;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+table#mail-table {
+    margin-bottom: 0!important;
+    border-bottom: 1px solid #ddd;
+}
+
+thead tr {
+    height: 70px;
+}
+
+thead tr th {
+    padding-bottom: 12px !important;
+}
+
+thead tr th:first-child {
+    width: 30%;
+}
+
+thead tr th:nth-child(2) {
+    width: calc(70% - 130px);
+}
+
+thead tr th:nth-child(3) {
+    width: 130px;
+}
+
+tbody tr {
+    height: 50px;
+}
+
+tbody tr:hover {
+    background: #e6e6ff;
+    border-left: 5px solid #3a87ad;
+}
+
+tbody tr td {
+    padding-top: 15px !important;
+}
+
+tbody tr td:nth-child(3), thead tr th:nth-child(3) {
+    text-align: right;
+}
+
+tbody tr td:nth-child(2) {
+    overflow-x: hidden;
+}
+
+tr.mail-read {
+    background: #f2f2f2;
+}
+
+tr.selected {
+    background: #ffffb3 !important;
+}
+
+#compose {
+    width: 100%;
+}
+
+.btn-pagenation, .btn-refresh, .btn-remove {
+    background: #f1f1f1;
+    border: none;
+    padding: 7px 14px;
+}
+
+.btn-remove {
+    margin-left: 10px;
+}
+
+.btn-prev {
+    margin-left: 0;
+    margin-right: 2px;
+}
+
+.btn-next {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+.sm-btn {
+    display: none;
+}
+
+div.showing-wrapper p {
+    font-size: 90%;
+}
+
+.mail-checkbox {
+    float: left;
+    margin-right: 10px !important;
+    margin-top: 5px !important;
+}
+
+span.sm-desc {
+    margin-left: 22px;
+    display: none;
+}
+
+.sm-date {
+    display: none;
+}
+
+div#auth-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(200, 200, 200, 0.7);
+    z-index: 10;
+}
+
+div.auth-wrapper {
+    width: 500px;
+    min-height: 200px;
+    height: auto;
+    background: #fff;
+    margin-left: calc(50% - 250px);
+    margin-top: 15vh;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 5px 15px;
+}
+
+#btn-auth {
+    display: block;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    padding: 9px 18px;
+    font-size: 120%;
+}
+
+div.loader-bg {
+    position: absolute;
+    width: calc(100% - 30px);
+    height: calc(100% - 15px);
+    top: 0;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 10;
+}
+
+/* ================== Loader Start ================== */
+#cssload-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 153px;
+    height: 153px;
+    margin: auto;
+    z-index: 15;
+}
+#cssload-loader .cssload-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 76.5px;
+    height: 100%;
+    margin: auto;
+}
+#cssload-loader .cssload-dot:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 76.5px;
+    height: 76.5px;
+    border-radius: 100%;
+    transform: scale(0);
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+}
+#cssload-loader .cssload-dot:nth-child(7n+1) {
+    transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+1):before {
+    background: rgb(0,255,128);
+    animation: cssload-load 1.28s linear 0.16s infinite;
+    -o-animation: cssload-load 1.28s linear 0.16s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.16s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.16s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.16s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+2) {
+    transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+2):before {
+    background: rgb(0,255,234);
+    animation: cssload-load 1.28s linear 0.32s infinite;
+    -o-animation: cssload-load 1.28s linear 0.32s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.32s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.32s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.32s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+3) {
+    transform: rotate(135deg);
+    -o-transform: rotate(135deg);
+    -ms-transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    -moz-transform: rotate(135deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+3):before {
+    background: rgb(0,170,255);
+    animation: cssload-load 1.28s linear 0.48s infinite;
+    -o-animation: cssload-load 1.28s linear 0.48s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.48s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.48s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.48s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+4) {
+    transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+4):before {
+    background: rgb(0,64,255);
+    animation: cssload-load 1.28s linear 0.64s infinite;
+    -o-animation: cssload-load 1.28s linear 0.64s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.64s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.64s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.64s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+5) {
+    transform: rotate(225deg);
+    -o-transform: rotate(225deg);
+    -ms-transform: rotate(225deg);
+    -webkit-transform: rotate(225deg);
+    -moz-transform: rotate(225deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+5):before {
+    background: rgb(42,0,255);
+    animation: cssload-load 1.28s linear 0.8s infinite;
+    -o-animation: cssload-load 1.28s linear 0.8s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.8s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.8s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.8s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+6) {
+    transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+6):before {
+    background: rgb(149,0,255);
+    animation: cssload-load 1.28s linear 0.96s infinite;
+    -o-animation: cssload-load 1.28s linear 0.96s infinite;
+    -ms-animation: cssload-load 1.28s linear 0.96s infinite;
+    -webkit-animation: cssload-load 1.28s linear 0.96s infinite;
+    -moz-animation: cssload-load 1.28s linear 0.96s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+7) {
+    transform: rotate(315deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+7):before {
+    background: magenta;
+    animation: cssload-load 1.28s linear 1.12s infinite;
+    -o-animation: cssload-load 1.28s linear 1.12s infinite;
+    -ms-animation: cssload-load 1.28s linear 1.12s infinite;
+    -webkit-animation: cssload-load 1.28s linear 1.12s infinite;
+    -moz-animation: cssload-load 1.28s linear 1.12s infinite;
+}
+#cssload-loader .cssload-dot:nth-child(7n+8) {
+    transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+}
+#cssload-loader .cssload-dot:nth-child(7n+8):before {
+    background: rgb(255,0,149);
+    animation: cssload-load 1.28s linear 1.28s infinite;
+    -o-animation: cssload-load 1.28s linear 1.28s infinite;
+    -ms-animation: cssload-load 1.28s linear 1.28s infinite;
+    -webkit-animation: cssload-load 1.28s linear 1.28s infinite;
+    -moz-animation: cssload-load 1.28s linear 1.28s infinite;
+}
+
+
+
+@keyframes cssload-load {
+    100% {
+        opacity: 0;
+        transform: scale(1);
+    }
+}
+
+@-o-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -o-transform: scale(1);
+    }
+}
+
+@-ms-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -ms-transform: scale(1);
+    }
+}
+
+@-webkit-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -webkit-transform: scale(1);
+    }
+}
+
+@-moz-keyframes cssload-load {
+    100% {
+        opacity: 0;
+        -moz-transform: scale(1);
+    }
+}
+/* ================== Loader End ================== */
+
+@media screen and (max-width: 991px) {
+    div.loader-bg {
+        height: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    table#mail-table {
+        border: none;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+@media screen and (max-width: 572px) {
+
+    div.mail-wrapper {
+        padding: 10px 5px;
+    }
+
+    div.table-wrapper {
+        width: auto !important;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        min-height: 350px !important;
+    }
+
+    tbody tr td:nth-child(1), thead tr th:nth-child(1) {
+        min-width: 260px;
+        width: 100%;
+    }
+
+    tbody tr td:nth-child(2), thead tr th:nth-child(2) {
+        /*min-width: 300px;*/
+        display: none;
+    }
+
+    tbody tr td:nth-child(3), thead tr th:nth-child(3) {
+        /*min-width: 110px;*/
+        display: none;
+    }
+
+    span.sender {
+        font-weight: bold;
+        font-size: 110%;
+    }
+
+    span.sm-desc {
+        display: block;
+    }
+
+    .sm-date {
+        display: inline-block;
+        float: right;
+    }
+
+    #compose {
+        width: 40%;
+        float: left;
+    }
+
+    .sm-btn {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .btn-pagenation.sm-btn {
+        float: right;
+    }
+
+    .btn-next.sm-btn {
+        margin-left: 2px;
+    }
+
+    .btn-pagenation, .btn-refresh, .btn-remove {
+        padding: 5px 10px;
+        margin-top: 3px;
+    }
+}

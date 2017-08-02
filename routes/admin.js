@@ -5,6 +5,7 @@ let co = require('co');
 let config  = require('../docs/environments.js');
 let util = require('../helper/util.js');
 let apiHelper = require('../helper/apiHelper.js');
+let gmailHelper = require('../helper/gmailHelper.js');
 let postModel = require('../models/postModel.js');
 let categoryModel = require('../models/categoryModel.js');
 let tagModel = require('../models/tagModel.js');
@@ -68,7 +69,7 @@ router.get('/posts', isAuthenticated, function (req, res) {
     });
 });
 
-router.get('/posts/new', function (req, res) {
+router.get('/posts/new', isAuthenticated, function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
         res.render(
@@ -80,7 +81,7 @@ router.get('/posts/new', function (req, res) {
     });
 });
 
-router.get('/posts/edit/:id', function (req, res) {
+router.get('/posts/edit/:id', isAuthenticated, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
         if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
@@ -95,16 +96,64 @@ router.get('/posts/edit/:id', function (req, res) {
     });
 });
 
-router.get('/passwordReset', function (req, res) {
+router.get('/passwordReset', isAuthenticated, function (req, res) {
     res.render(
         'admin/password_reset.jade', {title: config.BLOG_NAME + " | Password Reset", user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
     );
 });
 
-router.get('/profile', function (req, res) {
+router.get('/profile', isAuthenticated, function (req, res) {
     res.render(
         'admin/profile.jade', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user}
     );
+});
+
+router.get('/messages', isAuthenticated, function (req, res) {
+    let now = new Date().getTime();
+    if (req.cookies.oauth === undefined || util.isEmpty(req.cookies.oauth.credentials) || req.cookies.oauth.expired < now) {
+        res.clearCookie('oauth');
+        gmailHelper.authorizeGoogleAPI(function (oauth2Client, error) {
+            if (oauth2Client === null && error) {
+                util.renderError(res, error);
+                console.log(error);
+            } else {
+                oauth2Client.expired = new Date().getTime() + (24 * 60 * 60 * 1000); // Current Time + 1 day
+                res.cookie('oauth', oauth2Client);
+                let authURL = (error ? gmailHelper.generateAuthURL(oauth2Client) : null);
+                res.render(
+                    'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+                );
+            }
+        });
+    } else {
+        res.render(
+            'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: null, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+        );
+    }
+});
+
+router.get('/messages/:id', isAuthenticated, function (req, res) {
+    let id = parseInt(req.params.id);
+    let oauth = req.cookies.oauth;
+    if (!util.isValidId(id)) return util.renderError(res, "Invalid Messsage ID...");
+    gmailHelper.getMessage(oauth, id, function (error, response) {
+        if (error) util.renderError(res, error);
+        else{
+            res.render(
+                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+            );
+        }
+    });
+});
+
+router.get('/auth', isAuthenticated, function (req, res) {
+    let code = req.query.code;
+    gmailHelper.getToken(req.cookies.oauth, code, function (error, oauth) {
+        if (error) return util.renderError(res, error);
+        req.cookies.oauth.credentials = oauth.credentials;
+        res.cookie('oauth', req.cookies.oauth);
+        res.redirect('/admin/messages');
+    });
 });
 
 router.get('/data', isAuthenticated, function (req, res) {

@@ -75,7 +75,7 @@
             });
 
             $.ajax({
-                url: 'admin/data',
+                url: '/admin/data',
                 type: 'GET',
                 dataType: 'json',
                 timeout: 30000,
