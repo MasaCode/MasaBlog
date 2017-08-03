@@ -7,6 +7,11 @@ let SCOPES = ['https://mail.google.com/'];
 let TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
 let TOKEN_PATH = TOKEN_DIR + 'gmail_tokens.json';
 
+/**
+ * Interface of Authorizing Google API with credential information
+ *
+ * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
+ */
 function authorizeGoogleAPI(callback) {
     // Load client secrets from a local file.
     fs.readFile(__dirname + '/../docs/client_id.json', function processClientSecrets(err, content) {
@@ -19,6 +24,12 @@ function authorizeGoogleAPI(callback) {
     });
 }
 
+/**
+ * Authorize Google API with credential information
+ *
+ * @param  {Object} credentials object contains credential (client secret, client id, redirect url)
+ * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
+ */
 function authorize(credentials, callback) {
     let clientSecret = credentials.web.client_secret;
     let clientId = credentials.web.client_id;
@@ -47,6 +58,12 @@ function authorize(credentials, callback) {
     });
 }
 
+/**
+ * Generate URL to authorize Google Account to use it for your application
+ *
+ * @param  {Object} oauth2Client object that's not authorized
+ * @return {String} URL for authorizing google account
+ */
 function generateAuthURL(oauth2Client) {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
@@ -54,6 +71,13 @@ function generateAuthURL(oauth2Client) {
     });
 }
 
+/**
+ * Get Tokens from code and create authorized oauth2Client object
+ *
+ * @param  {Object} oauth object that includes credential information
+ * @param  {String} code string that contains tokens and expiration date of it
+ * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
+ */
 function getToken(oauth, code, callback) {
     let auth = new googleAuth();
     let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
@@ -68,6 +92,11 @@ function getToken(oauth, code, callback) {
     });
 }
 
+/**
+ * Store tokens into file
+ *
+ * @param  {Object} token object that contains access token, refresh token and expiration date
+ */
 function storeToken(token) {
     try {
         fs.mkdirSync(TOKEN_DIR);
@@ -80,12 +109,15 @@ function storeToken(token) {
     console.log('Token stored to ' + TOKEN_PATH);
 }
 
-
+/**
+ * Get array of messages in gmail inbox
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Function} callback Function(Error, Messages) that is called when request is completed.
+ */
 function getMessageList(oauth, callback) {
     let gmail = google.gmail('v1');
-    let auth = new googleAuth();
-    let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
-    oauth2Client.credentials = oauth.credentials;
+    let oauth2Client = createOAuth(oauth);
     gmail.users.messages.list({
         auth: oauth2Client,
         userId: 'me'
@@ -105,6 +137,43 @@ function getMessageList(oauth, callback) {
     });
 }
 
+/**
+ * Search message in gmail inbox
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {String} query for searching inbox (e.g. "is:starred", "in:sent", "in:draft", "is:important", "in:trash")
+ * @param  {Function} callback Function(Error, Messages) that is called when request is completed.
+ */
+function searchMailBox(oauth, query, callback) {
+    let gmail = google.gmail('v1');
+    let oauth2Client = createOAuth(oauth);
+    gmail.users.messages.list({
+        auth: oauth2Client,
+        userId: 'me',
+        q: query,
+    }, function (error, response) {
+        co(function *() {
+            if (error) return callback(error, null);
+            let length = response.messages.length;
+            let messages = [];
+            for (let i = 0; i < length; i++) {
+                let message = (yield getMessageHeader(gmail, oauth2Client, response.messages[i].id));
+                messages.push(message);
+            }
+            callback(null, messages);
+        }).catch(function (e) {
+            callback(e, null);
+        });
+    });
+}
+
+/**
+ * Get a specific message's headers like subject, sender, received date, labels and etc...
+ *
+ * @param  {Object} gmail object that contains request methods
+ * @param  {Object} auth(oauth2Client) object that includes credential information and tokens
+ * @param  {String} id of specific message
+ */
 function getMessageHeader(gmail, auth, id) {
     return new Promise((resolve, reject) => {
         gmail.users.messages.get({
@@ -119,11 +188,16 @@ function getMessageHeader(gmail, auth, id) {
     });
 }
 
+/**
+ * Get full information of a specific message
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {String} id of specific message
+ * @param  {Function} callback Function(Error, Message) that is called when request is completed.
+ */
 function getMessage(oauth, id, callback) {
     let gmail = google.gmail('v1');
-    let auth = new googleAuth();
-    let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
-    oauth2Client.credentials = oauth.credentials;
+    let oauth2Client = createOAuth(oauth);
     gmail.users.messages.get({
         auth: oauth2Client,
         userId: 'me',
@@ -135,12 +209,17 @@ function getMessage(oauth, id, callback) {
     });
 }
 
+/**
+ * Move message(s) to trash
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Array} ids of messages
+ * @param  {Function} callback Function(Error, Results) that is called when request is completed.
+ */
 function trashMessages(oauth, ids, callback) {
     co(function *() {
         let gmail = google.gmail('v1');
-        let auth = new googleAuth();
-        let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
-        oauth2Client.credentials = oauth.credentials;
+        let oauth2Client = createOAuth(oauth);
         let length = ids.length;
         let results = [];
         for (let i = 0; i < length; i++) {
@@ -153,6 +232,13 @@ function trashMessages(oauth, ids, callback) {
     });
 }
 
+/**
+ * Move a specific message to trash
+ *
+ * @param  {Object} gmail object that contains request methods
+ * @param  {Object} auth(oauth) object that includes credential information and tokens
+ * @param  {String} id of a specific message
+ */
 function trashMessage(gmail, auth, id) {
     return new Promise((resolve, reject) => {
         gmail.users.messages.trash({
@@ -166,11 +252,111 @@ function trashMessage(gmail, auth, id) {
     });
 }
 
+/**
+ * Move message(s) back to inbox from trash
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Array} ids of messages
+ * @param  {Function} callback Function(Error, Results) that is called when request is completed.
+ */
+function untrashMessages(oauth, ids, callback) {
+    co(function *() {
+        let gmail = google.gmail('v1');
+        let oauth2Client = createOAuth(oauth);
+        let length = ids.length;
+        let results = [];
+        for (let i = 0; i < length; i++) {
+            let result = (yield untrashMessage(gmail, oauth2Client, ids[i]));
+            results.push(result);
+        }
+        callback(null, results);
+    }).catch(function (e) {
+        callback(e, null);
+    });
+}
+
+/**
+ * Move a specific message back to inbox from trash
+ *
+ * @param {Object} gmail object that contains request methods
+ * @param  {Object} auth(oauth) object that includes credential information and tokens
+ * @param  {String} id of a specific message
+ */
+function untrashMessage(gmail, auth, id) {
+    return new Promise((resolve, reject) => {
+        gmail.users.messages.untrash({
+            auth: auth,
+            userId: 'me',
+            id: id,
+        }, function (error, response) {
+            if (error) reject(error);
+            else resolve(response);
+        });
+    });
+}
+
+/**
+ * Modify labels of a specific message
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {String} id of a specific message
+ * @param  {Array} labelToAdd Array of labels to add
+ * @param  {Array} labelToRemove Array of labels to remove
+ * @param  {Function} callback Function(Error, Result) that is called when request is completed.
+ */
+function modifyMessageLabel(oauth, id, labelToAdd, labelToRemove, callback) {
+    let gmail = google.gmail('v1');
+    let oauth2Client = createOAuth(oauth);
+    gmail.users.messages.modify({
+        auth: oauth2Client,
+        userId: 'me',
+        id: id,
+        addLabelIds: labelToAdd,
+        removeLabelIds: labelToRemove,
+    }, function (error, response) {
+        if (error) callback(error, null);
+        else callback(null, response);
+    });
+}
+
+/**
+ * Send email via gmail
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Object} headers object that contains header information like sender, receiver, Mine type, and etc...
+ * @param  {String} message mail content body
+ * @param  {Function} callback Function(Error, Result) that is called when request is completed.
+ */
+function sendMessage(oauth, headers, message, callback) {
+    let gmail = google.gmail('v1');
+    let oauth2Client = createOAuth(oauth);
+    let email = '';
+    for(let key in headers) {
+        email += (key + ": " + headers[key] + "\r\n");
+    }
+    email += "\r\n" + message;
+
+    gmail.users.messages.send({
+        auth: oauth2Client,
+        'userId': 'me',
+        'resource': {
+            'raw': new Buffer(email).toString("base64").replace(/\+/g, '-').replace(/\//g, '_'),
+        }
+    }, function (error, response) {
+        if (error) callback(error, null);
+        else callback(null, response);
+    });
+}
+
+/**
+ * Check the expiration of access token and if so, renew access token by refresh token
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Function} callback Function(Error, oauth2client, isUpdated) that is called when request is completed.
+ */
 function checkRefreshToken(oauth, callback) {
     let gmail = google.gmail('v1');
-    let auth = new googleAuth();
-    let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
-    oauth2Client.credentials = oauth.credentials;
+    let oauth2Client = createOAuth(oauth);
     if (oauth2Client.credentials.expiry_date >= new Date().getTime()) {
         oauth2Client.getRequestMetadata('', function (error, headers, response) {
             if (error) callback(error, oauth2Client, true);
@@ -184,6 +370,19 @@ function checkRefreshToken(oauth, callback) {
     }
 }
 
+/**
+ * Create OAuth2Client object from credential information and tokens
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @return {Object} OAuth2Client object that is created
+ */
+function createOAuth(oauth) {
+    let auth = new googleAuth();
+    let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
+    oauth2Client.credentials = oauth.credentials;
+    return oauth2Client;
+}
+
 module.exports.authorizeGoogleAPI = authorizeGoogleAPI;
 module.exports.getToken = getToken;
 module.exports.checkRefreshToken = checkRefreshToken;
@@ -191,3 +390,7 @@ module.exports.generateAuthURL = generateAuthURL;
 module.exports.getMessageList = getMessageList;
 module.exports.getMessage = getMessage;
 module.exports.trashMessages = trashMessages;
+module.exports.untrashMessages = untrashMessages;
+module.exports.modifyMessageLabel = modifyMessageLabel;
+module.exports.searchMailBox = searchMailBox;
+module.exports.sendMessage = sendMessage;
