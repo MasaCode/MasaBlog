@@ -1,0 +1,26 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/mail_v.css')
+  script(src="/plugins/moment/js/moment.min.js")
+block content
+  block menuVariables
+    - var menuActive = 'mail';
+    include sidebar
+    div.admin-content-wrapper
+      div.admin-content
+        div.container-fluid
+          div.row.wrapper-height
+            div.col-sm-10.col-sm-offset-1
+              div.mail-wrapper
+                div.mail-header
+                  h3.mail-subject #{extractFieldHeader(message, "Subject")}
+                  div.mail-sender
+                    p
+                      - var from = extractFieldHeader(message, 'From').split(' <');
+                      span.sender-name #{from[0].replace(/"/g, '')}
+                      span.sender-email &lt;#{from[1]}
+                      span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
+                div.mail-body
+                  iframe(srcdoc=message.html, width="100%", height="500px")#mail-content
+          include ../include/footer

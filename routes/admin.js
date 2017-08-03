@@ -2,6 +2,7 @@
 let express = require('express');
 let router = express.Router();
 let co = require('co');
+let moment = require('moment');
 let config  = require('../docs/environments.js');
 let util = require('../helper/util.js');
 let apiHelper = require('../helper/apiHelper.js');
@@ -133,14 +134,31 @@ router.get('/messages', isAuthenticated, function (req, res) {
 });
 
 router.get('/messages/:id', isAuthenticated, function (req, res) {
-    let id = parseInt(req.params.id);
+    let id = req.params.id;
     let oauth = req.cookies.oauth;
-    if (!util.isValidId(id)) return util.renderError(res, "Invalid Messsage ID...");
+    if (id === undefined || id === '') return util.renderError(res, "Invalid Messsage ID...");
     gmailHelper.getMessage(oauth, id, function (error, response) {
         if (error) util.renderError(res, error);
         else{
+            let base64 = '';
+            if (Array.isArray(response.payload.parts)) {
+                let part = response.payload.parts.filter(function (part) {
+                    return part.mimeType === 'text/html';
+                });
+                base64 = part[0].body.data;
+            } else {
+
+                base64 = response.payload.body.data;
+            }
+            response.html = new Buffer(base64, 'base64').toString();
             res.render(
-                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+                'admin/mail.jade', {
+                    title: config.BLOG_NAME + " | Mail",
+                    message: response,
+                    extractFieldHeader: util.extractFieldHeader,
+                    moment: moment,
+                    user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}
+                }
             );
         }
     });

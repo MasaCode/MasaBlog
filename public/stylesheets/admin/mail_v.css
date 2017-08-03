@@ -1,0 +1,41 @@
+div.mail-wrapper {
+    background: #fff;
+    width: 100%;
+    min-height: 300px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+}
+
+.mail-subject {
+    border-bottom: 2px solid #ccc;
+    padding: 20px 10px;
+    font-size: 150%;
+}
+
+div.mail-sender {
+    display: block;
+    /*border-bottom: 2px solid #ccc;*/
+    margin-bottom: 20px;
+}
+
+div.mail-sender p {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.sender-email {
+    font-size: 90%;
+    padding-left: 10px;
+}
+
+.sender-name {
+    font-size: 105%;
+    font-weight: bold;
+}
+
+span.send-date {
+    float: right;
+    font-size: 105%;
+}

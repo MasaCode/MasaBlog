@@ -50,6 +50,13 @@ function allowAction (req, res, next) {
     next();
 }
 
+function extractFieldHeader (json, fieldName) {
+    fieldName = fieldName.toLowerCase();
+    return json.payload.headers.filter(function(header) {
+        return (header.name.toLowerCase() === fieldName);
+    })[0].value;
+}
+
 exports.sendResponse = sendResponse;
 exports.renderError = renderError;
 exports.getImagePath = getImagePath;
@@ -57,3 +64,4 @@ exports.isEmpty = isEmpty;
 exports.isValidId = isValidId;
 exports.isAuthenticated = isAuthenticated;
 exports.allowAction = allowAction;
+exports.extractFieldHeader = extractFieldHeader;

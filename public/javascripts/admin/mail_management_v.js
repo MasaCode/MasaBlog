@@ -166,8 +166,9 @@
         },
 
         extractFieldHeader (json, fieldName) {
+            fieldName = fieldName.toLowerCase();
             return json.payload.headers.filter(function(header) {
-                return header.name === fieldName;
+                return header.name.toLowerCase() === fieldName;
             })[0].value;
         },
 
