@@ -1,20 +1,22 @@
+/* ================= Mail Table Start ================= */
 div.mail-wrapper {
     background: #fff;
     padding: 10px 20px;
     margin-bottom: 15px;
-    width: 100%;
+    width: 75%;
+    float: left;
 }
 
 div.table-wrapper {
     position: relative;
     min-height: 500px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
     margin-bottom: 10px;
 }
 
 table#mail-table {
     margin-bottom: 0!important;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 2px solid #ddd;
 }
 
 thead tr {
@@ -66,18 +68,18 @@ tr.selected {
     background: #ffffb3 !important;
 }
 
-#compose {
-    width: 100%;
-}
-
-.btn-pagenation, .btn-refresh, .btn-remove {
+.btn-pagenation, .btn-refresh, .btn-remove, .btn-move {
     background: #f1f1f1;
     border: none;
     padding: 7px 14px;
 }
 
-.btn-remove {
+.btn-remove, .btn-move {
     margin-left: 10px;
+}
+
+.btn-move {
+    display: none;
 }
 
 .btn-prev {
@@ -145,13 +147,77 @@ div.auth-wrapper {
     padding: 9px 18px;
     font-size: 120%;
 }
+/* ================= Mail Table End ================= */
+
+
+/* ================= Mail Sidebar Start ================= */
+
+div.mail-sidebar {
+    display: block;
+    width: 25%;
+    min-height: 530px;
+    height: 530px;
+    background: #fff;
+    padding: 15px 0 15px 15px;
+    float: left;
+}
+
+div.mail-sidebar-content {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-right: 2px solid #ddd;
+    padding-right: 15px;
+    padding-top: 16px;
+}
+
+#compose {
+    width: 100%;
+}
+
+div.btn-wrapper {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.btn-list {
+    width: 100%;
+    text-align: left;
+    padding: 10px 5px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    color: #555;
+}
+
+.btn-list:hover {
+    background: #efefff;
+}
+
+.btn-list:active {
+    box-shadow: none;
+    background: #e5e5ff;
+}
+
+span.btn-label {
+    padding-left: 10px;
+    font-weight: 400;
+    font-size: 110%;
+}
+
+.btn-active {
+    border-left: 3px solid #e00;
+    background: #f5f5f5;
+}
+
+/* ================= Mail Sidebar End ================= */
 
 div.loader-bg {
     position: absolute;
-    width: calc(100% - 30px);
-    height: calc(100% - 15px);
-    top: 0;
-    left: 15px;
+    width: calc(100% + 40px);
+    height: calc(100% + 32px);
+    top: -10px;
+    left: -20px;
     background: rgba(255, 255, 255, 0.5);
     z-index: 10;
 }
@@ -350,14 +416,31 @@ div.loader-bg {
 
 @media screen and (max-width: 991px) {
     div.loader-bg {
-        height: 100%;
+        height: calc(100% + 10px);
+    }
+
+    div.mail-wrapper, div.mail-sidebar {
+        width: 100%;
+        float: none;
+    }
+
+    div.mail-sidebar {
+        min-height: 150px;
+        height: auto;
+        padding-left: 0;
+    }
+
+    div.mail-sidebar-content {
+        border-right: none !important;
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
 
 @media screen and (max-width: 768px) {
     table#mail-table {
         border: none;
-        border-bottom: 1px solid #ddd;
+        border-bottom: 2px solid #ddd;
     }
 }
 
@@ -403,11 +486,6 @@ div.loader-bg {
         float: right;
     }
 
-    #compose {
-        width: 40%;
-        float: left;
-    }
-
     .sm-btn {
         display: inline-block;
         margin-left: 5px;
@@ -421,7 +499,7 @@ div.loader-bg {
         margin-left: 2px;
     }
 
-    .btn-pagenation, .btn-refresh, .btn-remove {
+    .btn-pagenation, .btn-refresh, .btn-remove, .btn-move {
         padding: 5px 10px;
         margin-top: 3px;
     }

@@ -15,6 +15,7 @@
             this.$remove = $('.btn-remove');
             this.$next = $('.btn-next');
             this.$prev = $('.btn-prev');
+            this.$move = $('.btn-move');
             this.$loader = $('div#cssload-loader');
             this.$loaderWrapper = $('div.loader-bg');
 
@@ -25,6 +26,13 @@
         refresh () {
             let _self = this;
             this.loader(true);
+            let active = $('.btn-list.btn-active');
+            let inbox = $('#inbox');
+            if (active !== inbox) {
+                active.removeClass('btn-active');
+                inbox.addClass('btn-active');
+            }
+
             $.ajax({
                 url: '/api/v1/messages',
                 type: 'GET',
@@ -50,6 +58,49 @@
 
         events () {
             let _self = this;
+
+            $(window).on('resize', function (event) {
+                _self.setMailSidebarHeight();
+            });
+
+            // Sidebar events
+            $('.btn-list').on('click', function (event) {
+                let active = $('.btn-list.btn-active');
+                let clicked = $(this);
+                if (active === clicked) return;
+                active.removeClass('btn-active');
+                clicked.addClass('btn-active');
+            });
+
+            $('#inbox').on('click', function (event) {
+                _self.changeButton(true);
+                _self.refresh();
+            });
+
+            $('#important').on('click', function (event) {
+                _self.changeButton(true);
+                _self.search("is:important");
+            });
+
+            $('#starred').on('click', function (event) {
+                _self.changeButton(true);
+                _self.search("is:starred");
+            });
+
+            $('#draft').on('click', function (event) {
+                _self.changeButton(true);
+                _self.search("in:draft");
+            });
+
+            $('#sent-mail').on('click', function (event) {
+                _self.changeButton(true);
+                _self.search("in:sent");
+            });
+
+            $('#trash').on('click', function (event) {
+                _self.changeButton(false);
+                _self.search("in:trash");
+            });
 
             this.$mailTable.on('click', 'input[type="checkbox"]', function (event) {
                 let $tr = $(this).closest('tr');
@@ -115,7 +166,67 @@
                 });
             });
 
+            this.$move.on('click', function (event) {
+                let selectedMails = $('tr.selected');
+                let length = selectedMails.length;
+                if (length === 0) return false;
+                let ids = '';
+                let glue = '';
+                for (let i = 0; i < length; i++) {
+                    ids += (glue + selectedMails.eq(i).data('id'));
+                    if (glue === '') glue = ',';
+                }
+
+                $.ajax({
+                    url: '/api/v1/messages/untrash',
+                    type: 'PUT',
+                    dataType: 'json',
+                    data: {ids: ids},
+                    timeout: 50000,
+
+                    success (data, status, errorThrown) {
+                        _self.refresh();
+                        let success = $('#success-dialog');
+                        success.text('Messages successfully have been moved to trash');
+                        success.fadeIn(1000).delay(3000).fadeOut(1000);
+                    },
+                    error (data, status, errorThrown) {
+                        let error = $('#error-dialog');
+                        error.text('Error occurred : ' + errorThrown);
+                        error.fadeIn(1000).delay(3000).fadeOut(1000);
+                        _self.refresh();
+                    }
+                });
+            });
+
             return this;
+        },
+
+        search (label) {
+            let _self = this;
+            this.loader(true);
+            $.ajax({
+                url: '/api/v1/messages/search',
+                type: 'GET',
+                dataType: 'json',
+                data: {label: label},
+                timeout: 50000,
+
+                success (data, status, errorThrown) {
+                    _self.loader(false);
+                    _self.currentPage = 1;
+                    _self.messages = data;
+                    _self.maxPage = Math.ceil(data.length / parseFloat(_self.maxMailNumber));
+                    if (data.length > _self.maxMailNumber) _self.$next.removeClass('disabled');
+                    _self.manageMail(data);
+                },
+                error (data, status, errorThrown) {
+                    _self.loader(false);
+                    let error = $('#error-dialog');
+                    error.text('Error occurred : ' + errorThrown);
+                    error.fadeIn(1000).delay(3000).fadeOut(1000);
+                }
+            });
         },
 
         manageMail (data) {
@@ -163,6 +274,8 @@
             $('span.showing-end').text(length);
             $('span.showing-length').text(mailLength);
             $('p.showing-text').css('display', 'block');
+
+            this.setMailSidebarHeight();
         },
 
         extractFieldHeader (json, fieldName) {
@@ -173,12 +286,36 @@
         },
 
         loader (show) {
+            let buttons = $('.btn-manage');
             if (show) {
+                buttons.addClass('disabled');
                 this.$loaderWrapper.fadeIn();
                 this.$loader.fadeIn();
             } else {
+                buttons.removeClass('disabled');
                 this.$loaderWrapper.fadeOut();
                 this.$loader.fadeOut();
+            }
+        },
+
+        changeButton (showRemove) {
+            if (showRemove) {
+                this.$move.css('display', 'none');
+                this.$remove.css('display', 'inline-block');
+            } else {
+                this.$move.css('display', 'inline-block');
+                this.$remove.css('display', 'none');
+            }
+        },
+
+        setMailSidebarHeight () {
+            let sidebar = $('div.mail-sidebar');
+            if ($(window).width() >= 991) {
+                let mailWrapper = $('div.mail-wrapper');
+                let height = mailWrapper.height() + parseInt(mailWrapper.css('padding-top').replace('px', '')) * 2;
+                sidebar.height(height - 30);
+            } else {
+                sidebar.height('auto');
             }
         }
     };

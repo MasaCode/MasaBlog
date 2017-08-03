@@ -124,6 +124,7 @@ function getMessageList(oauth, callback) {
     }, function (error, response) {
         co(function *() {
             if (error) return callback(error, null);
+            if (!Array.isArray(response.messages)) return callback(null, []);
             let length = response.messages.length;
             let messages = [];
             for (let i = 0; i < length; i++) {
@@ -154,6 +155,7 @@ function searchMailBox(oauth, query, callback) {
     }, function (error, response) {
         co(function *() {
             if (error) return callback(error, null);
+            if (!Array.isArray(response.messages)) return callback(null, []);
             let length = response.messages.length;
             let messages = [];
             for (let i = 0; i < length; i++) {

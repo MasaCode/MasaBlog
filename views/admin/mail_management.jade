@@ -12,33 +12,39 @@ block content
         div.container-fluid
           div.row.wrapper-height
             div.col-md-12
+              div.mail-sidebar
+                div.mail-sidebar-content
+                  a.btn-manage.btn.btn-primary#compose Compose
+                  div.btn-wrapper
+                    a.btn-manage.btn.btn-list.btn-active#inbox
+                      span.btn-label Inbox
+                    a.btn-manage.btn.btn-list#important
+                      span.btn-label Important
+                    a.btn-manage.btn.btn-list#starred
+                      span.btn-label Starred
+                    a.btn-manage.btn.btn-list#draft
+                      span.btn-label Draft
+                    a.btn-manage.btn.btn-list#sent-mail
+                      span.btn-label Sent Mail
+                    a.btn-manage.btn.btn-list#trash
+                      span.btn-label Trash
               div.mail-wrapper
-                div.loader-bg
                 div.table-wrapper
+                  div.loader-bg
                   table.table.table-responsive#mail-table
                     thead
                       tr
                         th
-                          a.btn.btn-primary#compose Compose
-                          a.btn.btn-default.btn-refresh.sm-btn <i class="fa fa-refresh"></i>
-                          a.btn.btn-default.btn-remove.sm-btn <i class="fa fa-trash"></i>
-                          a.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
-                          a.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
+                          a.btn-manage.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
+                          a.btn-manage.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
+                          a.btn-manage.btn.btn-default.btn-move <i class="fa fa-folder"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
                         th
-                          a.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
-                          a.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
                         th
-                          a.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
-                          a.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
                     tbody#mail-body
-                      //tr
-                      //  td
-                      //    input(type="checkbox").checkbox.mail-checkbox
-                      //    span.sender Satoshi Morita
-                      //    span.sm-date May 19
-                      //    span.sm-desc This is some sample text to check look an...
-                      //  td This is some sample text to check look an...
-                      //  td May 19th
 
                   div#cssload-loader
                     div.cssload-dot
