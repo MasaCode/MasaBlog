@@ -107,8 +107,16 @@ form#profile-form {
     height: 150px;
 }
 
-button#submit {
+button#submit, button#cancel, button#edit {
     margin: 0 auto 20px auto;
+}
+
+button#submit, button#cancel {
+    display: none;
+}
+
+button#cancel {
+    margin-left: 10px;
 }
 
 span.error-text {

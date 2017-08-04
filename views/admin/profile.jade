@@ -2,6 +2,8 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/admin/profile_v.css')
+  script.
+    var ID = parseInt("#{user.id}");
   script(src="/javascripts/admin/profile_v.js")
 block content
   block menuVariables
@@ -30,16 +32,18 @@ block content
               span.error-text
               div.form-group
                 label Username
-                input(type="text", placeholder="Username", name="username", value=user.username)#profile-username.form-control
+                input(type="text", readonly, placeholder="Username", name="username", value=user.username)#profile-username.form-control
               div.form-group
                 label Location
-                input(type="text", placeholder="Location", name="location", value=user.location)#profile-location.form-control
+                input(type="text", readonly, placeholder="Location", name="location", value=user.location)#profile-location.form-control
               div.form-group
                 label Weather API Key
-                textarea(placeholder="Weather API key", name="apikey")#profile-api.form-control #{user.weather_api}
+                textarea(placeholder="Weather API key", readonly, name="apikey")#profile-api.form-control #{user.weather_api}
               div.form-group
                 label Gmail Credential Json Object
-                textarea(placeholder="Copy and past gmail credential json file", name="gmail-credentials")#profile-gmail-credentials.form-control #{(credentials !== null ? JSON.stringify(credentials) : '')}
+                textarea(placeholder="Copy and past gmail credential json file", readonly, name="gmail-credentials")#profile-gmail-credentials.form-control #{(credentials !== null ? JSON.stringify(credentials) : '')}
               div#profile-submit
+                button#edit.btn.btn-success Edit Profile
                 button#submit.btn.btn-primary Save Profile
+                button#cancel.btn.btn-default Cancel
         include ../include/footer

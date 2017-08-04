@@ -70,6 +70,7 @@ function authorize(credentials, gmail_tokens, callback) {
 function generateAuthURL(oauth2Client) {
     return oauth2Client.generateAuthUrl({
         access_type: 'offline',
+        approval_prompt: 'force',
         scope: SCOPES
     });
 }
