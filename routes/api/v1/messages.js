@@ -71,7 +71,7 @@ router.delete('/', checkToken, function (req, res) {
 function checkToken(req, res, next) {
     let oauth = req.cookies.oauth;
     if (oauth === undefined) return util.sendResponse(res, 500, "Google OAuth is not cached...");
-    gmailHelper.checkRefreshToken(oauth, function (error, newOAuth, isUpdated) {
+    gmailHelper.checkRefreshToken(oauth, req.cookies.user.gmail_tokens, function (error, newOAuth, isUpdated) {
         if (error) return util.sendResponse(res, 500, error.message);
         if (isUpdated) {
             res.cookie('oauth', newOAuth);

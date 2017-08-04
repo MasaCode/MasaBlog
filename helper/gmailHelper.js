@@ -2,25 +2,27 @@ let fs = require('fs');
 let co = require('co');
 let google = require('googleapis');
 let googleAuth = require('google-auth-library');
+let util = require('./util.js');
 
 let SCOPES = ['https://mail.google.com/'];
 let TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
-let TOKEN_PATH = TOKEN_DIR + 'gmail_tokens.json';
 
 /**
  * Interface of Authorizing Google API with credential information
  *
+ * @param  {String} gmail_credentials of the files that contains gmail credentials
+ * @param  {String} gmail_tokens of the files that contains gmail tokens
  * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
  */
-function authorizeGoogleAPI(callback) {
+function authorizeGoogleAPI(gmail_credentials, gmail_tokens, callback) {
     // Load client secrets from a local file.
-    fs.readFile(__dirname + '/../docs/client_id.json', function processClientSecrets(err, content) {
+    fs.readFile(TOKEN_DIR + gmail_credentials, function processClientSecrets(err, content) {
         if (err) {
             console.log('Error loading client secret file: ' + err);
             return callback(null, err);
         }
         // Authorize a client with the loaded credentials, then call the Gmail API.
-        authorize(JSON.parse(content), callback);
+        authorize(JSON.parse(content), gmail_tokens, callback);
     });
 }
 
@@ -28,9 +30,10 @@ function authorizeGoogleAPI(callback) {
  * Authorize Google API with credential information
  *
  * @param  {Object} credentials object contains credential (client secret, client id, redirect url)
+ * @param  {String} gmail_tokens of the files that contains gmail tokens
  * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
  */
-function authorize(credentials, callback) {
+function authorize(credentials, gmail_tokens, callback) {
     let clientSecret = credentials.web.client_secret;
     let clientId = credentials.web.client_id;
     let redirectUrl = credentials.web.redirect_uris[0];
@@ -38,7 +41,7 @@ function authorize(credentials, callback) {
     let oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
     // Check if we have previously stored a token.
-    fs.readFile(TOKEN_PATH, function (err, token) {
+    fs.readFile(TOKEN_DIR + gmail_tokens, function (err, token) {
         if (err) {
             callback(oauth2Client, err);
         } else {
@@ -47,7 +50,7 @@ function authorize(credentials, callback) {
                 oauth2Client.getRequestMetadata('', function (error, headers, response) {
                     if (error) callback(oauth2Client, error);
                     else {
-                        storeToken(oauth2Client.credentials);
+                        storeToken(gmail_tokens, oauth2Client.credentials);
                         callback(oauth2Client, null);
                     }
                 });
@@ -76,9 +79,10 @@ function generateAuthURL(oauth2Client) {
  *
  * @param  {Object} oauth object that includes credential information
  * @param  {String} code string that contains tokens and expiration date of it
+ * @param  {String} gmail_tokens of the files that contains gmail tokens
  * @param  {Function} callback Function(OAuth2Client, Error) that is called when request is completed.
  */
-function getToken(oauth, code, callback) {
+function getToken(oauth, code, gmail_tokens, callback) {
     let auth = new googleAuth();
     let oauth2Client = new auth.OAuth2(oauth.clientId_, oauth.clientSecret_, oauth.redirectUri_);
     oauth2Client.getToken(code, function (err, token) {
@@ -87,7 +91,7 @@ function getToken(oauth, code, callback) {
             return callback(err, null);
         }
         oauth2Client.credentials = token;
-        storeToken(token);
+        storeToken(gmail_tokens, token);
         callback(null, oauth2Client);
     });
 }
@@ -95,9 +99,10 @@ function getToken(oauth, code, callback) {
 /**
  * Store tokens into file
  *
+ * @param  {String} fileName of gmail tokens file
  * @param  {Object} token object that contains access token, refresh token and expiration date
  */
-function storeToken(token) {
+function storeToken(fileName, token) {
     try {
         fs.mkdirSync(TOKEN_DIR);
     } catch (err) {
@@ -105,8 +110,8 @@ function storeToken(token) {
             throw err;
         }
     }
-    fs.writeFile(TOKEN_PATH, JSON.stringify(token));
-    console.log('Token stored to ' + TOKEN_PATH);
+    fs.writeFile(TOKEN_DIR + fileName, JSON.stringify(token));
+    console.log('Token stored to ' + TOKEN_DIR + fileName);
 }
 
 /**
@@ -356,16 +361,17 @@ function sendMessage(oauth, headers, message, callback) {
  * Check the expiration of access token and if so, renew access token by refresh token
  *
  * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {String} gmail_tokens of the files that contains gmail tokens
  * @param  {Function} callback Function(Error, oauth2client, isUpdated) that is called when request is completed.
  */
-function checkRefreshToken(oauth, callback) {
+function checkRefreshToken(oauth, gmail_tokens, callback) {
     let gmail = google.gmail('v1');
     let oauth2Client = createOAuth(oauth);
     if (oauth2Client.credentials.expiry_date >= new Date().getTime()) {
         oauth2Client.getRequestMetadata('', function (error, headers, response) {
             if (error) callback(error, oauth2Client, true);
             else {
-                storeToken(oauth2Client.credentials);
+                storeToken(gmail_tokens, oauth2Client.credentials);
                 callback(null, oauth2Client, true);
             }
         });

@@ -103,6 +103,10 @@ form#profile-form {
     margin: 0 auto 20px;
 }
 
+#profile-gmail-credentials {
+    height: 150px;
+}
+
 button#submit {
     margin: 0 auto 20px auto;
 }

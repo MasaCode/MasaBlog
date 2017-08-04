@@ -118,11 +118,11 @@ span.sm-desc {
 div#auth-modal {
     position: fixed;
     top: 0;
-    left: 0;
-    width: 100%;
+    left: 200px;
+    width: calc(100% - 200px);
     height: 100vh;
     background: rgba(200, 200, 200, 0.7);
-    z-index: 10;
+    z-index: 20;
 }
 
 div.auth-wrapper {
@@ -441,6 +441,26 @@ div.loader-bg {
     table#mail-table {
         border: none;
         border-bottom: 2px solid #ddd;
+    }
+
+    div#auth-modal {
+        position: absolute;
+        width: 100%;
+        height: calc(100vh + 300px);
+        left: 0;
+        top: -10px;
+    }
+
+    div.auth-wrapper {
+        width: 90%;
+        min-height: 180px;
+        margin-top: 10vh !important;
+        margin-left: auto !important;
+        margin-right: auto;
+    }
+
+    #btn-auth {
+        width: 80%;
     }
 }
 

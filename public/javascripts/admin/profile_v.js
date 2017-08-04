@@ -10,9 +10,11 @@
             this.$form.on('submit', function (event) {
                 event.preventDefault();
                 let updatedData = {};
+                let credentials = $('#profile-gmail-credentials').val();
                 updatedData.username = $('#profile-username').val().trim();
                 updatedData.location = $('#profile-location').val().trim();
                 updatedData.weather_api = $('#profile-api').val().trim();
+                updatedData.credentials = (credentials !== '' ? credentials : null);
                 if (updatedData.username === '') return _self.showError('Username is required...');
                 if (updatedData.location === '') return _self.showError('Location is required...');
                 if (updatedData.weather_api === '') return _self.showError('Weather API Key is required...');
@@ -30,6 +32,9 @@
                         let success = $('#success-dialog');
                         success.text('The profile successfully has been updated');
                         success.fadeIn(1000).delay(3000).fadeOut(1000);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 5000);
                     },
                     error (data, status, errorThrown) {
                         let error = $('#error-dialog');

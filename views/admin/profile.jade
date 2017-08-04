@@ -37,6 +37,9 @@ block content
               div.form-group
                 label Weather API Key
                 textarea(placeholder="Weather API key", name="apikey")#profile-api.form-control #{user.weather_api}
+              div.form-group
+                label Gmail Credential Json Object
+                textarea(placeholder="Copy and past gmail credential json file", name="gmail-credentials")#profile-gmail-credentials.form-control #{(credentials !== null ? JSON.stringify(credentials) : '')}
               div#profile-submit
                 button#submit.btn.btn-primary Save Profile
         include ../include/footer
