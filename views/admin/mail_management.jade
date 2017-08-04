@@ -24,6 +24,8 @@ block content
                   div.btn-wrapper
                     a(class=(label===null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
                       span.btn-label Inbox
+                    a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
+                      span.btn-label Unread
                     a(class=(label==='Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
                       span.btn-label Important
                     a(class=(label==='Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred

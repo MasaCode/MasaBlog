@@ -66,6 +66,8 @@
                 let query = '';
                 if (label === 'Important') {
                     query = 'is:important';
+                } else if (label === 'Unread') {
+                    query = 'is:unread';
                 } else if (label === 'Starred') {
                     query = 'is:starred';
                 } else if (label === 'Draft') {
@@ -98,6 +100,11 @@
             $('#inbox').on('click', function (event) {
                 _self.changeButton(true);
                 _self.refresh();
+            });
+
+            $('#unread').on('click', function (event) {
+                _self.changeButton(true);
+                _self.search("is:unread");
             });
 
             $('#important').on('click', function (event) {

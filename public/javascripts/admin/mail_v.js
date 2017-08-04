@@ -26,6 +26,10 @@
                 window.location.href = "/admin/messages";
             });
 
+            $('#unread').on('click', function (event) {
+                window.location.href = "/admin/messages?label=Unread";
+            });
+
             $('#important').on('click', function (event) {
                 window.location.href = "/admin/messages?label=Important";
             });
