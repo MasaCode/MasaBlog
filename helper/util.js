@@ -96,20 +96,6 @@ function allowAction (req, res, next) {
 }
 
 /**
- * Extract a specific field from header object of gmail
- *
- * @param  {Object} json Message gmail message object
- * @param  {String} fieldName name of field you want to extract
- * @return {String} Value of header object
- */
-function extractFieldHeader (json, fieldName) {
-    fieldName = fieldName.toLowerCase();
-    return json.payload.headers.filter(function(header) {
-        return (header.name.toLowerCase() === fieldName);
-    })[0].value;
-}
-
-/**
  * Generate Random String with specific length
  *
  * @param  {Number} length of string you want to generate
@@ -147,6 +133,5 @@ exports.isEmpty = isEmpty;
 exports.isValidId = isValidId;
 exports.isAuthenticated = isAuthenticated;
 exports.allowAction = allowAction;
-exports.extractFieldHeader = extractFieldHeader;
 exports.generateRandomString = generateRandomString;
 exports.clone = clone;

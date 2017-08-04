@@ -23,6 +23,18 @@ router.get('/search', checkToken, function (req, res) {
     });
 });
 
+router.get('/attachments/:id', checkToken, function (req, res) {
+    let oauth = req.cookies.oauth;
+    let id = parseInt(req.params.id);
+    if (!util.isValidId(id)) return util.sendResponse(res, 500, "Invalid Mail ID...");
+    if (req.query === undefined || req.query.attachmentIds === undefined) return util.sendResponse(res, 500, "Attachments IDs are required...");
+    let attachmentIds = req.query.attachmentIds.split(',');
+    gmailHelper.getAttachments(oauth, id, attachmentIds, function (error, response) {
+        if (error) util.sendResponse(res, 500, error.message);
+        else util.sendResponse(res, 200, response);
+    });
+});
+
 router.get('/:id', checkToken, function (req, res) {
     let oauth = req.cookies.oauth;
     if (req.params === undefined || req.params.id === undefined || req.params.id === '') return util.sendResponse(res, 500, "Invalid Mail ID...");

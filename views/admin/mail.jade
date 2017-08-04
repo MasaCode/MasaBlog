@@ -57,4 +57,5 @@ block content
   script.
     var IS_READ = !{JSON.stringify(message.labelIds.indexOf("UNREAD") === -1)};
     var ID = !{JSON.stringify(message.id)};
+    var ATTACHMENTS = !{JSON.stringify(attachments)};
   script(src="/javascripts/admin/mail_v.js")

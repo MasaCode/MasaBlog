@@ -218,6 +218,53 @@ function getMessage(oauth, id, callback) {
 }
 
 /**
+ * Get attachment(s) of specific message
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {String} id of specific message
+ * @param  {Array} attachmentIds an array of attachment ids
+ * @param  {Function} callback Function(Error, Attachments) that is called when request is completed.
+ */
+function getAttachments(oauth, id, attachmentIds, callback) {
+    co(function *() {
+        let gmail = google.gmail('v1');
+        let oauth2Client = createOAuth(oauth);
+        let length = attachmentIds.length;
+        let attachments = [];
+        for (let i = 0; i < length; i++) {
+            let attachment = (yield getAttachment(gmail, oauth2Client, id, attachmentIds[i]));
+            attachments.push(attachment);
+        }
+        callback(null, attachments);
+    }).catch(function (e) {
+        callback(e, null);
+        console.log(e);
+    });
+}
+
+/**
+ * Get a specific attachment of specific message
+ *
+ * @param  {Object} gmail object that contains request methods
+ * @param  {Object} auth(oauth) object that includes credential information and tokens
+ * @param  {String} messageId of specific message
+ * @param  {Array} attachmentId of specific attachment
+ */
+function getAttachment(gmail, auth, messageId, attachmentId) {
+    return new Promise((resolve, reject) => {
+        gmail.users.messages.attachments.get({
+            auth: auth,
+            userId: 'me',
+            messageId: messageId,
+            id: attachmentId,
+        }, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        });
+    });
+}
+
+/**
  * Move message(s) to trash
  *
  * @param  {Object} oauth object that includes credential information and tokens
@@ -394,14 +441,64 @@ function createOAuth(oauth) {
     return oauth2Client;
 }
 
+/**
+ * Extract mail body and attachments from specific message
+ *
+ * @param  {Object} response gmail message object
+ * @return {Object} extracted mail body and attachments information
+ */
+function extractMailBody(response) {
+    let base64 = null, base64Plain = null;
+    let attachments = [];
+    let parts = [response.payload];
+    while (parts.length) {
+        let part = parts.shift();
+        if (part.parts) {
+            parts = parts.concat(part.parts);
+        }
+
+        if (part.mimeType === 'text/plain') {
+            // Just in case message doesn't have text/plain version.
+            base64Plain = part.body.data;
+        } if(part.mimeType === 'text/html') {
+            base64 = part.body.data;
+        } else if (part.body.attachmentId) {
+            let attachment = {};
+            attachment.id = part.body.attachmentId;
+            attachment.filename = part.filename;
+            attachment.contentType = part.mimeType;
+            attachments.push(attachment);
+        }
+    }
+
+    return {base64: (base64 !== null ? base64 : base64Plain), attachments: attachments};
+}
+
+/**
+ * Extract a specific field from header object of gmail
+ *
+ * @param  {Object} json Message gmail message object
+ * @param  {String} fieldName name of field you want to extract
+ * @return {String} Value of header object
+ */
+function extractFieldHeader (json, fieldName) {
+    fieldName = fieldName.toLowerCase();
+    return json.payload.headers.filter(function(header) {
+        return (header.name.toLowerCase() === fieldName);
+    })[0].value;
+}
+
 module.exports.authorizeGoogleAPI = authorizeGoogleAPI;
 module.exports.getToken = getToken;
 module.exports.checkRefreshToken = checkRefreshToken;
 module.exports.generateAuthURL = generateAuthURL;
 module.exports.getMessageList = getMessageList;
 module.exports.getMessage = getMessage;
+module.exports.getAttachments = getAttachments;
 module.exports.trashMessages = trashMessages;
 module.exports.untrashMessages = untrashMessages;
 module.exports.modifyMessageLabel = modifyMessageLabel;
 module.exports.searchMailBox = searchMailBox;
 module.exports.sendMessage = sendMessage;
+module.exports.extractMailBody = extractMailBody;
+exports.extractFieldHeader = extractFieldHeader;

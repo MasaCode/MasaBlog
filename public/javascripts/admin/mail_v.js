@@ -5,10 +5,15 @@
         initialize () {
             this.$loader = $('div#cssload-loader');
             this.$loaderWrapper = $('div.loader-bg');
+            this._attachments = ATTACHMENTS;
 
             if (!IS_READ) {
                 this.markAsRead();
             }
+            if (this._attachments.length !== 0) {
+                this.getAttachments();
+            }
+
             this.events();
             this.setMailSidebarHeight();
             this.loader(false);
@@ -74,6 +79,36 @@
                 dataType: 'json',
                 timeout: 50000,
 
+                error (data, status, errorThrown) {
+                    let error = $('#error-dialog');
+                    error.text('Error occurred : ' + errorThrown);
+                    error.fadeIn(1000).delay(3000).fadeOut(1000);
+                }
+            });
+        },
+
+        getAttachments () {
+            let _self = this;
+            let ids = '', glue = '';
+            let length = this._attachments.length;
+            for (let i = 0; i < length; i++) {
+                ids += (glue + this._attachments[i].id);
+                if (glue === '') glue = ',';
+            }
+            $.ajax({
+                url: '/api/v1/messages/attachments/' + ID,
+                type: 'GET',
+                dataType: 'json',
+                data: {attachmentIds: ids},
+                timeout: 50000,
+
+                success (data, status, errorThrown) {
+                    for (let i = 0; i < length; i++) {
+                        _self._attachments[i].data = data[i].data;
+                        _self._attachments[i].size = data[i].size;
+                    }
+                    // TODO: Show preview of it and make it downloadable
+                },
                 error (data, status, errorThrown) {
                     let error = $('#error-dialog');
                     error.text('Error occurred : ' + errorThrown);

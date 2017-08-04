@@ -155,19 +155,10 @@ router.get('/messages/:id', isAuthenticated, function (req, res) {
     gmailHelper.getMessage(oauth, id, function (error, response) {
         if (error) util.renderError(res, error);
         else{
-            let base64 = '';
-            if (Array.isArray(response.payload.parts)) {
-                let part = response.payload.parts.filter(function (part) {
-                    return part.mimeType === 'text/html';
-                });
-                base64 = part[0].body.data;
-            } else {
-
-                base64 = response.payload.body.data;
-            }
-            response.html = new Buffer(base64, 'base64').toString();
+            let data = gmailHelper.extractMailBody(response);
+            response.html = new Buffer(data.base64, 'base64').toString();
             res.render(
-                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, extractFieldHeader: util.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
+                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, attachments: data.attachments, extractFieldHeader: gmailHelper.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
             );
         }
     });
