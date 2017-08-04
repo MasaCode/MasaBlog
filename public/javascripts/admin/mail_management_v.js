@@ -20,23 +20,7 @@
             this.$loaderWrapper = $('div.loader-bg');
 
 
-            if (LABEL === null) {
-                this.refresh();
-            } else {
-                let query = '';
-                if (LABEL === 'Important') {
-                    query = 'is:important';
-                } else if (LABEL === 'Starred') {
-                    query = 'is:starred';
-                } else if (LABEL === 'Draft') {
-                    query = 'in:draft';
-                } else if (LABEL === 'Trash') {
-                    query = 'in:trash';
-                } else {
-                    query = 'in:sent';
-                }
-                this.search(query);
-            }
+            this.build(LABEL);
             this.events();
         },
 
@@ -62,6 +46,8 @@
                     _self.messages = data;
                     _self.maxPage = Math.ceil(data.length / parseFloat(_self.maxMailNumber));
                     if (data.length > _self.maxMailNumber) _self.$next.removeClass('disabled');
+                    else if (!_self.$next.hasClass('disabled')) _self.$next.addClass('disabled');
+                    if (!_self.$prev.hasClass('disabled')) _self.$prev.addClass('disabled');
                     _self.manageMail(data);
                 },
                 error (data, status, errorThrown) {
@@ -71,6 +57,26 @@
                     error.fadeIn(1000).delay(3000).fadeOut(1000);
                 }
             });
+        },
+
+        build (label) {
+            if (label === null) {
+                this.refresh();
+            } else {
+                let query = '';
+                if (label === 'Important') {
+                    query = 'is:important';
+                } else if (label === 'Starred') {
+                    query = 'is:starred';
+                } else if (label === 'Draft') {
+                    query = 'in:draft';
+                } else if (label === 'Trash') {
+                    query = 'in:trash';
+                } else {
+                    query = 'in:sent';
+                }
+                this.search(query);
+            }
         },
 
         events () {
@@ -132,7 +138,8 @@
             });
 
             this.$refresh.on('click', function () {
-                _self.refresh();
+                let label = $('.btn-list.btn-active span').text().trim();
+                _self.build(label !== 'Inbox' ? label : null);
             });
 
             this.$next.on('click', function (event) {
@@ -236,6 +243,8 @@
                     _self.messages = data;
                     _self.maxPage = Math.ceil(data.length / parseFloat(_self.maxMailNumber));
                     if (data.length > _self.maxMailNumber) _self.$next.removeClass('disabled');
+                    else if (!_self.$next.hasClass('disabled')) _self.$next.addClass('disabled');
+                    if (!_self.$prev.hasClass('disabled')) _self.$prev.addClass('disabled');
                     _self.manageMail(data);
                 },
                 error (data, status, errorThrown) {

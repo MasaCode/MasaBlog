@@ -6,6 +6,7 @@ let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let passport = require('passport');
+let fs = require('fs');
 
 let index = require('./routes/index');
 let login = require('./routes/login');
@@ -74,6 +75,22 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
+});
+
+fs.stat('public/assets/uploads', function (err, data) {
+    if (err) {
+        fs.mkdir('public/assets/uploads', function (error) {
+            if (error) console.log(error);
+        });
+    }
+});
+
+fs.stat('public/assets/profile', function (err, data) {
+    if (err) {
+        fs.mkdir('public/assets/profile', function (error) {
+            if (error) console.log(error);
+        });
+    }
 });
 
 module.exports = app;
