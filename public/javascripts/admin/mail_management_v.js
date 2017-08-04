@@ -19,7 +19,24 @@
             this.$loader = $('div#cssload-loader');
             this.$loaderWrapper = $('div.loader-bg');
 
-            this.refresh();
+
+            if (LABEL === null) {
+                this.refresh();
+            } else {
+                let query = '';
+                if (LABEL === 'Important') {
+                    query = 'is:important';
+                } else if (LABEL === 'Starred') {
+                    query = 'is:starred';
+                } else if (LABEL === 'Draft') {
+                    query = 'in:draft';
+                } else if (LABEL === 'Trash') {
+                    query = 'in:trash';
+                } else {
+                    query = 'in:sent';
+                }
+                this.search(query);
+            }
             this.events();
         },
 
@@ -110,7 +127,8 @@
                 if ($(event.target).hasClass('mail-checkbox')) return;
                 let id = $(event.currentTarget).data('id');
                 if (id === undefined || id === '') return;
-                window.location.href = "/admin/messages/" + id;
+                let label = $('.btn-list.btn-active span').text().trim();
+                window.location.href = "/admin/messages/" + id + (label !== 'Inbox' ? ('?label=' + label) : '');
             });
 
             this.$refresh.on('click', function () {

@@ -111,6 +111,7 @@ router.get('/profile', isAuthenticated, function (req, res) {
 
 router.get('/messages', isAuthenticated, function (req, res) {
     let now = new Date().getTime();
+    let label = req.query.label !== undefined ? req.query.label : null;
     if (req.cookies.oauth === undefined || util.isEmpty(req.cookies.oauth.credentials) || req.cookies.oauth.expired < now) {
         res.clearCookie('oauth');
         gmailHelper.authorizeGoogleAPI(function (oauth2Client, error) {
@@ -122,13 +123,13 @@ router.get('/messages', isAuthenticated, function (req, res) {
                 res.cookie('oauth', oauth2Client);
                 let authURL = (error ? gmailHelper.generateAuthURL(oauth2Client) : null);
                 res.render(
-                    'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+                    'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, label: label, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
                 );
             }
         });
     } else {
         res.render(
-            'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: null, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
+            'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: null, label: label, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
         );
     }
 });
@@ -136,6 +137,7 @@ router.get('/messages', isAuthenticated, function (req, res) {
 router.get('/messages/:id', isAuthenticated, function (req, res) {
     let id = req.params.id;
     let oauth = req.cookies.oauth;
+    let label = req.query.label !== undefined ? req.query.label : null;
     if (id === undefined || id === '') return util.renderError(res, "Invalid Messsage ID...");
     gmailHelper.getMessage(oauth, id, function (error, response) {
         if (error) util.renderError(res, error);
@@ -152,13 +154,7 @@ router.get('/messages/:id', isAuthenticated, function (req, res) {
             }
             response.html = new Buffer(base64, 'base64').toString();
             res.render(
-                'admin/mail.jade', {
-                    title: config.BLOG_NAME + " | Mail",
-                    message: response,
-                    extractFieldHeader: util.extractFieldHeader,
-                    moment: moment,
-                    user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}
-                }
+                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, extractFieldHeader: util.extractFieldHeader, moment: moment, label: label, user: {image_path: req.cookies.user.image_path, username: req.cookies.user.username}}
             );
         }
     });

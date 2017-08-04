@@ -16,17 +16,17 @@ block content
                 div.mail-sidebar-content
                   a.btn-manage.btn.btn-primary#compose Compose
                   div.btn-wrapper
-                    a.btn-manage.btn.btn-list.btn-active#inbox
+                    a(class=(label===null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
                       span.btn-label Inbox
-                    a.btn-manage.btn.btn-list#important
+                    a(class=(label==='Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
                       span.btn-label Important
-                    a.btn-manage.btn.btn-list#starred
+                    a(class=(label==='Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
                       span.btn-label Starred
-                    a.btn-manage.btn.btn-list#draft
+                    a(class=(label==='Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
                       span.btn-label Draft
-                    a.btn-manage.btn.btn-list#sent-mail
+                    a(class=(label==='Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
                       span.btn-label Sent Mail
-                    a.btn-manage.btn.btn-list#trash
+                    a(class=(label==='Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
                       span.btn-label Trash
               div.mail-wrapper
                 div.table-wrapper
@@ -66,5 +66,7 @@ block content
         h3.text-center Authorize Gmail Account
         a(href=authURL).btn.btn-danger#btn-auth Authorize
   - } else {
+    script.
+      var LABEL = !{JSON.stringify(label)};
     script(src="/javascripts/admin/mail_management_v.js")
   - }

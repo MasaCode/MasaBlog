@@ -313,8 +313,10 @@ function modifyMessageLabel(oauth, id, labelToAdd, labelToRemove, callback) {
         auth: oauth2Client,
         userId: 'me',
         id: id,
-        addLabelIds: labelToAdd,
-        removeLabelIds: labelToRemove,
+        resource: {
+            addLabelIds: labelToAdd,
+            removeLabelIds: labelToRemove,
+        },
     }, function (error, response) {
         if (error) callback(error, null);
         else callback(null, response);

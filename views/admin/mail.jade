@@ -11,16 +11,48 @@ block content
       div.admin-content
         div.container-fluid
           div.row.wrapper-height
-            div.col-sm-10.col-sm-offset-1
+            div.col-md-12
+              div.mail-sidebar
+                div.mail-sidebar-content
+                  a.btn-manage.btn.btn-primary#compose Compose
+                  div.btn-wrapper
+                    a(class=(label === null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
+                      span.btn-label Inbox
+                    a(class=(label === 'Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
+                      span.btn-label Important
+                    a(class=(label === 'Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
+                      span.btn-label Starred
+                    a(class=(label === 'Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
+                      span.btn-label Draft
+                    a(class=(label === 'Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
+                      span.btn-label Sent Mail
+                    a(class=(label === 'Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
+                      span.btn-label Trash
               div.mail-wrapper
-                div.mail-header
-                  h3.mail-subject #{extractFieldHeader(message, "Subject")}
-                  div.mail-sender
-                    p
-                      - var from = extractFieldHeader(message, 'From').split(' <');
-                      span.sender-name #{from[0].replace(/"/g, '')}
-                      span.sender-email &lt;#{from[1]}
-                      span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
-                div.mail-body
-                  iframe(srcdoc=message.html, width="100%", height="500px")#mail-content
+                div.table-wrapper
+                  div.loader-bg
+                  div#cssload-loader
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                    div.cssload-dot
+                  div.mail-header
+                    h3.mail-subject #{extractFieldHeader(message, "Subject")}
+                    div.mail-sender
+                      p
+                        span.sender
+                          - var from = extractFieldHeader(message, 'From').split(' <');
+                          span.sender-name #{from[0].replace(/"/g, '')}
+                          span.sender-email &lt;#{from[1]}
+                        span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
+                  div.mail-body
+                    iframe(srcdoc=message.html, width="100%", height="500px")#mail-content
           include ../include/footer
+  script.
+    var IS_READ = !{JSON.stringify(message.labelIds.indexOf("UNREAD") === -1)};
+    var ID = !{JSON.stringify(message.id)};
+  script(src="/javascripts/admin/mail_v.js")
