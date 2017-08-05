@@ -24,61 +24,24 @@
             this.events();
         },
 
-        refresh () {
-            let _self = this;
-            this.loader(true);
-            let active = $('.btn-list.btn-active');
-            let inbox = $('#inbox');
-            if (active !== inbox) {
-                active.removeClass('btn-active');
-                inbox.addClass('btn-active');
-            }
-
-            $.ajax({
-                url: '/api/v1/messages',
-                type: 'GET',
-                dataType: 'json',
-                timeout: 50000,
-
-                success (data, status, errorThrown) {
-                    _self.loader(false);
-                    _self.currentPage = 1;
-                    _self.messages = data;
-                    _self.maxPage = Math.ceil(data.length / parseFloat(_self.maxMailNumber));
-                    if (data.length > _self.maxMailNumber) _self.$next.removeClass('disabled');
-                    else if (!_self.$next.hasClass('disabled')) _self.$next.addClass('disabled');
-                    if (!_self.$prev.hasClass('disabled')) _self.$prev.addClass('disabled');
-                    _self.manageMail(data);
-                },
-                error (data, status, errorThrown) {
-                    _self.loader(false);
-                    let error = $('#error-dialog');
-                    error.text('Error occurred : ' + errorThrown);
-                    error.fadeIn(1000).delay(3000).fadeOut(1000);
-                }
-            });
-        },
-
         build (label) {
+            let query = '';
             if (label === null) {
-                this.refresh();
+                query = 'in:inbox';
+            } else if (label === 'Important') {
+                query = 'is:important';
+            } else if (label === 'Unread') {
+                query = 'is:unread';
+            } else if (label === 'Starred') {
+                query = 'is:starred';
+            } else if (label === 'Draft') {
+                query = 'in:draft';
+            } else if (label === 'Trash') {
+                query = 'in:trash';
             } else {
-                let query = '';
-                if (label === 'Important') {
-                    query = 'is:important';
-                } else if (label === 'Unread') {
-                    query = 'is:unread';
-                } else if (label === 'Starred') {
-                    query = 'is:starred';
-                } else if (label === 'Draft') {
-                    query = 'in:draft';
-                } else if (label === 'Trash') {
-                    query = 'in:trash';
-                } else {
-                    query = 'in:sent';
-                }
-                this.search(query);
+                query = 'in:sent';
             }
+            this.search(query);
         },
 
         events () {
@@ -99,7 +62,7 @@
 
             $('#inbox').on('click', function (event) {
                 _self.changeButton(true);
-                _self.refresh();
+                _self.search("in:inbox");
             });
 
             $('#unread').on('click', function (event) {
@@ -184,7 +147,8 @@
                     timeout: 50000,
 
                     success (data, status, errorThrown) {
-                        _self.refresh();
+                        let label = $('.btn-list.btn-active span').text().trim();
+                        _self.build(label !== 'Inbox' ? label : null);
                         let success = $('#success-dialog');
                         success.text('Messages successfully have been moved to trash');
                         success.fadeIn(1000).delay(3000).fadeOut(1000);
@@ -193,7 +157,8 @@
                         let error = $('#error-dialog');
                         error.text('Error occurred : ' + errorThrown);
                         error.fadeIn(1000).delay(3000).fadeOut(1000);
-                        _self.refresh();
+                        let label = $('.btn-list.btn-active span').text().trim();
+                        _self.build(label !== 'Inbox' ? label : null);
                     }
                 });
             });
@@ -217,7 +182,8 @@
                     timeout: 50000,
 
                     success (data, status, errorThrown) {
-                        _self.refresh();
+                        let label = $('.btn-list.btn-active span').text().trim();
+                        _self.build(label !== 'Inbox' ? label : null);
                         let success = $('#success-dialog');
                         success.text('Messages successfully have been moved to trash');
                         success.fadeIn(1000).delay(3000).fadeOut(1000);
@@ -226,7 +192,8 @@
                         let error = $('#error-dialog');
                         error.text('Error occurred : ' + errorThrown);
                         error.fadeIn(1000).delay(3000).fadeOut(1000);
-                        _self.refresh();
+                        let label = $('.btn-list.btn-active span').text().trim();
+                        _self.build(label !== 'Inbox' ? label : null);
                     }
                 });
             });
