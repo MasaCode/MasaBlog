@@ -3,6 +3,7 @@ extends layout
 block append script
   link(rel='stylesheet', href='/stylesheets/admin/mail_v.css')
   script(src="/plugins/moment/js/moment.min.js")
+  script(src="/plugins/FileSaverJS/js/FileSaver.min.js")
 block content
   block menuVariables
     - var menuActive = 'mail';
@@ -52,7 +53,10 @@ block content
                           span.sender-email &lt;#{from[1]}
                         span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
                   div.mail-body
-                    iframe(srcdoc=message.html, width="100%", height="500px")#mail-content
+                    iframe(srcdoc=message.html, width="100%")#mail-content
+                  div.mail-footer
+                    div.attachmet-wrapper
+
           include ../include/footer
   script.
     var IS_READ = !{JSON.stringify(message.labelIds.indexOf("UNREAD") === -1)};

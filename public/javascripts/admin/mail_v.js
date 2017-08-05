@@ -22,6 +22,11 @@
         events () {
             let _self = this;
 
+            $('iframe').on('load', function() {
+                this.style.height = this.contentWindow.document.body.offsetHeight + 40 +  'px';
+                _self.setMailSidebarHeight();
+            });
+
             $(window).on('resize', function (event) {
                 _self.setMailSidebarHeight();
             });
@@ -53,6 +58,11 @@
 
             $('#trash').on('click', function (event) {
                 window.location.href = "/admin/messages?label=Trash";
+            });
+
+            $(document).on('click', 'div.attachment-item', function (event) {
+                let itemIndex = $(this).data('index');
+                _self.saveAttachment(_self._attachments[itemIndex]);
             });
 
             return this;
@@ -103,11 +113,30 @@
                 timeout: 50000,
 
                 success (data, status, errorThrown) {
+                    let attachmentWrapper = $('div.attachmet-wrapper');
                     for (let i = 0; i < length; i++) {
-                        _self._attachments[i].data = data[i].data;
+                        _self._attachments[i].data = data[i].data.replace(/-/g, '+').replace(/_/g, '/');
                         _self._attachments[i].size = data[i].size;
+
+                        let type = _self._attachments[i].contentType.toLowerCase();
+                        let icon = 'fa fa-file-o';
+                        if (type.indexOf('image') !== -1) {
+                            icon = 'fa fa-file-image-o';
+                        } else if (type.indexOf('pdf') !== -1) {
+                            icon = 'fa fa-file-pdf-o';
+                        } else if (type.indexOf('word') !== -1) {
+                            icon = 'fa fa-file-word-o';
+                        }
+                        let attachmentIcon = [
+                            '<div data-index="' + i + '" class="icon-wrapper attachment-item"><i class="' + icon + ' box-icon"><span class="fix-editor">' + _self._attachments[i].filename + '</span></i></div>'
+                        ].join(' ');
+                        attachmentWrapper.append(attachmentIcon);
                     }
-                    // TODO: Show preview of it and make it downloadable
+                    _self.setMailSidebarHeight();
+
+                    $('div.attachment-item').on('mouseover', function (event) {
+                        _self.setMailSidebarHeight();
+                    });
                 },
                 error (data, status, errorThrown) {
                     let error = $('#error-dialog');
@@ -115,6 +144,23 @@
                     error.fadeIn(1000).delay(3000).fadeOut(1000);
                 }
             });
+        },
+
+        saveAttachment (data) {
+            let byteString = atob(data.data);
+
+            // Convert that text into a byte array.
+            let ab = new ArrayBuffer(byteString.length);
+            let ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            // Blob for saving.
+            let blob = new Blob([ia], { type: data.contentType });
+
+            // Tell the browser to save as report.pdf.
+            saveAs(blob, data.filename);
         },
 
         setMailSidebarHeight () {
