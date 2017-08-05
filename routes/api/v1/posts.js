@@ -93,7 +93,7 @@ router.post('/relatedTag', util.allowAction, function (req, res) {
     });
 });
 
-router.put('/sequence/:id', util.allowAction, function (req, res) {
+router.put('/sequence/:id', function (req, res) {
     co(function *() {
         if (req.cookies.user) return util.sendResponse(res, 200, null);
         let id = parseInt(req.params.id);
