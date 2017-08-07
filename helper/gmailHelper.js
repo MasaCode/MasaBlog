@@ -116,6 +116,25 @@ function storeToken(fileName, token) {
 }
 
 /**
+ * Get Profile of gmail account
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ */
+function getProfile (oauth) {
+    return new Promise((resolve, reject) => {
+        let gmail = google.gmail('v1');
+        let oauth2Client = createOAuth(oauth);
+        gmail.users.getProfile({
+            auth: oauth2Client,
+            userId: 'me',
+        }, (error, response) => {
+            if (error) reject(error);
+            else resolve(response);
+        });
+    });
+}
+
+/**
  * Get array of messages in gmail inbox
  *
  * @param  {Object} oauth object that includes credential information and tokens
@@ -387,11 +406,67 @@ function modifyMessageLabel(oauth, id, labelToAdd, labelToRemove, callback) {
 function sendMessage(oauth, headers, message, callback) {
     let gmail = google.gmail('v1');
     let oauth2Client = createOAuth(oauth);
-    let email = '';
-    for(let key in headers) {
-        email += (key + ": " + headers[key] + "\r\n");
+    let email = [
+        'MIME-Version: 1.0\r\n',
+        'charset: \"UTF-8\"\r\n',
+        'Content-Transfer-Encoding: 7bit\r\n',
+        'Content-Type: ' + headers['Content-Type'] + '\r\n',
+        'to: ' + headers['to'] + '\r\n',
+        'subject: ' + headers['subject'] + '\r\n',
+        '\r\n' + message
+    ].join('');
+
+    gmail.users.messages.send({
+        auth: oauth2Client,
+        'userId': 'me',
+        'resource': {
+            'raw': new Buffer(email).toString("base64").replace(/\+/g, '-').replace(/\//g, '_'),
+        }
+    }, function (error, response) {
+        if (error) callback(error, null);
+        else callback(null, response);
+    });
+}
+
+/**
+ * Send email with attachment(s) via gmail
+ *
+ * @param  {Object} oauth object that includes credential information and tokens
+ * @param  {Object} headers object that contains header information like sender, receiver, Mine type, and etc...
+ * @param  {String} message mail content body
+ * @param  {String} boundary the string to separate multi part of mail body
+ * @param  {Array} attachments an Array of base64 formatted file
+ * @param  {Array} attachmentTypes an Array of file types for each attachments
+ * @param  {Array} attachmentNames an Array of file names for each attachments
+ * @param  {Function} callback Function(Error, Result) that is called when request is completed.
+ */
+function sendMessageWithAttachment(oauth, headers, message, boundary, attachments, attachmentTypes, attachmentNames, callback) {
+    let gmail = google.gmail('v1');
+    let oauth2Client = createOAuth(oauth);
+
+    let email = [
+        'Content-Type: multipart/mixed; boundary="' + boundary + '"\r\n',
+        'MIME-Version: 1.0\r\n',
+        'to: ' + headers['to'] + '\r\n',
+        'subject: ' + headers['subject'] + '\r\n\r\n',
+        '--' + boundary + '\r\n',
+
+        'Content-Type: ' + headers['Content-Type'] + '; charset="UTF-8"\r\n',
+        'MIME-Version: 1.0\r\n',
+        'Content-Transfer-Encoding: 7bit\r\n',
+        '\r\n' + message + '\r\n\r\n',
+        '--' + boundary + '\r\n',
+    ].join('');
+
+    let attachmentLength = attachments.length;
+    for (let i = 0; i < attachmentLength; i++) {
+        email += ('Content-Type: ' + attachmentTypes[i] + '\r\n');
+        email += 'MIME-Version: 1.0\r\n';
+        email += 'Content-Transfer-Encoding: base64\r\n';
+        email += ('Content-Disposition: attachment; filename="' + attachmentNames[i] + '"\r\n\r\n');
+        email += (attachments[i] + '\r\n\r\n');
+        email += ('--' + boundary + (i === (attachmentLength - 1) ? '--' : '\r\n'));
     }
-    email += "\r\n" + message;
 
     gmail.users.messages.send({
         auth: oauth2Client,
@@ -492,6 +567,7 @@ module.exports.authorizeGoogleAPI = authorizeGoogleAPI;
 module.exports.getToken = getToken;
 module.exports.checkRefreshToken = checkRefreshToken;
 module.exports.generateAuthURL = generateAuthURL;
+module.exports.getProfile = getProfile;
 module.exports.getMessageList = getMessageList;
 module.exports.getMessage = getMessage;
 module.exports.getAttachments = getAttachments;
@@ -500,5 +576,6 @@ module.exports.untrashMessages = untrashMessages;
 module.exports.modifyMessageLabel = modifyMessageLabel;
 module.exports.searchMailBox = searchMailBox;
 module.exports.sendMessage = sendMessage;
+module.exports.sendMessageWithAttachment = sendMessageWithAttachment;
 module.exports.extractMailBody = extractMailBody;
 exports.extractFieldHeader = extractFieldHeader;

@@ -2,8 +2,11 @@
 let express = require('express');
 let router = express.Router();
 let co = require('co');
+let multer = require('multer');
 let util = require('../../../helper/util.js');
 let gmailHelper = require('../../../helper/gmailHelper.js');
+
+router.use(multer().array());
 
 router.get('/', checkToken, function (req, res) {
     let oauth = req.cookies.oauth;
@@ -66,8 +69,40 @@ router.put('/untrash', function (req, res) {
 });
 
 router.post('/', checkToken, function (req, res) {
-    let oauth = req.cookies.oauth;
-    // TODO: Send Message
+    co(function *() {
+        let oauth = req.cookies.oauth;
+        let data = req.body;
+        if (data.to === undefined || data.to === '') throw new Error('Email receiver is required...');
+        if (data.subject === undefined || data.subject === '') throw new Error('Email subject is required...');
+        if (data.body === undefined || data.body === '') throw new Error('Email body is required...');
+        if (data.hasAttachment !== 'true') {
+            gmailHelper.sendMessage(oauth, {
+                'Content-Type': 'text/plain',
+                'to': data.to,
+                'subject': data.subject,
+            }, data.body, function (error, response) {
+                if (error) util.sendResponse(res, 500, error.message);
+                else util.sendResponse(res, 200, response);
+            });
+        } else {
+            // Send Gmail With Attachments
+            let attachments = data.attachments.split('<#>');
+            let attachmentTypes = data.attachmentTypes.split('<#>');
+            let attachmentNames = data.attachmentNames.split('<#>');
+            if (attachments.length === 0 || attachmentTypes.length === 0) throw new Error('No attachment is selected...');
+            gmailHelper.sendMessageWithAttachment(oauth, {
+                'Content-Type': 'text/plain',
+                'to': data.to,
+                'subject': data.subject,
+            }, data.body, data.boundary, attachments, attachmentTypes, attachmentNames, function (error, response) {
+                if (error) util.sendResponse(res, 500, error.message);
+                else util.sendResponse(res, 200, response);
+            });
+        }
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
 });
 
 router.delete('/', checkToken, function (req, res) {
