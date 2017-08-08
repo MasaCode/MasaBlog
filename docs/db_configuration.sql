@@ -5,6 +5,8 @@ CREATE TABLE `masa_admins` (
   `image_path` varchar(255) NULL,
   `location` varchar(255) NOT NULL,
   `weather_api` text NOT NULL,
+  `gmail_credentials` varchar(255) NULL,
+  `gmail_tokens` varchar(255) NULL
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE=InnoDB
