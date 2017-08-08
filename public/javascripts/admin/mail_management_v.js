@@ -6,6 +6,8 @@
         currentPage: 1,
         maxPage: 1,
         messages: null,
+        uploadedFiles: [],
+        totalSize: 0,
 
         initialize () {
             this.$mailTable = $('table#mail-table');
@@ -198,7 +200,118 @@
                 });
             });
 
+            $(document).on('click', 'i.attachment-remove', function (event) {
+                let item = $(this).closest('div.upload-attachment');
+                let index = item.index();
+                _self.uploadedFiles.splice(index, 1);
+                _self.totalSize -= parseInt(item.data('size'));
+                item.remove();
+            });
+
+            $('button.error-close').on('click', function (event) {
+                $('div.error-wrapper').fadeOut();
+            });
+
+            $('#compose-modal').on({
+                'hidden.bs.modal': function (event) {
+                    _self.resetForm();
+                }
+            });
+
+            $('#modal-input-attachments').on('change', function (event) {
+                let files = this.files;
+                let length = files.length;
+                if (length === 0) return;
+                let attachmentPreview = $('div.attachment-preview');
+                let submit = $('#modal-submit');
+                submit.prop('disabled', true);
+                for (let i = 0; i < length; i++) {
+                    (function (file, index) {
+                        let reader = new FileReader();
+                        reader.onload = function (event) {
+                            _self.uploadedFiles.push({data: event.target.result.split('base64,')[1], name: file.name, type: file.type});
+                            _self.totalSize += file.size;
+                            let item = '<div data-size="' + file.size +'" class="upload-attachment"><span>' + file.name +' (' + _self.convertFileSize(file.size, true) + ')<i class="fa fa-times attachment-remove"></i></span></div>';
+                            attachmentPreview.append(item);
+
+                            if (index === (length - 1)) {
+                                submit.prop('disabled', false);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    })(files[i], i);
+                }
+            });
+
+            $('form#modal-form').on('submit', function (event) {
+                event.preventDefault();
+                let to = $('#modal-input-to').val().trim();
+                let subject = $('#modal-input-subject').val().trim();
+                let body = $('#modal-input-body').val().trim();
+                let hasAttachments = _self.uploadedFiles.length !== 0;
+                if (to === '' || (subject === '' && body === '')) {
+                    return _self.showError("You need to fill out all inputs...");
+                }
+
+                let data = new FormData();
+                data.append('to', to);
+                data.append('subject', subject);
+                data.append('body', body);
+                data.append('hasAttachment', hasAttachments);
+
+                if (hasAttachments) {
+                    data.append('boundary', 'masa_blog_mail');
+                    data.append('attachments', JSON.stringify(_self.uploadedFiles));
+                }
+
+                let dataSize = (body.length * 2 /* 1 character -> 2byte */) + _self.totalSize;
+                if (dataSize > (3 * 1024 * 1024 /* 3MB */)) {
+                    return _self.showError("Message content and file size (" + dataSize + " byte) is too large...");
+                }
+
+                _self.sendEmail(data);
+            });
+
             return this;
+        },
+
+        sendEmail (data) {
+            let _self = this;
+            let cancel = $('#compose-modal').find('button:last-child');
+            let submit = $('#modal-submit');
+            $.ajax({
+                url: '/api/v1/messages',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                processData: false,
+                contentType: false,
+                timeout: 50000,
+
+                beforeSend (xhr, settings) {
+                    submit.prop('disabled', true);
+                    cancel.click();
+                },
+                complete (xhr, settings) {
+                    submit.prop('disabled', false);
+                },
+                success (data, status, errorThrown) {
+                    _self.resetForm();
+                    let label = $('.btn-list.btn-active span').text().trim();
+                    _self.build(label !== 'Inbox' ? label : null);
+                    let success = $('#success-dialog');
+                    success.text('Messages successfully have been moved to trash');
+                    success.fadeIn(1000).delay(3000).fadeOut(1000);
+                },
+                error (data, status, errorThrown) {
+                    _self.resetForm();
+                    let error = $('#error-dialog');
+                    error.text('Error occurred : ' + errorThrown);
+                    error.fadeIn(1000).delay(3000).fadeOut(1000);
+                    let label = $('.btn-list.btn-active span').text().trim();
+                    _self.build(label !== 'Inbox' ? label : null);
+                }
+            });
         },
 
         search (label) {
@@ -307,6 +420,34 @@
                 this.$move.css('display', 'inline-block');
                 this.$remove.css('display', 'none');
             }
+        },
+
+        resetForm () {
+            $('form#modal-form').get(0).reset();
+            $('#modal-input-attachments').val('');
+            $('div.attachment-preview').find('div.upload-attachment').remove();
+            this.uploadedFiles = [];
+            this.totalSize = 0;
+        },
+
+        convertFileSize (bytes, si) {
+            let thresh = si ? 1000 : 1024;
+            if(Math.abs(bytes) < thresh) {
+                return bytes + ' B';
+            }
+            let units = si ? ['kB','MB','GB','TB','PB','EB','ZB','YB'] : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+            let u = -1;
+            do {
+                bytes /= thresh;
+                ++u;
+            } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+
+            return bytes.toFixed(1)+' '+units[u];
+        },
+
+        showError (error) {
+            $('.error-text').text(error);
+            $('div.error-wrapper').fadeIn();
         },
 
         setMailSidebarHeight () {

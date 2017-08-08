@@ -435,12 +435,10 @@ function sendMessage(oauth, headers, message, callback) {
  * @param  {Object} headers object that contains header information like sender, receiver, Mine type, and etc...
  * @param  {String} message mail content body
  * @param  {String} boundary the string to separate multi part of mail body
- * @param  {Array} attachments an Array of base64 formatted file
- * @param  {Array} attachmentTypes an Array of file types for each attachments
- * @param  {Array} attachmentNames an Array of file names for each attachments
+ * @param  {Array} attachments an Array of Object that contains data, name, type
  * @param  {Function} callback Function(Error, Result) that is called when request is completed.
  */
-function sendMessageWithAttachment(oauth, headers, message, boundary, attachments, attachmentTypes, attachmentNames, callback) {
+function sendMessageWithAttachment(oauth, headers, message, boundary, attachments, callback) {
     let gmail = google.gmail('v1');
     let oauth2Client = createOAuth(oauth);
 
@@ -460,11 +458,11 @@ function sendMessageWithAttachment(oauth, headers, message, boundary, attachment
 
     let attachmentLength = attachments.length;
     for (let i = 0; i < attachmentLength; i++) {
-        email += ('Content-Type: ' + attachmentTypes[i] + '\r\n');
+        email += ('Content-Type: ' + attachments[i].type + '\r\n');
         email += 'MIME-Version: 1.0\r\n';
         email += 'Content-Transfer-Encoding: base64\r\n';
-        email += ('Content-Disposition: attachment; filename="' + attachmentNames[i] + '"\r\n\r\n');
-        email += (attachments[i] + '\r\n\r\n');
+        email += ('Content-Disposition: attachment; filename="' + attachments[i].name + '"\r\n\r\n');
+        email += (attachments[i].data + '\r\n\r\n');
         email += ('--' + boundary + (i === (attachmentLength - 1) ? '--' : '\r\n'));
     }
 

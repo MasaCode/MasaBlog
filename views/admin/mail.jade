@@ -15,7 +15,7 @@ block content
             div.col-md-12
               div.mail-sidebar
                 div.mail-sidebar-content
-                  a.btn-manage.btn.btn-primary#compose Compose
+                  a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
                   div.btn-wrapper
                     a(class=(label === null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
                       span.btn-label Inbox
@@ -58,6 +58,40 @@ block content
                     div.attachmet-wrapper
 
           include ../include/footer
+
+  div.error-wrapper
+    div.error-content
+      h4.text-center.error-header Error
+      p.error-text
+      button.error-close.btn.btn-default You got it?
+
+  div(tabindex="-1", role="dialog", aria-labelledby="ComposeModalLabel", aria-hidden="true", style="display:none; top:30px;")#compose-modal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#ComposeModalLabel.text-center New Message
+        div.modal-body
+          div.row
+            div.col-md-12
+              form(role="form")#modal-form.form-horizontal
+                input(type="hidden", name="id")#modal-input-id
+                div.form-wrapper
+                  input(type="email", name="name" maxlength="255", placeholder="to")#modal-input-to.form-control
+                div.form-wrapper
+                  input(type="text", name="name" maxlength="255", placeholder="subject")#modal-input-subject.form-control
+                div.form-wrapper
+                  textarea(name="body", placeholder="Content Body")#modal-input-body.form-control
+              div.attachment-preview
+        div.modal-footer
+          div.attachment-label-wrapper
+            label.attachment-label
+              span.parperclip-wrapper
+                i.fa.fa-paperclip
+                  input(type="file", name="files[]", style="display: none;", multiple="multiple")#modal-input-attachments
+          button(type="submit", form="modal-form")#modal-submit.btn.btn-primary Send
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
   script.
     var IS_READ = !{JSON.stringify(message.labelIds.indexOf("UNREAD") === -1)};
     var ID = !{JSON.stringify(message.id)};

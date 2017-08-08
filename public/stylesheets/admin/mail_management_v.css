@@ -414,6 +414,145 @@ div.loader-bg {
 }
 /* ================== Loader End ================== */
 
+/* ================== Modal Start ================== */
+
+#compose-modal div.modal-header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: none;
+    background: #e00;
+    color: white;
+}
+
+#compose-modal button.close {
+    color: white;
+}
+
+#compose-modal div.modal-body {
+    padding: 0;
+}
+
+#compose-modal div.modal-footer {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#ComposeModalLabel {
+    margin: 0 auto;
+}
+
+div.form-wrapper {
+    width: 100%;
+}
+
+div.form-wrapper input {
+    border: 0;
+}
+
+div.form-wrapper textarea {
+    height: 250px;
+    border: 0;
+}
+
+div.attachment-label-wrapper {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+label.attachment-label {
+    margin-bottom: 0 !important;
+    margin-top: 2px;
+}
+
+span.parperclip-wrapper {
+    padding-bottom: 7px;
+    padding-right: 13px;
+    padding-left: 13px;
+    padding-top: 7px;
+    background-color: rgba(230, 230, 230, 0.6);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(220, 220, 220, 0.6);
+    position: relative;
+    top: 3px;
+}
+
+span.parperclip-wrapper:active {
+    background: rgba(180, 180, 180, 0.4);
+}
+
+div.attachment-preview {
+    width: 100%;
+}
+
+div.upload-attachment {
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+    padding: 2px 5px;
+    background: rgba(200, 200, 200, 0.3);
+}
+
+div.upload-attachment span {
+    font-size: 80%;
+}
+
+i.attachment-remove {
+    float: right;
+    margin-top: 5px;
+    font-size: 100%;
+    margin-right: 3px;
+}
+
+div.error-wrapper {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    z-index: 100000;
+    background: rgba(0, 0, 0, 0.8);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+div.error-content {
+    position: relative;
+    display: block;
+    min-height: 160px;
+    width: 100%;
+    max-width: 300px;
+    margin-left: calc(50% - 150px);
+    background: #fff;
+    top: 8vh;
+    padding: 5px;
+}
+
+.error-header {
+    margin-top: 5px;
+    margin-bottom: 0;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #ddd;
+}
+
+.error-text {
+    margin-top: 5px;
+    color: red;
+    text-align: center;
+    font-size: 120%;
+}
+
+.error-close {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+/* ================== Modal End ================== */
+
 @media screen and (max-width: 991px) {
     div.loader-bg {
         height: calc(100% + 10px);
@@ -461,6 +600,10 @@ div.loader-bg {
 
     #btn-auth {
         width: 80%;
+    }
+
+    #compose-modal {
+        top: 60px!important;
     }
 }
 
@@ -522,5 +665,15 @@ div.loader-bg {
     .btn-pagenation, .btn-refresh, .btn-remove, .btn-move {
         padding: 5px 10px;
         margin-top: 3px;
+    }
+
+    div.form-wrapper textarea {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    div.form-wrapper textarea {
+        height: 150px;
     }
 }
