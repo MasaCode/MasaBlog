@@ -15,6 +15,12 @@ div.nav-side-menu
     ul#menu-content.menu-content.collapse.out
       li(class=(menuActive === 'dashboard' ? 'active' : ''))
         a(href="/admin") <i class="fa fa-dashboard fa-lg"></i> Dashboard
+      li(class=(menuActive === 'profile' ? 'active' : ''))
+        a(href="/admin/profile") <i class="fa fa-user fa-lg"></i> Profile
+      - if (user.gmail_credentials !== null && user.gmail_credentials !== '') { // TODO: Change it to something like user.credential !== ''
+        li(class=(menuActive === 'mail' ? 'active' : ''))
+          a(href="/admin/messages") <i class="fa fa-envelope fa-lg"></i> Email
+      - }
       li(class=(menuActive === 'post' ? 'active' : ''))
         a(href="/admin/posts") <i class="fa fa-rocket fa-lg"></i> Posts
       li(class=(menuActive === 'category' ? 'active' : ''))
@@ -23,8 +29,6 @@ div.nav-side-menu
         a(href="/admin/tags") <i class="fa fa-tags fa-lg"></i> Tags
       li(class=(menuActive === 'thumbnail' ? 'active' : ''))
         a(href="/admin/thumbnails") <i class="fa fa-picture-o fa-lg"></i> Thumbnails
-      li(class=(menuActive === 'profile' ? 'active' : ''))
-        a(href="/admin/profile") <i class="fa fa-user fa-lg"></i> Profile
       li(class=(menuActive === 'password' ? 'active' : ''))
         a(href="/admin/passwordReset") <i class="fa fa-key fa-lg"></i> Password Reset
       li

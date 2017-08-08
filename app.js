@@ -6,6 +6,7 @@ let logger = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let passport = require('passport');
+let fs = require('fs');
 
 let index = require('./routes/index');
 let login = require('./routes/login');
@@ -18,6 +19,7 @@ let tasks = require('./routes/api/v1/tasks');
 let events = require('./routes/api/v1/events');
 let posts = require('./routes/api/v1/posts');
 let users = require('./routes/api/v1/users.js');
+let messages = require('./routes/api/v1/messages.js');
 let db = require('./models/db');
 db.connect();
 
@@ -55,6 +57,7 @@ app.use('/api/v1/tasks', tasks);
 app.use('/api/v1/events', events);
 app.use('/api/v1/posts', posts);
 app.use('/api/v1/users', users);
+app.use('/api/v1/messages', messages);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -72,6 +75,22 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
+});
+
+fs.stat('public/assets/uploads', function (err, data) {
+    if (err) {
+        fs.mkdir('public/assets/uploads', function (error) {
+            if (error) console.log(error);
+        });
+    }
+});
+
+fs.stat('public/assets/profile', function (err, data) {
+    if (err) {
+        fs.mkdir('public/assets/profile', function (error) {
+            if (error) console.log(error);
+        });
+    }
 });
 
 module.exports = app;

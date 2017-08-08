@@ -254,6 +254,11 @@ div.not-found-content {
         margin: 10px;
     }
 
+    div.admin-content div.container-fluid {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
     div.not-found {
         margin: 0 auto;
         height: 50vh;
@@ -263,6 +268,12 @@ div.not-found-content {
 @media (min-width: 767px) {
     .nav-side-menu .menu-list .menu-content {
         display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    #success-dialog, #error-dialog {
+        left: calc(100% - 150px);
     }
 }
 

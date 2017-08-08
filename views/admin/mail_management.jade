@@ -1,0 +1,110 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/mail_management_v.css')
+  script(src="/plugins/moment/js/moment.min.js")
+block content
+  block menuVariables
+    - var menuActive = 'mail';
+    include sidebar
+    div.admin-content-wrapper
+      div.admin-content
+        div.container-fluid
+          div.row.wrapper-height
+            div.col-md-12
+              - if (authURL !== null) {
+                div#auth-modal
+                  div.auth-wrapper
+                    h3.text-center Authorize Gmail Account
+                    a(href=authURL).btn.btn-danger#btn-auth Authorize
+              - }
+              div.mail-sidebar
+                div.mail-sidebar-content
+                  a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
+                  div.btn-wrapper
+                    a(class=(label===null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
+                      span.btn-label Inbox
+                    a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
+                      span.btn-label Unread
+                    a(class=(label==='Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
+                      span.btn-label Important
+                    a(class=(label==='Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
+                      span.btn-label Starred
+                    a(class=(label==='Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
+                      span.btn-label Draft
+                    a(class=(label==='Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
+                      span.btn-label Sent Mail
+                    a(class=(label==='Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
+                      span.btn-label Trash
+              div.mail-wrapper
+                div.table-wrapper
+                  div.loader-bg
+                  table.table.table-responsive#mail-table
+                    thead
+                      tr
+                        th
+                          a.btn-manage.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
+                          a.btn-manage.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
+                          a.btn-manage.btn.btn-default.btn-move <i class="fa fa-folder"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
+                        th
+                        th
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
+                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
+                    tbody#mail-body
+
+                  - if (authURL === null) {
+                    div#cssload-loader
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                  - }
+
+                div.showing-wrapper
+                  p(style="display:none;").showing-text Showing <span class="showing-start">1</span> - <span class="showing-end">15</span> of <span class="showing-length">200</span>
+          include ../include/footer
+
+  div.error-wrapper
+    div.error-content
+      h4.text-center.error-header Error
+      p.error-text
+      button.error-close.btn.btn-default You got it?
+
+  div(tabindex="-1", role="dialog", aria-labelledby="ComposeModalLabel", aria-hidden="true", style="display:none; top:30px;")#compose-modal.modal.fade
+    div.modal-dialog.modal-md
+      div.modal-content
+        div.modal-header
+          button(type="button", data-dismiss="modal", aria-hidden="true").close x
+          h4#ComposeModalLabel.text-center New Message
+        div.modal-body
+          div.row
+            div.col-md-12
+              form(role="form")#modal-form.form-horizontal
+                input(type="hidden", name="id")#modal-input-id
+                div.form-wrapper
+                    input(type="email", name="name" maxlength="255", placeholder="to")#modal-input-to.form-control
+                div.form-wrapper
+                  input(type="text", name="name" maxlength="255", placeholder="subject")#modal-input-subject.form-control
+                div.form-wrapper
+                  textarea(name="body", placeholder="Content Body")#modal-input-body.form-control
+              div.attachment-preview
+        div.modal-footer
+          div.attachment-label-wrapper
+            label.attachment-label
+              span.parperclip-wrapper
+                i.fa.fa-paperclip
+                  input(type="file", name="files[]", style="display: none;", multiple="multiple")#modal-input-attachments
+          button(type="submit", form="modal-form")#modal-submit.btn.btn-primary Send
+          button(type="button", data-dismiss="modal").btn.btn-default Cancel
+
+  - if (authURL === null) {
+    script.
+      var LABEL = !{JSON.stringify(label)};
+    script(src="/javascripts/admin/mail_management_v.js")
+  - }

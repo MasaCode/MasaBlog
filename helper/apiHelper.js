@@ -1,6 +1,13 @@
 'use strict';
 let http = require('http');
 
+/**
+ * Get Weather information of specific location
+ *
+ * @param  {String} location that you want to know weather of (e.g. Vancouver,CA)
+ * @param  {String} apiKey of OpenWeather API
+ * @return {Object} an object that contains weather information
+ */
 function getWeatherInfo(location, apiKey) {
     return new Promise(function (resolve, reject) {
         const UNITS = 'metric';
