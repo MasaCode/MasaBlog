@@ -75,10 +75,12 @@ router.post('/', checkToken, function (req, res) {
         if (data.to === undefined || data.to === '') throw new Error('Email receiver is required...');
         if (data.subject === undefined) throw new Error('Email subject is required...');
         if (data.body === undefined) throw new Error('Email body is required...');
+        let profile = (yield gmailHelper.getProfile(oauth));
         if (data.hasAttachment !== 'true') {
             gmailHelper.sendMessage(oauth, {
                 'Content-Type': 'text/plain',
                 'to': data.to,
+                'from': profile.name + ' <' + profile.email + '>',
                 'subject': data.subject,
             }, data.body, function (error, response) {
                 if (error) util.sendResponse(res, 500, error.message);
@@ -91,6 +93,7 @@ router.post('/', checkToken, function (req, res) {
             gmailHelper.sendMessageWithAttachment(oauth, {
                 'Content-Type': 'text/plain',
                 'to': data.to,
+                'from': profile.name + ' <' + profile.email + '>',
                 'subject': data.subject,
             }, data.body, data.boundary, attachments, function (error, response) {
                 if (error) util.sendResponse(res, 500, error.message);

@@ -4,7 +4,12 @@ let google = require('googleapis');
 let googleAuth = require('google-auth-library');
 let util = require('./util.js');
 
-let SCOPES = ['https://mail.google.com/'];
+let SCOPES = [
+    'https://mail.google.com/',
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/calendar',
+];
 let TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
 
 /**
@@ -122,14 +127,19 @@ function storeToken(fileName, token) {
  */
 function getProfile (oauth) {
     return new Promise((resolve, reject) => {
-        let gmail = google.gmail('v1');
+        let people = google.people('v1');
         let oauth2Client = createOAuth(oauth);
-        gmail.users.getProfile({
+        people.people.get({
             auth: oauth2Client,
-            userId: 'me',
+            resourceName: 'people/me',
+            personFields: 'emailAddresses,names',
         }, (error, response) => {
             if (error) reject(error);
-            else resolve(response);
+            else {
+                let name = response.names[0].displayName;
+                let email = response.emailAddresses[0].value;
+                resolve({name: name, email: email});
+            }
         });
     });
 }
@@ -412,6 +422,7 @@ function sendMessage(oauth, headers, message, callback) {
         'Content-Transfer-Encoding: 7bit\r\n',
         'Content-Type: ' + headers['Content-Type'] + '\r\n',
         'to: ' + headers['to'] + '\r\n',
+        'from: ' + headers['from'] + '\r\n',
         'subject: ' + headers['subject'] + '\r\n',
         '\r\n' + message
     ].join('');
@@ -446,6 +457,7 @@ function sendMessageWithAttachment(oauth, headers, message, boundary, attachment
         'Content-Type: multipart/mixed; boundary="' + boundary + '"\r\n',
         'MIME-Version: 1.0\r\n',
         'to: ' + headers['to'] + '\r\n',
+        'from: ' + headers['from'] + '\r\n',
         'subject: ' + headers['subject'] + '\r\n\r\n',
         '--' + boundary + '\r\n',
 

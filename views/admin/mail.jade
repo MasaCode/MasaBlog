@@ -50,7 +50,7 @@ block content
                         span.sender
                           - var from = extractFieldHeader(message, 'From').split(' <');
                           span.sender-name #{from[0].replace(/"/g, '')}
-                          span.sender-email #{(from.length !== 1 ? ('&lt;' + from[1]) : '')}
+                          span.sender-email #{(from.length !== 1 ? ('<' + from[1]) : '')}
                         span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
                   div.mail-body
                     iframe(srcdoc=message.html, width="100%")#mail-content
