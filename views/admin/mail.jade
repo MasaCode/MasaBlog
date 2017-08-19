@@ -44,7 +44,8 @@ block content
                     div.cssload-dot
                     div.cssload-dot
                   div.mail-header
-                    h3.mail-subject #{extractFieldHeader(message, "Subject")}
+                    - var subject = extractFieldHeader(message, "Subject");
+                    h3.mail-subject #{subject}
                     div.mail-sender
                       p
                         span.sender
@@ -57,6 +58,23 @@ block content
                   div.mail-footer
                     div.attachmet-wrapper
 
+                div.reply-wrapper
+                  span.reply-message Click hre to <a class="btn-reply">reply</a>
+                  div.reply-form
+                    div.reply-body
+                      input(type="hidden", name="reply-id", value="#{message.id}")#reply-input-id
+                      input(type="text", name="reply-to", readonly, value="#{extractFieldHeader(message, 'From')}")#reply-input-to
+                      input(type="hidden", name="reply-subject", value="Re: #{subject}")#reply-input-subject
+                      textarea(name="reply-body")#reply-input-body
+                      div.reply-preview
+                    div.reply-footer
+                      div.attachment-label-wrapper
+                        label.attachment-label
+                          span.parperclip-wrapper
+                            i.fa.fa-paperclip
+                              input(type="file", name="files[]", style="display: none;", multiple="multiple")#reply-input-attachments
+                      button(type="submit")#reply-submit.btn.btn-primary Send
+                      button.btn.btn-default#reply-cancel Cancel
           include ../include/footer
 
   div.error-wrapper
@@ -96,4 +114,5 @@ block content
     var IS_READ = !{JSON.stringify(message.labelIds.indexOf("UNREAD") === -1)};
     var ID = !{JSON.stringify(message.id)};
     var ATTACHMENTS = !{JSON.stringify(attachments)};
+    var MESSAGE = !{JSON.stringify(message)};
   script(src="/javascripts/admin/mail_v.js")

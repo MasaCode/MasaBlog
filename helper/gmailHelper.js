@@ -421,6 +421,7 @@ function sendMessage(oauth, headers, message, callback) {
         'charset: \"UTF-8\"\r\n',
         'Content-Transfer-Encoding: 7bit\r\n',
         'Content-Type: ' + headers['Content-Type'] + '\r\n',
+        (headers['In-Reply-To'] !== undefined ? ('In-Reply-To: ' + headers['In-Reply-To'] + '\r\n') : ''),
         'to: ' + headers['to'] + '\r\n',
         'from: ' + headers['from'] + '\r\n',
         'subject: ' + headers['subject'] + '\r\n',
@@ -456,6 +457,7 @@ function sendMessageWithAttachment(oauth, headers, message, boundary, attachment
     let email = [
         'Content-Type: multipart/mixed; boundary="' + boundary + '"\r\n',
         'MIME-Version: 1.0\r\n',
+        (headers['In-Reply-To'] !== undefined ? ('In-Reply-To: ' + headers['In-Reply-To'] + '\r\n') : ''),
         'to: ' + headers['to'] + '\r\n',
         'from: ' + headers['from'] + '\r\n',
         'subject: ' + headers['subject'] + '\r\n\r\n',
@@ -568,9 +570,10 @@ function extractMailBody(response) {
  */
 function extractFieldHeader (json, fieldName) {
     fieldName = fieldName.toLowerCase();
-    return json.payload.headers.filter(function(header) {
+    let header = json.payload.headers.filter(function(header) {
         return (header.name.toLowerCase() === fieldName);
-    })[0].value;
+    });
+    return (header.length !== 0 ? header[0].value : '');
 }
 
 module.exports.authorizeGoogleAPI = authorizeGoogleAPI;

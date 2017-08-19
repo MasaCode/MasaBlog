@@ -94,7 +94,7 @@ span.sm-desc {
 }
 
 div.mail-body {
-    min-height: 300px;
+    min-height: 200px;
 }
 /* ================= Mail Table End ================= */
 
@@ -105,7 +105,7 @@ div.mail-sidebar {
     display: block;
     width: 25%;
     min-height: 530px;
-    height: 530px;
+    height: 600px;
     background: #fff;
     padding: 15px 0 15px 15px;
     float: left;
@@ -160,6 +160,72 @@ span.btn-label {
 }
 
 /* ================= Mail Sidebar End ================= */
+
+/* ================= Mail Reply End ================= */
+
+div.reply-wrapper {
+    width: 100%;
+    min-height: 50px;
+    border: 2px solid #ddd;
+}
+
+span.reply-message {
+    display: block;
+    padding-left: 11px;
+    padding-top: 7px;
+    font-size: 90%;
+}
+
+div.reply-form {
+    display: none;
+    width: 100%;
+    min-height: 200px;
+}
+
+div.reply-body {
+    width: 100%;
+    height: auto;
+}
+
+input#reply-input-to {
+    width: 100%;
+    padding-left: 10px;
+}
+
+textarea#reply-input-body {
+    width: 100%;
+    min-height: 250px;
+    border: none;
+    outline: none !important;
+    border-top: 2px solid #ddd;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+div.reply-footer {
+    display: block;
+    width: 100%;
+    min-height: 45px;
+    padding-top: 5px;
+    padding-bottom: 6px;
+    text-align: right;
+}
+
+#reply-cancel {
+    margin-right: 10px;
+}
+
+#reply-submit {
+    margin-right: 5px;
+}
+
+div.reply-preview {
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 3px;
+}
+
+/* ================= Mail Reply End ================= */
 
 div.loader-bg {
     position: absolute;
@@ -447,7 +513,7 @@ div.upload-attachment span {
     font-size: 80%;
 }
 
-i.attachment-remove {
+i.attachment-remove, i.reply-attachment-remove {
     float: right;
     margin-top: 5px;
     font-size: 100%;

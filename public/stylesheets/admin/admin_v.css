@@ -273,7 +273,7 @@ div.not-found-content {
 
 @media screen and (max-width: 767px) {
     #success-dialog, #error-dialog {
-        left: calc(100% - 150px);
+        left: calc(50% - 150px);
     }
 }
 

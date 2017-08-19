@@ -3,11 +3,14 @@
 
     let Mail = {
         uploadedFiles: [],
+        replyFiles: [],
         totalSize: 0,
+        replySize: 0,
 
         initialize () {
             this.$loader = $('div#cssload-loader');
             this.$loaderWrapper = $('div.loader-bg');
+            this._message = MESSAGE;
             this._attachments = ATTACHMENTS;
 
             if (!IS_READ) {
@@ -140,6 +143,86 @@
                 _self.sendEmail(data);
             });
 
+            // Reply Events
+            $('a.btn-reply').on('click', function (event) {
+                $('div.reply-form').show();
+                $(this).parent().hide();
+                _self.setMailSidebarHeight();
+            });
+
+            $('#reply-cancel').on('click', function (event) {
+                $('div.reply-form').hide();
+                $('span.reply-message').show();
+                $('textarea#reply-input-body').val('');
+                $('div.reply-preview').find('div.upload-attachment').remove();
+                _self.replyFiles = [];
+                _self.replySize = 0;
+                _self.setMailSidebarHeight();
+            });
+
+            $('#reply-input-attachments').on('change', function (event) {
+                let files = this.files;
+                let length = files.length;
+                if (length === 0) return;
+
+                let attachmentPreview = $('div.reply-preview');
+                let submit = $('#reply-submit');
+                submit.prop('disabled', true);
+                for (let i = 0; i < length; i++) {
+                    (function (file, index) {
+                        let reader = new FileReader();
+                        reader.onload = function (event) {
+                            _self.replyFiles.push({data: event.target.result.split('base64,')[1], name: file.name, type: file.type});
+                            _self.replySize += file.size;
+                            let item = '<div data-size="' + file.size +'" class="upload-attachment"><span>' + file.name +' (' + _self.convertFileSize(file.size, true) + ')<i class="fa fa-times reply-attachment-remove"></i></span></div>';
+                            attachmentPreview.append(item);
+
+                            if (index === (length - 1)) {
+                                submit.prop('disabled', false);
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    })(files[i], i);
+                }
+            });
+
+            $(document).on('click', 'i.reply-attachment-remove', function (event) {
+                let item = $(this).closest('div.upload-attachment');
+                let index = item.index();
+                _self.replyFiles.splice(index, 1);
+                _self.replySize -= parseInt(item.data('size'));
+                item.remove();
+            });
+
+            $('#reply-submit').on('click', function (event) {
+                let id = $('input#reply-input-id').val();
+                let to = $('input#reply-input-to').val();
+                let subject = $('input#reply-input-subject').val();
+                let body = $('textarea#reply-input-body').val();
+                let hasAttachments = _self.replyFiles.length !== 0;
+                if (id === '' || to === '' || subject === '') {
+                    return _self.showError("Something is wrong with this email, please reload the page...");
+                }
+
+                let data = new FormData();
+                data.append('inReplyTo', id);
+                data.append('to', to);
+                data.append('subject', subject);
+                data.append('body', body);
+                data.append('hasAttachment', hasAttachments);
+                if (hasAttachments) {
+                    data.append('boundary', 'masa_blog_mail');
+                    data.append('attachments', JSON.stringify(_self.replyFiles));
+                }
+
+                let dataSize = (body.length * 2 /* 1 character -> 2byte */) + _self.replySize;
+                if (dataSize > (3 * 1024 * 1024 /* 3MB */)) {
+                    return _self.showError("Message content and file size (" + dataSize + " byte) is too large...");
+                }
+
+                _self.replyEmail(data);
+            });
+
             return this;
         },
 
@@ -166,7 +249,7 @@
                 success (data, status, errorThrown) {
                     _self.resetForm();
                     let success = $('#success-dialog');
-                    success.text('Messages successfully have been moved to trash');
+                    success.text('Messages successfully have been sent');
                     success.fadeIn(1000).delay(3000).fadeOut(1000);
                 },
                 error (data, status, errorThrown) {
@@ -176,6 +259,39 @@
                     error.fadeIn(1000).delay(3000).fadeOut(1000);
                 }
             });
+        },
+
+        replyEmail (data) {
+            let _self = this;
+            let cancel = $('#reply-cancel');
+            let submit = $('#reply-submit');
+            $.ajax({
+                url: '/api/v1/messages/reply',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                processData: false,
+                contentType: false,
+                timeout: 50000,
+
+                beforeSend (xhr, settings) {
+                    submit.prop('disabled', true);
+                    cancel.click();
+                },
+                complete (xhr, settings) {
+                    submit.prop('disabled', false);
+                },
+                success(data, status, errorThrown) {
+                    let success = $('#success-dialog');
+                    success.text('Reply messages successfully have been sent');
+                    success.fadeIn(1000).delay(3000).fadeOut(1000);
+                },
+                error(data, status, errorThrown) {
+                    let error = $('#error-dialog');
+                    error.text('Error occurred : ' + errorThrown);
+                    error.fadeIn(1000).delay(3000).fadeOut(1000);
+                }
+             });
         },
 
         resetForm () {

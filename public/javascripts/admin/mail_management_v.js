@@ -394,9 +394,10 @@
 
         extractFieldHeader (json, fieldName) {
             fieldName = fieldName.toLowerCase();
-            return json.payload.headers.filter(function(header) {
-                return header.name.toLowerCase() === fieldName;
-            })[0].value;
+            let header = json.payload.headers.filter(function(header) {
+                return (header.name.toLowerCase() === fieldName);
+            });
+            return (header.length !== 0 ? header[0].value : '');
         },
 
         loader (show) {
