@@ -19,6 +19,24 @@ block content
         div.row
           div.col-md-9
             div#post-content.well.blog-post
+            div.comment-form-wrapper
+              h3.text-center Leave a comment!
+              form()#comment-form
+                div.comment-left
+                  div.comment-group.form-group
+                    label.comment-label Name*
+                    input(type="text", name="comment-name", maxlength="255")#comment-input-name.form-control
+                  div.comment-group.form-group
+                    label.comment-label Email*
+                    input(type="email", name="comment-email", maxlength="255")#comment-input-email.form-control
+                  div.submit-wrapper.lg-submit
+                    button().comment-submit.btn.btn-primary Submit
+                div.comment-right
+                  div.comment-group.form-group
+                    label.comment-label Message*
+                    textarea()#comment-input-body.form-control
+                  div.submit-wrapper.sm-submit
+                    button().comment-submit.btn.btn-primary Submit
 
           block barVariables
             - var show_about = true;
