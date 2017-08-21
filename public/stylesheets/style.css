@@ -317,7 +317,7 @@ footer p {
   padding: 15px;
 }
 
-div#error-dialog {
+div#error-dialog, div#success-dialog {
   display:none;
   width: 300px;
   position: fixed;
@@ -500,5 +500,11 @@ div.not-found {
 
   div.title-wrapper {
     padding-top: 15px !important;
+  }
+
+  main.page-content-wrapper {
+    width: 100% !important;
+    margin-left: 0 !important;;
+    margin-right: 0 !important;
   }
 }
