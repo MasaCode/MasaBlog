@@ -19,6 +19,34 @@ block content
         div.row
           div.col-md-9
             div#post-content.well.blog-post
+            - var commentLength = comments.length;
+            div(style="display: #{commentLength !== 0 ? 'block' : 'none'}").comment-wrapper
+              h3.text-center Comments
+              div.comment-content
+                - for (var i = 0; i < commentLength; i++) {
+                  div.comment
+                    h4.commenter #{comments[i].username} <small>on #{moment(new Date(comments[i].date)).format('MMM Do, YYYY')}</small>
+                    p.comment-body #{comments[i].comments}
+                - }
+            div.comment-form-wrapper
+              h3.text-center Leave a comment!
+              span.error-text
+              form()#comment-form
+                div.comment-left
+                  div.comment-group.form-group
+                    label.comment-label Name*
+                    input(type="text", name="comment-name", maxlength="255")#comment-input-name.form-control
+                  div.comment-group.form-group
+                    label.comment-label Email*
+                    input(type="email", name="comment-email", maxlength="255")#comment-input-email.form-control
+                  div.submit-wrapper.lg-submit
+                    button().comment-submit.btn.btn-primary Submit
+                div.comment-right
+                  div.comment-group.form-group
+                    label.comment-label Message*
+                    textarea()#comment-input-body.form-control
+                  div.submit-wrapper.sm-submit
+                    button().comment-submit.btn.btn-primary Submit
 
           block barVariables
             - var show_about = true;
@@ -27,37 +55,14 @@ block content
   include include/footer
 
   script.
-    $(window).ready(function(event) {
-        marked.setOptions({
-            highlight: function (code) {
-                return hljs.highlightAuto(code).value;
-            }
-        });
-        var POST = !{JSON.stringify(post)};
-        var body = marked(POST.body);
-        $('div.blog-post').html(body);
-
-        var date = moment(new Date('#{post.created_at}')).format('MMMM Do YYYY');
-        var tags = !{JSON.stringify(tags)};
-        var tagLength = tags.length;
-        var tagInfo = '', glue = '';
-        for (var i = 0; i < tagLength; i++) {
-            tagInfo += (glue + tags[i].name);
-            if (glue === '') glue = ', ';
+    var POST = !{JSON.stringify(post)};
+    var TAGS = !{JSON.stringify(tags)};
+    marked.setOptions({
+        highlight: function (code) {
+            return hljs.highlightAuto(code).value;
         }
-        var info = '<i class="fa fa-calendar"></i> ' + date + (tagInfo !== '' ? ' <i class="fa fa-tags"></i> ' + tagInfo : '');
-        $('p.post-info').html(info);
-
-        $.ajax({
-            url: '/api/v1/posts/sequence/' + POST.id,
-            type: 'PUT',
-            dataType: 'json',
-            timeout: 10000,
-
-            error (data, status, errorThrown) {
-                var error = $('#error-dialog');
-                error.text('Errorr Occurred.. Please check your internet connection and contact administrator.');
-                error.fadeIn(1000).delay(3000).fadeOut(1000);
-            }
-        });
     });
+    var body = marked(POST.body);
+    $('div.blog-post').html(body);
+
+  script(src="/javascripts/post_v.js")
