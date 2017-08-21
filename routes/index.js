@@ -14,6 +14,7 @@ let transporter = nodemailer.createTransport({
 });
 let util = require('../helper/util.js');
 let postModel = require('../models/postModel.js');
+let commentModel = require('../models/commentModel.js');
 let categoryModel = require('../models/categoryModel.js');
 let tagModel = require('../models/tagModel.js');
 let relationModel = require('../models/relationModel.js');
@@ -59,7 +60,8 @@ router.get('/posts/:id', function (req, res) {
         let categories = (yield categoryModel.findAll());
         let post = (yield postModel.findById(id));
         let tags = (yield relationModel.findTagsByPost(id));
-        res.render('post.jade', {title: config.BLOG_NAME + " | " + post.title, categories: categories, post: post, tags: tags});
+        let comments = (yield commentModel.findByPost(id));
+        res.render('post.jade', {title: config.BLOG_NAME + " | " + post.title, categories: categories, post: post, tags: tags, comments: comments, moment: moment});
     }).catch(function (e) {
         util.renderError(res, e);
     });
