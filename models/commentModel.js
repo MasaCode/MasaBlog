@@ -9,6 +9,10 @@ module.exports = {
         return db.getRow("select * from " + this.table + " where id=?", [id]);
     },
 
+    findByPost (id) {
+        return db.getResult("select * from " + this.table + " where is_active=true and post_id=?", [id]);
+    },
+
     findAll () {
         return db.getResult("select * from " + this.table + " where is_active=true", null);
     },
