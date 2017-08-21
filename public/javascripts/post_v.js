@@ -142,7 +142,7 @@
                         ].join(' ');
                         content.append(commentItem);
                     } else {
-                        let item = items.eq(0);
+                        let item = items.eq(i);
                         item.find('h4.commenter').html(comments[i].username + ' <small>on ' + date + '</small>')
                         item.find('p.comment-body').text(comments[i].comments);
                     }
