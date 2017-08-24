@@ -11,27 +11,31 @@ module.exports = {
 
     findByText(text) {
         text = '%' + text + '%';
-        return db.getResult("select * from " + this.table + " where is_active=true and (title like ? or description like ? or body like ?) order by sequence DESC", [text, text, text]);
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true and (title like ? or description like ? or body like ?) order by sequence DESC", [text, text, text]);
     },
 
     findByCategory (id) {
-        return db.getResult("select * from " + this.table + " where is_active=true and category_id=? order by sequence DESC", [id]);
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true and category_id=? order by sequence DESC", [id]);
     },
 
     findAll () {
         return db.getResult("select * from " + this.table + " where is_active=true order by sequence DESC", null);
     },
 
+    findPublished () {
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true order by sequence DESC", null);
+    },
+
     findRecent (limit) {
-        return db.getResult("select * from " + this.table + " where is_active=true order by created_at DESC limit ?", [limit]);
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true order by created_at DESC limit ?", [limit]);
     },
 
     findInRange (offset, limit) {
-        return db.getResult("select * from " + this.table + " where is_active=true order by sequence DESC limit ? offset ?", [limit, offset]);
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true order by sequence DESC limit ? offset ?", [limit, offset]);
     },
 
     findByCategoryInRange (id, offset, limit) {
-        return db.getResult("select * from " + this.table + " where is_active=true and category_id = ? order by sequence DESC limit ? offset ?", [id, limit, offset]);
+        return db.getResult("select * from " + this.table + " where is_active=true and is_published=true and category_id = ? order by sequence DESC limit ? offset ?", [id, limit, offset]);
     },
 
     count () {

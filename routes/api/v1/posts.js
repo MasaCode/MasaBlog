@@ -167,6 +167,7 @@ function validateParams(params, admin_id) {
     data.created_at = new Date();
     data.admin_id = admin_id;
     data.category_id = params.category_id;
+    data.is_published = false;
     data.sequence = 0;
     return {error: null, data: data};
 }

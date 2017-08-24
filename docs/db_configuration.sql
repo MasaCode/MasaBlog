@@ -52,6 +52,7 @@ CREATE TABLE `masa_posts` (
   `description` text NOT NULL,
   `sequence` int(11) NOT NULL,
   `body` mediumtext NOT NULL,
+  `is_published` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`admin_id`)

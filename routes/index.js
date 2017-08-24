@@ -22,7 +22,7 @@ let relationModel = require('../models/relationModel.js');
 router.get('/', function(req, res, next) {
     co(function *() {
         let postNum = 10;
-        let posts = (yield postModel.findAll());
+        let posts = (yield postModel.findPublished());
         let count = (yield postModel.count());
         let categories = (yield categoryModel.findAll());
         let data = {};

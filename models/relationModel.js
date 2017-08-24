@@ -5,11 +5,11 @@ let db = require('./db.js');
 module.exports = {
 
     findPostsByTag (tag_id) {
-        return db.getResult("select * from masa_posts where id in (select post_id from masa_post_tag where tag_id=?)", [tag_id]);
+        return db.getResult("select * from masa_posts where is_published=true and id in (select post_id from masa_post_tag where tag_id=?)", [tag_id]);
     },
 
     findPostsByCategory (category_id) {
-        return db.getResult("select * from masa_posts where id in (select post_id from masa_post_category where category_id=?)", [category_id]);
+        return db.getResult("select * from masa_posts where is_published=true and id in (select post_id from masa_post_category where category_id=?)", [category_id]);
     },
 
     findTagsByPost (post_id) {
