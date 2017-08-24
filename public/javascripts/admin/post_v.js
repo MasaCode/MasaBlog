@@ -136,6 +136,30 @@
                     });
                 });
             });
+
+            $(document).on('click', '.btn-publish', function (event) {
+                let $this = $(this);
+                let id = $this.data('id');
+                let post = $this.closest('div.post-thumbnail');
+                _self.updatePublishment(id, true, function () {
+                    post.removeClass('not-published');
+                    $this.text('Unpublish');
+                    $this.addClass('btn-unpublish');
+                    $this.removeClass('btn-publish');
+                });
+            });
+
+            $(document).on('click', '.btn-unpublish', function (event) {
+                let $this = $(this);
+                let id = $this.data('id');
+                let post = $this.closest('div.post-thumbnail');
+                _self.updatePublishment(id, false, function () {
+                    post.addClass('not-published');
+                    $this.text('Publish');
+                    $this.addClass('btn-publish');
+                    $this.removeClass('btn-unpublish');
+                });
+            });
         },
 
         onResize () {
@@ -265,6 +289,28 @@
                 }
             });
         },
+
+        updatePublishment (id, isPublished, callback) {
+            $.ajax({
+                url: '/api/v1/posts/publishment/' + id,
+                type: 'PUT',
+                dataType: 'json',
+                data: {is_published: isPublished},
+                timeout: 10000,
+
+                success (data, status, errorThrown) {
+                    callback();
+                    let success = $('#success-dialog');
+                    success.text('The post has been successfully updated.');
+                    success.fadeIn(1000).delay(3000).fadeOut(1000);
+                },
+                error (data, status, errorThrown) {
+                    let error = $('#error-dialog');
+                    error.text('Error occurred : ' + errorThrown);
+                    error.fadeIn(1000).delay(3000).fadeOut(1000);
+                }
+            });
+        }
     };
 
     $(function () {

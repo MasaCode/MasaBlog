@@ -10,6 +10,12 @@ div.post-wrapper.wrapper-height {
 
 div.post-thumbnail {
     margin-bottom: 0;
+    padding: 0;
+    border: 4px solid #fff;
+}
+
+.not-published {
+    border-color: red !important;
 }
 
 div.post-thumbnail h3 {
@@ -30,15 +36,16 @@ p.btn-thumbnail {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0;
-    width: 160px;
+    width: 235px;
 }
 
 p.btn-thumbnail a {
     width: 75px;
+    padding: 6px 0;
 }
 
-p.btn-thumbnail a.btn-edit {
-    margin-right: 10px;
+p.btn-thumbnail a.btn-edit, p.btn-thumbnail a.btn-unpublish, p.btn-thumbnail a.btn-publish {
+    margin-right: 5px;
     float: left;
 }
 
@@ -142,5 +149,14 @@ nav.pagination-wrapper {
         width: 90%;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 341px) {
+    p.btn-thumbnail {
+        width: 205px !important;
+    }
+    p.btn-thumbnail a.btn-edit, p.btn-thumbnail a.btn-delete {
+        width: 60px !important;
     }
 }

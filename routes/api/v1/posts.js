@@ -106,6 +106,20 @@ router.put('/sequence/:id', function (req, res) {
     });
 });
 
+router.put('/publishment/:id', util.allowAction, function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        if (req.body.is_published === undefined || req.body.is_published === null) throw new Error('Invalid Data...');
+        let isPublished = req.body.is_published === 'true';
+        let result = (yield postModel.update(id, {is_published: isPublished}));
+        util.sendResponse(res, 200, result);
+    }).catch(function (e) {
+        console.log(e);
+        util.sendResponse(res, 500, e.message);
+    });
+});
+
 router.put('/:id', util.allowAction, function (req, res) {
     co(function *() {
         let id = parseInt(req.params.id);
