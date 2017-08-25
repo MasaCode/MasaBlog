@@ -7,7 +7,7 @@ let moment = require('moment');
 let config  = require('../docs/environments.js');
 let util = require('../helper/util.js');
 let apiHelper = require('../helper/apiHelper.js');
-let gmailHelper = require('../helper/gmailHelper.js');
+let googleHelper = require('../helper/googleHelper.js');
 let postModel = require('../models/postModel.js');
 let categoryModel = require('../models/categoryModel.js');
 let tagModel = require('../models/tagModel.js');
@@ -127,14 +127,14 @@ router.get('/messages', isAuthenticated, function (req, res) {
     let label = req.query.label !== undefined ? req.query.label : null;
     if (req.cookies.oauth === undefined || util.isEmpty(req.cookies.oauth.credentials) || req.cookies.oauth.expired < now) {
         res.clearCookie('oauth');
-        gmailHelper.authorizeGoogleAPI(req.cookies.user.gmail_credentials, req.cookies.user.gmail_tokens, function (oauth2Client, error) {
+        googleHelper.authorizeGoogleAPI(req.cookies.user.gmail_credentials, req.cookies.user.gmail_tokens, function (oauth2Client, error) {
             if (oauth2Client === null && error) {
                 util.renderError(res, error);
                 console.log(error);
             } else {
                 oauth2Client.expired = new Date().getTime() + (24 * 60 * 60 * 1000); // Current Time + 1 day
                 res.cookie('oauth', oauth2Client);
-                let authURL = (error ? gmailHelper.generateAuthURL(oauth2Client) : null);
+                let authURL = (error ? googleHelper.generateAuthURL(oauth2Client) : null);
                 res.render(
                     'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, label: label, user: req.cookies.user}
                 );
@@ -152,13 +152,13 @@ router.get('/messages/:id', isAuthenticated, function (req, res) {
     let oauth = req.cookies.oauth;
     let label = req.query.label !== undefined ? req.query.label : null;
     if (id === undefined || id === '') return util.renderError(res, "Invalid Messsage ID...");
-    gmailHelper.getMessage(oauth, id, function (error, response) {
+    googleHelper.getMessage(oauth, id, function (error, response) {
         if (error) util.renderError(res, error);
         else{
-            let data = gmailHelper.extractMailBody(response);
+            let data = googleHelper.extractMailBody(response);
             response.html = new Buffer(data.base64, 'base64').toString();
             res.render(
-                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, attachments: data.attachments, extractFieldHeader: gmailHelper.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
+                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, attachments: data.attachments, extractFieldHeader: googleHelper.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
             );
         }
     });
@@ -166,7 +166,7 @@ router.get('/messages/:id', isAuthenticated, function (req, res) {
 
 router.get('/auth', isAuthenticated, function (req, res) {
     let code = req.query.code;
-    gmailHelper.getToken(req.cookies.oauth, code, req.cookies.user.gmail_tokens, function (error, oauth) {
+    googleHelper.getToken(req.cookies.oauth, code, req.cookies.user.gmail_tokens, function (error, oauth) {
         if (error) return util.renderError(res, error);
         req.cookies.oauth.credentials = oauth.credentials;
         res.cookie('oauth', req.cookies.oauth);
