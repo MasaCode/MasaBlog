@@ -183,7 +183,7 @@ router.get('/data', isAuthenticated, function (req, res) {
         data.category = (yield categoryModel.count());
         data.tag = (yield tagModel.count());
         data.thumbnail = (yield thumbnailModel.count());
-        data.comment = (yield commentModel.findAll());
+        data.comment = (yield commentModel.count());
         data.events = (yield eventModel.findByAdmin(req.cookies.user.id));
         data.tasks = (yield taskModel.findByAdmin(req.cookies.user.id));
         if (!req.cookies.weather || parseInt(req.cookies.weather) < new Date().getTime()) {
