@@ -13,6 +13,7 @@ html
       link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
       link(rel='stylesheet', href='/stylesheets/font-awesome.min.css')
       link(rel='stylesheet', href='/stylesheets/style.css')
+      script(src="/socket.io/socket.io.js")
       script(src='/javascripts/jquery-3.2.1.min.js')
       script(src='/javascripts/bootstrap.min.js')
   body
@@ -21,3 +22,5 @@ html
 
     div#error-dialog.alert.alert-danger
     div#success-dialog.alert.alert-success
+    script.
+      var socket = io();

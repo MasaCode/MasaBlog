@@ -103,6 +103,11 @@
                 useCurrent: false
             });
 
+            let socket = io();
+            socket.on('visitor', function (visitor) {
+                $('h3.visitor-count').text(visitor.count - 1);
+            });
+
             return this;
         },
 
