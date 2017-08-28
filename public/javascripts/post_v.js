@@ -1,4 +1,5 @@
 (function ($) {
+    'use strict';
 
     let PostContent = {
         COMMENT_MAX_HEIGHT: 120,
