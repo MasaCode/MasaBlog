@@ -53,6 +53,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
 
+let io = require('socket.io')(server);
+let count = 0;
+io.on('connection', function (socket) {
+    count++;
+    io.sockets.emit('visitor', {count: count});
+    socket.on('disconnect', function () {
+        count--;
+        io.sockets.emit('visitor', {count: count});
+    });
+});
+
 app.use('/', index);
 app.use('/login', login);
 app.use('/logout', logout);
