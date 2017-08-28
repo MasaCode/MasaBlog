@@ -40,8 +40,9 @@ block content
                     h3.text-center.min-temp 27<small>&deg;C</small>
                     h3.text-center.max-temp 29<small>&deg;C</small>
                     div.location
-                      h4.text-center Vancouver
-                      h5.text-center Canada
+                      - var location = user.location.split(',');
+                      h4.text-center #{location[0].trim()}
+                      h5.text-center #{location[1].trim()}
 
           div.admin-buttons
             div.col-lg-2.col-md-4.col-sm-6.col-xs-6.btn-wrapper
