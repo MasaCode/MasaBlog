@@ -42,6 +42,15 @@
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
+    overflow-x: scroll;
+    width: 100%;
+}
+
+#post-content pre code,
+.editor-preview pre code,
+.editor-preview-side pre code {
+    min-width: 400px;
+    white-space: inherit;
 }
 
 #post-content ol, #post-content ul,
