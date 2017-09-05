@@ -27,6 +27,16 @@ module.exports = {
         });
     },
 
+    countByPost (id) {
+        let _self = this;
+        return new Promise((resolve, reject) => {
+            db.query("select COUNT(is_active=true) as count from " + _self.table + " where post_id=?", [id], function (error, result) {
+                if (error) reject(error);
+                else resolve(result[0]);
+            });
+        });
+    },
+
     insert (data) {
         return db.insertSync(this.table, data);
     },

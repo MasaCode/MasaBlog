@@ -26,6 +26,10 @@ module.exports = {
         return db.getResult("select * from " + this.table + " where is_active=true and is_published=true order by sequence DESC", null);
     },
 
+    findPublishedWithOnlyTitle () {
+        return db.getResult("select id, title from " + this.table + " where is_active=true and is_published=true order by sequence DESC", null);
+    },
+
     findRecent (limit) {
         return db.getResult("select * from " + this.table + " where is_active=true and is_published=true order by created_at DESC limit ?", [limit]);
     },

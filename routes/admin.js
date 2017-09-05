@@ -174,6 +174,27 @@ router.get('/auth', isAuthenticated, function (req, res) {
     });
 });
 
+router.get('/comments', isAuthenticated, function (req, res) {
+    co(function *() {
+        let posts = (yield postModel.findPublishedWithOnlyTitle());
+        let length = posts.length;
+        let comments = [];
+        for (let i = 0; i  < length; i++) {
+            let comment = (yield commentModel.countByPost(posts[i].id));
+            if (comment.count === 0) continue;
+            comment.post_id = posts[i].id;
+            comment.title = posts[i].title;
+            comments.push(comment);
+        }
+        res.render(
+            'admin/comments_list.jade', {title: config.BLOG_NAME + " | Comments", comments: comments, user: req.cookies.user}
+        );
+    }).catch(function (e) {
+        util.renderError(res, e);
+        console.log(e);
+    });
+});
+
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
         let data = {};
