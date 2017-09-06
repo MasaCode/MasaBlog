@@ -1,0 +1,47 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/comment_v.css')
+  script(src="/plugins/moment/js/moment.min.js")
+block content
+  block menuVariables
+    - var menuActive = 'comment';
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.comment-wrapper.wrapper-height
+          div.col-md-12
+            div.comment-wrapper
+              - var length = comments.length;
+              - var replies = [];
+              - for (var i = 0; i < length; i++) {
+                - if (comments[i].reply_to !== null) {
+                  - replies.push(comments[i]);
+                  - continue;
+                - }
+                div.comment
+                  input(type="hidden", name="comment_id", value="#{comments[i].id}").comment-id
+                  input(type="hidden", name="comment_email", value="#{comments[i].email}").comment-email
+                  h4.commenter <span class="commenter-info"><span class="commenter-username">#{comments[i].username}</span> <small>on #{moment(new Date(comments[i].date)).format('MMM Do, YYYY')}</small></span> <button class="btn btn-warning pull-right btn-reply"><span class="lg-reply">Reply</span> <span class="fa fa-reply"></span></button>
+                  p.comment-body #{comments[i].comments}
+              - }
+              div#reply-form
+                div.form-wrapper
+                  hr.reply-line
+                  input(type="hidden", name="post_id", value="#{postId}")#reply-post-id
+                  input(type="hidden", name="id")#reply-to
+                  input(type="hidden", name="email", value="#{sender}")#reply-email
+                  input(type="hidden", name="username", value="#{user.username}")#reply-username
+                  span.error-text
+                  div.form-group
+                    textarea(name="body")#reply-body.form-control
+                  div.btn-wrapper
+                    a#reply-cancel.btn.btn-default Cancel
+                    a#reply-submit.btn.btn-primary Reply
+
+        include ../include/footer
+
+  script.
+    var REPLIES = !{JSON.stringify(replies)};
+  script(src="/javascripts/admin/comment_v.js")

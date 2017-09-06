@@ -195,6 +195,20 @@ router.get('/comments', isAuthenticated, function (req, res) {
     });
 });
 
+router.get('/comments/:post_id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.post_id);
+        if (!util.isValidId(id)) throw new Error("Invalid Post ID...");
+        let comments = (yield commentModel.findByPost(id));
+        res.render(
+            'admin/comments.jade', {title: config.BLOG_NAME + " | Comments", moment: moment, comments: comments, postId: id, sender: config.MAIL_RECEIVER_USER,user: req.cookies.user}
+        );
+    }).catch(function (e) {
+        util.renderError(res, e);
+        console.log(e);
+    });
+});
+
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
         let data = {};

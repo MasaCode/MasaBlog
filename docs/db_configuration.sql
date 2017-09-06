@@ -64,6 +64,7 @@ DEFAULT CHARACTER SET = utf8;
 
 CREATE TABLE `masa_comments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `reply_to` int(11) NULL,
   `post_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
