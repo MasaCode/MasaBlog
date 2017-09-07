@@ -25,9 +25,22 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/post/:id', function (req, res) {
+router.get('/post/refresh/:post_id', function (req, res) {
     co(function *() {
-        let id = parseInt(req.params.id);
+        let id = parseInt(req.params.post_id);
+        if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
+        let comments = (yield commentModel.findUserCommentsByPost(id));
+        let replies = (yield commentModel.findReplyByPost(id));
+        util.sendResponse(res, 200, {comments: comments, replies: replies});
+    }).catch(function (e) {
+        util.sendResponse(res, 500, e.message);
+        console.log(e);
+    });
+});
+
+router.get('/post/:post_id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.post_id);
         if (!util.isValidId(id)) throw new Error('Invalid Post ID...');
         let comments = (yield commentModel.findByPost(id));
         util.sendResponse(res, 200, comments);

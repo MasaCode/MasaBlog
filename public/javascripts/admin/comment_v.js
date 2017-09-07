@@ -11,23 +11,25 @@
             this.build().events();
         },
 
-        build() {
+        build(isSorted) {
             let length = this._replies.length;
             if (length === 0) return this;
 
-            this._replies.sort(function (a, b) {
-                let comparison = 0;
-                let aReply = parseInt(a.reply_to);
-                let bReply = parseInt(b.reply_to);
+            if (isSorted !== true) {
+                this._replies.sort(function (a, b) {
+                    let comparison = 0;
+                    let aReply = parseInt(a.reply_to);
+                    let bReply = parseInt(b.reply_to);
 
-                if (aReply > bReply) {
-                    comparison = 1;
-                } else if (aReply < bReply) {
-                    comparison = -1;
-                }
+                    if (aReply > bReply) {
+                        comparison = 1;
+                    } else if (aReply < bReply) {
+                        comparison = -1;
+                    }
 
-                return comparison;
-            });
+                    return comparison;
+                });
+            }
 
             let comments = $('div.comment');
             let commentLength = comments.length;
@@ -100,7 +102,7 @@
                     type: 'POST',
                     dataType: 'json',
                     data: replyComment,
-                    timeout: 10000,
+                    timeout: 50000,
 
                     beforeSend (xhr, settings) {
                         submit.prop('disabled', true);
@@ -109,16 +111,17 @@
                         submit.prop('disabled', false);
                     },
                     success (data, status, errorThrown) {
+                        _self.refresh(replyComment.post_id);
                         _self.$replyForm.toggle('slow');
                         _self.resetForm();
-                        replyComment.date = new Date();
-                        _self.addReplyComment(comment, replyComment);
                         comment.find('.btn-reply').show();
+                        replyComment.date = new Date();
                         let success = $('#success-dialog');
                         success.text('Comments successfully have been replied');
                         success.fadeIn(1000).delay(3000).fadeOut(1000);
                     },
                     error (data, status, errorThrown) {
+                        _self.refresh(replyComment.post_id);
                         _self.resetForm();
                         comment.find('.btn-reply').show();
                         let error = $('#error-dialog');
@@ -126,6 +129,47 @@
                         error.fadeIn(1000).delay(3000).fadeOut(1000);
                     }
                 });
+            });
+        },
+
+        refresh (postId) {
+            let _self = this;
+            $.getJSON('/api/v1/comments/post/refresh/' + postId, null, function (data) {
+                $('div.reply').remove();
+                let wrapper = $('div.comment-wrapper');
+                let items = $('div.comment');
+                let itemLength = items.length;
+                let comments = data.comments;
+                let commentLength = comments.length;
+                let difference = itemLength - commentLength;
+
+                if (difference > 0) {
+                    items.slice((itemLength - difference), itemLength).remove();
+                    items = $('div.comment');
+                }
+
+                for (let i = 0; i < commentLength; i++) {
+                    let date = moment(new Date(comments[i].date)).format('MMM Do, YYYY');
+                    if (i >= itemLength) {
+                        let commentItem = [
+                            '<div class="comment"><input type="hidden" name="comment_id" class="comment-id" value="' + comments[i].id + '">',
+                            '<input type="hidden" name="comment_email" class="comment-email" value="' + comments[i].email + '">',
+                            '<h4 class="commenter"><span class="commenter-info"><span class="commenter-username">' + comments[i].username + '</span> <small>on ' + date + '</small></span></h4> <button class="btn btn-warning pull-right btn-reply"><span class="lg-reply">Reply</span> <span class="fa fa-reply"></span></button>',
+                            '<p class="comment-body">' + comments[i].comments + '</p></div>'
+                        ].join(' ');
+                        wrapper.append(commentItem);
+                    } else {
+                        let item = items.eq(i);
+                        item.find('input.comment-id').val(comments[i].id);
+                        item.find('input.comment-email').val(comments[i].email);
+                        item.find('span.commenter-username').text(comments[i].username);
+                        item.find('h4.commenter small').text('on ' + date);
+                        item.find('p.comment-body').text(comments[i].comments);
+                    }
+                }
+
+                _self._replies = data.replies;
+                _self.build(true);
             });
         },
 

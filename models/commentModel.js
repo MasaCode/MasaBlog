@@ -13,6 +13,14 @@ module.exports = {
         return db.getResult("select * from " + this.table + " where is_active=true and post_id=?", [id]);
     },
 
+    findUserCommentsByPost (id) {
+        return db.getResult("select * from " + this.table + " where is_active=true and reply_to is NULL and post_id=?", [id]);
+    },
+
+    findReplyByPost (id) {
+        return db.getResult("select * from " + this.table + " where is_active=true and reply_to is not NULL and post_id=? order by reply_to", [id]);
+    },
+
     findAll () {
         return db.getResult("select * from " + this.table + " where is_active=true", null);
     },

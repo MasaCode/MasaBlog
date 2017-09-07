@@ -8,16 +8,7 @@
             this._post = POST;
             this._tags = TAGS;
             this._replies = REPLIES;
-            this._replies.sort(function (a, b) {
-                let comparison = 0;
-                let aReply = parseInt(a.reply_to);
-                let bReply = parseInt(b.reply_to);
-
-                if (aReply > bReply) comparison = 1;
-                else if (aReply < bReply) comparison = -1;
-
-                return comparison;
-            });
+            this._replies.sort(this.sortReply);
 
             this.build().events();
         },
@@ -132,10 +123,11 @@
 
         refreshComments () {
             let _self = this;
-            $.getJSON('/api/v1/comments/post/' + this._post.id, null, function (comments) {
+            $.getJSON('/api/v1/comments/post/refresh/' + this._post.id, null, function (data) {
                 let content = $('div.comment-content');
                 let items = $('div.comment');
                 let itemLength = items.length;
+                let comments = data.comments;
                 let commentLength = comments.length;
                 let difference = itemLength - commentLength;
 
@@ -144,6 +136,7 @@
                 }
                 if (difference > 0) {
                     items.slice((itemLength - difference), itemLength).remove();
+                    items = $('div.comment');
                 }
 
                 $('div.reply').remove();
@@ -152,17 +145,19 @@
                     let date = moment(new Date(comments[i].date)).format('MMM Do, YYYY');
                     if (i >= itemLength) {
                         let commentItem = [
-                            '<div class="comment"><h4 class="commenter">' + comments[i].username + ' <small>on ' + date + '</small></h4>',
+                            '<div class="comment"><input type="hidden" name="comment_id" class="comment-id" value="' + comments[i].id + '"><h4 class="commenter">' + comments[i].username + ' <small>on ' + date + '</small></h4>',
                             '<p class="comment-body">' + comments[i].comments + '</p></div>'
                         ].join(' ');
                         content.append(commentItem);
                     } else {
                         let item = items.eq(i);
+                        item.find('input.comment-id').val(comments[i].id);
                         item.find('h4.commenter').html(comments[i].username + ' <small>on ' + date + '</small>')
                         item.find('p.comment-body').text(comments[i].comments);
                     }
                 }
 
+                _self._replies = data.replies;
                 _self.setCommentAdditionals();
             });
         },
@@ -210,6 +205,17 @@
             ].join(' ');
 
             comment.find('div.reply').append(replyComment);
+        },
+
+        sortReply (a, b) {
+            let comparison = 0;
+            let aReply = parseInt(a.reply_to);
+            let bReply = parseInt(b.reply_to);
+
+            if (aReply > bReply) comparison = 1;
+            else if (aReply < bReply) comparison = -1;
+
+            return comparison;
         },
     };
 
