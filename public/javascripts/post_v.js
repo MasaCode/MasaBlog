@@ -7,6 +7,18 @@
         initialize () {
             this._post = POST;
             this._tags = TAGS;
+            this._replies = REPLIES;
+            this._replies.sort(function (a, b) {
+                let comparison = 0;
+                let aReply = parseInt(a.reply_to);
+                let bReply = parseInt(b.reply_to);
+
+                if (aReply > bReply) comparison = 1;
+                else if (aReply < bReply) comparison = -1;
+
+                return comparison;
+            });
+
             this.build().events();
         },
 
@@ -134,6 +146,8 @@
                     items.slice((itemLength - difference), itemLength).remove();
                 }
 
+                $('div.reply').remove();
+
                 for (let i = 0; i < commentLength; i++) {
                     let date = moment(new Date(comments[i].date)).format('MMM Do, YYYY');
                     if (i >= itemLength) {
@@ -157,6 +171,21 @@
             let comments = $('div.comment');
             let commentLength = comments.length;
             if (commentLength !== 0) {
+                // Adding Replies
+                let replyLength = this._replies.length;
+                let j = 0;
+                for (let i = 0; i < replyLength; i++) {
+                    let replyTo = parseInt(this._replies[i].reply_to);
+                    while (j < commentLength) {
+                        let comment = comments.eq(j);
+                        if (replyTo === parseInt(comment.find('input.comment-id').val())) {
+                            this.addReplyComment(comment, this._replies[i]);
+                            break;
+                        }
+                        j++;
+                    }
+                }
+
                 let height = 0;
                 for (let j = 0; j < commentLength; j++) {
                     height += comments.eq(j).get(0).offsetHeight;
@@ -166,6 +195,21 @@
                     if ($('div.comment-layer').length === 0) $('div.comment-content').append('<div class="comment-layer"></div>');
                 }
             }
+        },
+
+        addReplyComment (comment, reply) {
+            if (comment.find('div.reply').length === 0) {
+                comment.append('<div class="reply"><hr class="reply-line"></div>');
+            }
+            let date = moment(new Date(reply.date)).format('MMM Do, YYYY');
+
+            let replyComment = [
+                '<div class="reply-comment">',
+                '<h4 class="commenter">' + reply.username + ' <small>on ' + date + '</small></h4>',
+                '<p class="comment-body">' + reply.comments + '</p></div>'
+            ].join(' ');
+
+            comment.find('div.reply').append(replyComment);
         },
     };
 

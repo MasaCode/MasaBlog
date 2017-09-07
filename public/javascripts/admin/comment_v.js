@@ -34,7 +34,6 @@
             let j = 0;
             for (let i = 0; i < length; i++) {
                 let replyTo = parseInt(this._replies[i].reply_to);
-                // console.log(this._replies[i]);
                 while (j < commentLength) {
                     let comment = comments.eq(j);
                     if (replyTo === parseInt(comment.find('input.comment-id').val())) {
