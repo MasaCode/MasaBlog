@@ -1,0 +1,39 @@
+extends layout
+
+block append script
+  link(rel='stylesheet', href='/stylesheets/admin/comment_list_v.css')
+  script(src="/plugins/pagination/js/jquery.twbsPagination.min.js")
+block content
+  block menuVariables
+    - var menuActive = 'comment';
+  include sidebar
+  div.admin-content-wrapper
+    div.admin-content
+      div.container-fluid
+        div.row.wrapper-height
+          div.col-md-12
+            div.comment-wrapper.row
+              - var COMMENT_MAX_LENGTH = 20;
+              - var length = Math.min(comments.length, COMMENT_MAX_LENGTH);
+              - if (length !== 0) {
+                - for(var i = 0; i < length; i++) {
+                  div.comment.col-md-6
+                    a(href="/admin/comments/#{comments[i].post_id}").content-wrapper
+                      div.col.comment-count
+                        span.count #{comments[i].count}
+                      div.col.comment-title
+                        p.title #{comments[i].title}
+                - }
+              - } else {
+                div.not-found
+                  div.not-found-content
+              - }
+
+        nav(style="text-align: center;").pagination-wrapper
+          ul(style="margin: 0 auto;")#comment-pagination.pagination
+        include ../include/footer
+
+  script.
+      var COMMENT_MAX_LENGTH = #{COMMENT_MAX_LENGTH};
+      var COMMENTS = !{JSON.stringify(comments)};
+  script(src="/javascripts/admin/comment_list_v.js")

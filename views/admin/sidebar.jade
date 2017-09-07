@@ -17,7 +17,7 @@ div.nav-side-menu
         a(href="/admin") <i class="fa fa-dashboard fa-lg"></i> Dashboard
       li(class=(menuActive === 'profile' ? 'active' : ''))
         a(href="/admin/profile") <i class="fa fa-user fa-lg"></i> Profile
-      - if (user.gmail_credentials !== null && user.gmail_credentials !== '') { // TODO: Change it to something like user.credential !== ''
+      - if (user.gmail_credentials !== null && user.gmail_credentials !== '') {
         li(class=(menuActive === 'mail' ? 'active' : ''))
           a(href="/admin/messages") <i class="fa fa-envelope fa-lg"></i> Email
       - }
@@ -29,6 +29,8 @@ div.nav-side-menu
         a(href="/admin/tags") <i class="fa fa-tags fa-lg"></i> Tags
       li(class=(menuActive === 'thumbnail' ? 'active' : ''))
         a(href="/admin/thumbnails") <i class="fa fa-picture-o fa-lg"></i> Thumbnails
+      li(class=(menuActive === 'comment' ? 'active' : ''))
+        a(href="/admin/comments") <i class="fa fa-commenting fa-lg"></i> Comments
       li(class=(menuActive === 'password' ? 'active' : ''))
         a(href="/admin/passwordReset") <i class="fa fa-key fa-lg"></i> Password Reset
       li

@@ -174,6 +174,41 @@ router.get('/auth', isAuthenticated, function (req, res) {
     });
 });
 
+router.get('/comments', isAuthenticated, function (req, res) {
+    co(function *() {
+        let posts = (yield postModel.findPublishedWithOnlyTitle());
+        let length = posts.length;
+        let comments = [];
+        for (let i = 0; i  < length; i++) {
+            let comment = (yield commentModel.countByPost(posts[i].id));
+            if (comment.count === 0) continue;
+            comment.post_id = posts[i].id;
+            comment.title = posts[i].title;
+            comments.push(comment);
+        }
+        res.render(
+            'admin/comments_list.jade', {title: config.BLOG_NAME + " | Comments", comments: comments, user: req.cookies.user}
+        );
+    }).catch(function (e) {
+        util.renderError(res, e);
+        console.log(e);
+    });
+});
+
+router.get('/comments/:post_id', function (req, res) {
+    co(function *() {
+        let id = parseInt(req.params.post_id);
+        if (!util.isValidId(id)) throw new Error("Invalid Post ID...");
+        let comments = (yield commentModel.findByPost(id));
+        res.render(
+            'admin/comments.jade', {title: config.BLOG_NAME + " | Comments", moment: moment, comments: comments, postId: id, sender: config.MAIL_RECEIVER_USER,user: req.cookies.user}
+        );
+    }).catch(function (e) {
+        util.renderError(res, e);
+        console.log(e);
+    });
+});
+
 router.get('/data', isAuthenticated, function (req, res) {
     co(function *() {
         let data = {};
