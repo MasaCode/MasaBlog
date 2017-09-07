@@ -15,6 +15,30 @@
     background: #fcfcfc;
 }
 
+#post-content h1, .editor-preview h1, .editor-preview-side h1 {
+    font-size: 212.5%;
+}
+
+#post-content h2, .editor-preview h2, .editor-preview-side h2 {
+    font-size: 181.25%;
+}
+
+#post-content h3, .editor-preview h3, .editor-preview-side h3 {
+    font-size: 150%;
+}
+
+#post-content h4, .editor-preview h4, .editor-preview-side h4 {
+    font-size: 125%;
+}
+
+#post-content h5, .editor-preview h5, .editor-preview-side h5 {
+    font-size: 106.25%;
+}
+
+#post-content h6, .editor-preview h6, .editor-preview-side h6 {
+    font-size: 100%;
+}
+
 #post-content img,
 .editor-preview img,
 .editor-preview-side img {

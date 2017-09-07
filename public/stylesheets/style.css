@@ -27,6 +27,14 @@ h4 {
   font-size: 129%;
 }
 
+h5 {
+  font-size: 112.5%;
+}
+
+h6 {
+  font-size: 105%;
+}
+
 .no-padding {
   padding: 0;
 }
