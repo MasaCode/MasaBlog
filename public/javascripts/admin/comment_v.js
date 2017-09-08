@@ -107,10 +107,8 @@
                     beforeSend (xhr, settings) {
                         submit.prop('disabled', true);
                     },
-                    complete (xhr, settings) {
-                        submit.prop('disabled', false);
-                    },
                     success (data, status, errorThrown) {
+                        submit.prop('disabled', false);
                         _self.refresh(replyComment.post_id);
                         _self.$replyForm.toggle('slow');
                         _self.resetForm();
@@ -121,8 +119,10 @@
                         success.fadeIn(1000).delay(3000).fadeOut(1000);
                     },
                     error (data, status, errorThrown) {
+                        submit.prop('disabled', false);
                         _self.refresh(replyComment.post_id);
                         _self.resetForm();
+                        _self.$replyForm.toggle('slow');
                         comment.find('.btn-reply').show();
                         let error = $('#error-dialog');
                         error.text('Error occurred : ' + errorThrown);
