@@ -13,68 +13,69 @@ block content
         div.container-fluid
           div.row.wrapper-height
             div.col-md-12
-              div.mail-sidebar
-                div.mail-sidebar-content
-                  a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
-                  div.btn-wrapper
-                    a(class=(label === null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
-                      span.btn-label Inbox
-                    a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
-                      span.btn-label Unread
-                    a(class=(label === 'Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
-                      span.btn-label Important
-                    a(class=(label === 'Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
-                      span.btn-label Starred
-                    a(class=(label === 'Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
-                      span.btn-label Draft
-                    a(class=(label === 'Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
-                      span.btn-label Sent Mail
-                    a(class=(label === 'Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
-                      span.btn-label Trash
-              div.mail-wrapper
-                div.table-wrapper
-                  div.loader-bg
-                  div#cssload-loader
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                    div.cssload-dot
-                  div.mail-header
-                    - var subject = extractFieldHeader(message, "Subject");
-                    h3.mail-subject #{subject}
-                    div.mail-sender
-                      p
-                        span.sender
-                          - var from = extractFieldHeader(message, 'From').split(' <');
-                          span.sender-name #{from[0].replace(/"/g, '')}
-                          span.sender-email #{(from.length !== 1 ? ('<' + from[1]) : '')}
-                        span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
-                  div.mail-body
-                    iframe(srcdoc=message.html, width="100%")#mail-content
-                  div.mail-footer
-                    div.attachmet-wrapper
+              div.box-wrapper
+                div.mail-sidebar
+                  div.mail-sidebar-content
+                    a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
+                    div.btn-wrapper
+                      a(class=(label === null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
+                        span.btn-label Inbox
+                      a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
+                        span.btn-label Unread
+                      a(class=(label === 'Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
+                        span.btn-label Important
+                      a(class=(label === 'Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
+                        span.btn-label Starred
+                      a(class=(label === 'Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
+                        span.btn-label Draft
+                      a(class=(label === 'Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
+                        span.btn-label Sent Mail
+                      a(class=(label === 'Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
+                        span.btn-label Trash
+                div.mail-wrapper
+                  div.table-wrapper
+                    div.loader-bg
+                    div#cssload-loader
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                      div.cssload-dot
+                    div.mail-header
+                      - var subject = extractFieldHeader(message, "Subject");
+                      h3.mail-subject #{subject}
+                      div.mail-sender
+                        p
+                          span.sender
+                            - var from = extractFieldHeader(message, 'From').split(' <');
+                            span.sender-name #{from[0].replace(/"/g, '')}
+                            span.sender-email #{(from.length !== 1 ? ('<' + from[1]) : '')}
+                          span.send-date #{moment(new Date(extractFieldHeader(message, 'Received').split(';')[1].trim())).format('MMMM DD')}
+                    div.mail-body
+                      iframe(srcdoc=message.html, width="100%")#mail-content
+                    div.mail-footer
+                      div.attachmet-wrapper
 
-                div.reply-wrapper
-                  span.reply-message Click hre to <a class="btn-reply">reply</a>
-                  div.reply-form
-                    div.reply-body
-                      input(type="hidden", name="reply-id", value="#{message.id}")#reply-input-id
-                      input(type="text", name="reply-to", readonly, value="#{extractFieldHeader(message, 'From')}")#reply-input-to
-                      input(type="hidden", name="reply-subject", value="Re: #{subject}")#reply-input-subject
-                      textarea(name="reply-body")#reply-input-body
-                      div.reply-preview
-                    div.reply-footer
-                      div.attachment-label-wrapper
-                        label.attachment-label
-                          span.parperclip-wrapper
-                            i.fa.fa-paperclip
-                              input(type="file", name="files[]", style="display: none;", multiple="multiple")#reply-input-attachments
-                      button(type="submit")#reply-submit.btn.btn-primary Send
-                      button.btn.btn-default#reply-cancel Cancel
+                  div.reply-wrapper
+                    span.reply-message Click hre to <a class="btn-reply">reply</a>
+                    div.reply-form
+                      div.reply-body
+                        input(type="hidden", name="reply-id", value="#{message.id}")#reply-input-id
+                        input(type="text", name="reply-to", readonly, value="#{extractFieldHeader(message, 'From')}")#reply-input-to
+                        input(type="hidden", name="reply-subject", value="Re: #{subject}")#reply-input-subject
+                        textarea(name="reply-body")#reply-input-body
+                        div.reply-preview
+                      div.reply-footer
+                        div.attachment-label-wrapper
+                          label.attachment-label
+                            span.parperclip-wrapper
+                              i.fa.fa-paperclip
+                                input(type="file", name="files[]", style="display: none;", multiple="multiple")#reply-input-attachments
+                        button(type="submit")#reply-submit.btn.btn-primary Send
+                        button.btn.btn-default#reply-cancel Cancel
           include ../include/footer
 
   div.error-wrapper

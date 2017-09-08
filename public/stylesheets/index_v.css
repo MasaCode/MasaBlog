@@ -24,6 +24,12 @@ div.blog-post {
     padding-bottom: 15px;
     width: 100%;
     display: block;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
+}
+
+div.blog-post:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.33);
+    background: #fff;
 }
 
 div.blog-post-wrapper:nth-child(1), div.blog-post-wrapper:nth-child(2) {
@@ -32,6 +38,14 @@ div.blog-post-wrapper:nth-child(1), div.blog-post-wrapper:nth-child(2) {
 
 div.blog-post h3{
     margin-top: 10px;
+}
+
+a.post-title {
+    text-decoration: none;
+}
+
+a.post-title:hover {
+    color: #337ab7 !important;
 }
 
 hr.post-line {

@@ -12,62 +12,63 @@ block content
         div.container-fluid
           div.row.wrapper-height
             div.col-md-12
-              - if (authURL !== null) {
-                div#auth-modal
-                  div.auth-wrapper
-                    h3.text-center Authorize Gmail Account
-                    a(href=authURL).btn.btn-danger#btn-auth Authorize
-              - }
-              div.mail-sidebar
-                div.mail-sidebar-content
-                  a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
-                  div.btn-wrapper
-                    a(class=(label===null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
-                      span.btn-label Inbox
-                    a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
-                      span.btn-label Unread
-                    a(class=(label==='Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
-                      span.btn-label Important
-                    a(class=(label==='Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
-                      span.btn-label Starred
-                    a(class=(label==='Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
-                      span.btn-label Draft
-                    a(class=(label==='Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
-                      span.btn-label Sent Mail
-                    a(class=(label==='Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
-                      span.btn-label Trash
-              div.mail-wrapper
-                div.table-wrapper
-                  div.loader-bg
-                  table.table.table-responsive#mail-table
-                    thead
-                      tr
-                        th
-                          a.btn-manage.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
-                          a.btn-manage.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
-                          a.btn-manage.btn.btn-default.btn-move <i class="fa fa-folder"></i>
-                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
-                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
-                        th
-                        th
-                          a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
-                          a.btn-manage.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
-                    tbody#mail-body
+              div.box-wrapper
+                - if (authURL !== null) {
+                  div#auth-modal
+                    div.auth-wrapper
+                      h3.text-center Authorize Gmail Account
+                      a(href=authURL).btn.btn-danger#btn-auth Authorize
+                - }
+                div.mail-sidebar
+                  div.mail-sidebar-content
+                    a(data-toggle="modal", data-target="#compose-modal").btn-manage.btn.btn-primary#compose Compose
+                    div.btn-wrapper
+                      a(class=(label===null ? 'btn-active' : '')).btn-manage.btn.btn-list#inbox
+                        span.btn-label Inbox
+                      a(class=(label === 'Unread' ? 'btn-active' : '')).btn-manage.btn.btn-list#unread
+                        span.btn-label Unread
+                      a(class=(label==='Important' ? 'btn-active' : '')).btn-manage.btn.btn-list#important
+                        span.btn-label Important
+                      a(class=(label==='Starred' ? 'btn-active' : '')).btn-manage.btn.btn-list#starred
+                        span.btn-label Starred
+                      a(class=(label==='Draft' ? 'btn-active' : '')).btn-manage.btn.btn-list#draft
+                        span.btn-label Draft
+                      a(class=(label==='Sent Mail' ? 'btn-active' : '')).btn-manage.btn.btn-list#sent-mail
+                        span.btn-label Sent Mail
+                      a(class=(label==='Trash' ? 'btn-active' : '')).btn-manage.btn.btn-list#trash
+                        span.btn-label Trash
+                div.mail-wrapper
+                  div.table-wrapper
+                    div.loader-bg
+                    table.table.table-responsive#mail-table
+                      thead
+                        tr
+                          th
+                            a.btn-manage.btn.btn-default.btn-refresh <i class="fa fa-refresh"></i>
+                            a.btn-manage.btn.btn-default.btn-remove <i class="fa fa-trash"></i>
+                            a.btn-manage.btn.btn-default.btn-move <i class="fa fa-folder"></i>
+                            a.btn-manage.btn.btn-default.btn-pagenation.btn-next.sm-btn.disabled <i class="fa fa-chevron-right"></i>
+                            a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.sm-btn.disabled <i class="fa fa-chevron-left"></i>
+                          th
+                          th
+                            a.btn-manage.btn.btn-default.btn-pagenation.btn-prev.disabled <i class="fa fa-chevron-left"></i>
+                            a.btn-manage.btn.btn-default.btn-pagenation.btn-next.disabled <i class="fa fa-chevron-right"></i>
+                      tbody#mail-body
 
-                  - if (authURL === null) {
-                    div#cssload-loader
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                      div.cssload-dot
-                  - }
+                    - if (authURL === null) {
+                      div#cssload-loader
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                        div.cssload-dot
+                    - }
 
-                div.showing-wrapper
-                  p(style="display:none;").showing-text Showing <span class="showing-start">1</span> - <span class="showing-end">15</span> of <span class="showing-length">200</span>
+                  div.showing-wrapper
+                    p(style="display:none;").showing-text Showing <span class="showing-start">1</span> - <span class="showing-end">15</span> of <span class="showing-length">200</span>
           include ../include/footer
 
   div.error-wrapper
