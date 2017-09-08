@@ -9,6 +9,14 @@ div.admin-tools {
     height: 300px;
 }
 
+div.admin-todo, div.admin-motto, div.admin-weather, .btn-box, div.panel, div#calendar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
+}
+
+.btn-box:hover {
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.33);
+}
+
 div.admin-todo {
     background: #fff;
     height: 300px;

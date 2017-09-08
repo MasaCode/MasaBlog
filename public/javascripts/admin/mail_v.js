@@ -419,12 +419,15 @@
 
         setMailSidebarHeight () {
             let sidebar = $('div.mail-sidebar');
+            let wrapper = $('div.box-wrapper');
             if ($(window).width() >= 991) {
                 let mailWrapper = $('div.mail-wrapper');
                 let height = mailWrapper.height() + parseInt(mailWrapper.css('padding-top').replace('px', '')) * 2;
                 sidebar.height(height - 30);
+                wrapper.height(height);
             } else {
                 sidebar.height('auto');
+                wrapper.height('auto');
             }
         }
     };

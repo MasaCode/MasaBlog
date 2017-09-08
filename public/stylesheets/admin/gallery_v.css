@@ -94,6 +94,7 @@ div.img-gallery {
     margin-right: 5px;
     float: left;
     margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
 }
 
 div.img-gallery img {

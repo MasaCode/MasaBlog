@@ -94,6 +94,7 @@ div.profile-content-wrapper {
     width: 750px;
     margin-left: auto;
     margin-right: auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
 }
 
 form#profile-form {

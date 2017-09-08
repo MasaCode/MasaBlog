@@ -1,4 +1,10 @@
 /* ================= Mail Table Start ================= */
+div.box-wrapper {
+    display: block;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
+}
+
 div.mail-wrapper {
     background: #fff;
     padding: 10px 20px;

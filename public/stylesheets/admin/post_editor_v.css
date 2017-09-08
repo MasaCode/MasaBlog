@@ -1,3 +1,7 @@
+div.panel, div.editor-wrapper {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.33);
+}
+
 div.content-wrapper {
     margin-left: 5px;
     margin-right: 5px;
