@@ -28,7 +28,7 @@ router.get('/thumbnails', isAuthenticated, function (req, res) {
     co(function *() {
         let thumbnails = (yield thumbnailModel.findAll());
         res.render(
-            'admin/gallery.jade', {title: config.BLOG_NAME + " | Gallery", thumbnails: thumbnails, user: req.cookies.user}
+            'admin/gallery', {title: config.BLOG_NAME + " | Gallery", thumbnails: thumbnails, user: req.cookies.user}
         );
     }).catch(function (e) {
         console.log(e);
@@ -40,7 +40,7 @@ router.get('/categories', isAuthenticated, function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/categories.jade', {title: config.BLOG_NAME + " | Category", categories: categories, user: req.cookies.user}
+            'admin/categories', {title: config.BLOG_NAME + " | Category", categories: categories, user: req.cookies.user}
         );
     }).catch(function (e) {
         console.log(e);
@@ -52,7 +52,7 @@ router.get('/tags', isAuthenticated, function (req, res) {
     co(function *() {
         let tags = (yield tagModel.findAll());
         res.render(
-            'admin/tags.jade', {title: config.BLOG_NAME + " | Tags", tags: tags, user: req.cookies.user}
+            'admin/tags', {title: config.BLOG_NAME + " | Tags", tags: tags, user: req.cookies.user}
         );
     }).catch(function (e) {
         console.log(e);
@@ -64,7 +64,7 @@ router.get('/posts', isAuthenticated, function (req, res) {
     co(function *() {
         let posts = (yield postModel.findAll());
         res.render(
-            'admin/posts.jade', {title: config.BLOG_NAME + " | Posts", posts: posts, user: req.cookies.user}
+            'admin/posts', {title: config.BLOG_NAME + " | Posts", posts: posts, user: req.cookies.user}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -76,7 +76,7 @@ router.get('/posts/new', isAuthenticated, function (req, res) {
     co(function *() {
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: null, categories: categories, user: req.cookies.user}
+            'admin/post_editor', {title: config.BLOG_NAME + " | Post Editor", post: null, categories: categories, user: req.cookies.user}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -91,7 +91,7 @@ router.get('/posts/edit/:id', isAuthenticated, function (req, res) {
         let post = (yield postModel.findById(id));
         let categories = (yield categoryModel.findAll());
         res.render(
-            'admin/post_editor.jade', {title: config.BLOG_NAME + " | Post Editor", post: post, categories: categories, user: req.cookies.user}
+            'admin/post_editor', {title: config.BLOG_NAME + " | Post Editor", post: post, categories: categories, user: req.cookies.user}
         );
     }).catch(function (e) {
         util.sendResponse(res, 500, e.message);
@@ -101,7 +101,7 @@ router.get('/posts/edit/:id', isAuthenticated, function (req, res) {
 
 router.get('/passwordReset', isAuthenticated, function (req, res) {
     res.render(
-        'admin/password_reset.jade', {title: config.BLOG_NAME + " | Password Reset", user: req.cookies.user}
+        'admin/password_reset', {title: config.BLOG_NAME + " | Password Reset", user: req.cookies.user}
     );
 });
 
@@ -111,13 +111,13 @@ router.get('/profile', isAuthenticated, function (req, res) {
             if (error) util.renderError(res, error);
             else {
                 res.render(
-                    'admin/profile.jade', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user, credentials: JSON.parse(contents)}
+                    'admin/profile', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user, credentials: JSON.parse(contents)}
                 );
             }
         });
     } else {
         res.render(
-            'admin/profile.jade', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user, credentials: null}
+            'admin/profile', {title: config.BLOG_NAME + " | Profile", user: req.cookies.user, credentials: null}
         );
     }
 });
@@ -136,13 +136,13 @@ router.get('/messages', isAuthenticated, function (req, res) {
                 res.cookie('oauth', oauth2Client);
                 let authURL = (error ? gmailHelper.generateAuthURL(oauth2Client) : null);
                 res.render(
-                    'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, label: label, user: req.cookies.user}
+                    'admin/mail_management', {title: config.BLOG_NAME + " | Mail Management", authURL: authURL, label: label, user: req.cookies.user}
                 );
             }
         });
     } else {
         res.render(
-            'admin/mail_management.jade', {title: config.BLOG_NAME + " | Mail Management", authURL: null, label: label, user: req.cookies.user}
+            'admin/mail_management', {title: config.BLOG_NAME + " | Mail Management", authURL: null, label: label, user: req.cookies.user}
         );
     }
 });
@@ -158,7 +158,7 @@ router.get('/messages/:id', isAuthenticated, function (req, res) {
             let data = gmailHelper.extractMailBody(response);
             response.html = new Buffer(data.base64, 'base64').toString();
             res.render(
-                'admin/mail.jade', {title: config.BLOG_NAME + " | Mail", message: response, attachments: data.attachments, extractFieldHeader: gmailHelper.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
+                'admin/mail', {title: config.BLOG_NAME + " | Mail", message: response, attachments: data.attachments, extractFieldHeader: gmailHelper.extractFieldHeader, moment: moment, label: label, user: req.cookies.user}
             );
         }
     });
@@ -187,7 +187,7 @@ router.get('/comments', isAuthenticated, function (req, res) {
             comments.push(comment);
         }
         res.render(
-            'admin/comments_list.jade', {title: config.BLOG_NAME + " | Comments", comments: comments, user: req.cookies.user}
+            'admin/comments_list', {title: config.BLOG_NAME + " | Comments", comments: comments, user: req.cookies.user}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -201,7 +201,7 @@ router.get('/comments/:post_id', function (req, res) {
         if (!util.isValidId(id)) throw new Error("Invalid Post ID...");
         let comments = (yield commentModel.findByPost(id));
         res.render(
-            'admin/comments.jade', {title: config.BLOG_NAME + " | Comments", moment: moment, comments: comments, postId: id, sender: config.MAIL_RECEIVER_USER,user: req.cookies.user}
+            'admin/comments', {title: config.BLOG_NAME + " | Comments", moment: moment, comments: comments, postId: id, sender: config.MAIL_RECEIVER_USER,user: req.cookies.user}
         );
     }).catch(function (e) {
         util.renderError(res, e);

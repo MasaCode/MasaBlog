@@ -31,6 +31,7 @@ router.get('/', function (req, res) {
         res.redirect('/admin');
     } else {
         let message = req.cookies.loginMessage !== undefined ? req.cookies.loginMessage : null;
+        res.clearCookie('loginMessage');
         res.render(
             'login', {title: config.BLOG_NAME + " | Login", message: message}
         );

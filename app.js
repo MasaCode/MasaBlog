@@ -13,6 +13,7 @@ let fs = require('fs');
 let index = require('./routes/index');
 let login = require('./routes/login');
 let logout = require('./routes/logout');
+let forgotPassword = require('./routes/forgotPassword');
 let admin = require('./routes/admin');
 let categories = require('./routes/api/v1/categories');
 let tags = require('./routes/api/v1/tags');
@@ -67,6 +68,7 @@ io.on('connection', function (socket) {
 app.use('/', index);
 app.use('/login', login);
 app.use('/logout', logout);
+app.use('/forgotPassword', forgotPassword);
 app.use('/admin', admin);
 app.use('/api/v1/categories', categories);
 app.use('/api/v1/tags', tags);

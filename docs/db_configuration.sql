@@ -113,3 +113,15 @@ CREATE TABLE `masa_post_tag` (
   REFERENCES `masa_tags` (`id`))
 ENGINE=InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `masa_tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `admin_id` int(11) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `token` text NOT NULL,
+  `expired_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`admin_id`)
+  REFERENCES `masa_admins` (`id`))
+ENGINE=InnoDB
+DEFAULT CHARACTER SET = utf8;

@@ -1,0 +1,41 @@
+extends layout
+
+block append script
+  link(rel="stylesheet", href="/stylesheets/forgot_password_v.css")
+  link(rel="stylesheet", href="/stylesheets/verify_token_v.css")
+block content
+  figure
+    div(style="background-image: url(/assets/images/verify.jpg);").banner-wrapper.full-image
+    div.banner
+    - if (isTokenExpired === true) {
+      div.token-expired-wrapper
+        div.token-expired-content
+          p Your Token is expired and please send email again...
+          a(href="/forgotPassword").btn.btn-danger.go-back Go back
+    - }
+    div.container-fluid
+      div.login-logo
+        img(src="/assets/images/logo-black.png")
+      div.body-wrapper
+        div.body-content
+          div.text-center.text-uppercase.page-title-wrapper
+            h4.page-title Verify Code
+          div.row
+            div#forgot-password-wrapper
+              div
+                span.forgot-password-error #{(message !== null ? message : '')}
+              form(method='POST', action='/forgotPassword/token')#forgot-password-form
+                input(type='text', name='token', placeholder='Enter verify code')#token.form-control
+                input(type='submit', value='Submit').forgot-submit.btn.btn-warning
+
+  script.
+    $('#forgot-password-form').on('submit', function (event) {
+        var token = $('#token').val();
+        var error = $('span.forgot-password-error');
+        if (token === '') {
+            event.preventDefault();
+            error.text('You need to input verify code');
+            return;
+        }
+        error.text('');
+    });
