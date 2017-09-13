@@ -54,7 +54,7 @@ router.get('/token/:token', function (req, res) {
 
 router.get('/success', function (req, res) {
     res.render(
-        'success', {title: config.BLOG_NAME + " | Password Reset", text: "You successfully reset Password", redirectURL: "/login", buttonText: "<span class='fa fa-arrow-left'></span> Login in"}
+        'success', {title: config.BLOG_NAME + " | Password Reset", text: "You successfully reset Password", redirectURL: "/login", buttonText: "<span class='fa fa-arrow-left'></span> Login"}
     );
 });
 
