@@ -1,0 +1,19 @@
+extends layout
+
+block append script
+    link(rel="stylesheet", href="/stylesheets/forgot_password_v.css")
+    link(rel="stylesheet", href="/stylesheets/success_v.css")
+block content
+    figure
+        div(style="background-image: url(/assets/images/success.jpg);").banner-wrapper.full-image
+        div.banner
+        div.container-fluid
+            div.login-logo
+                img(src="/assets/images/logo-black.png")
+            div.body-wrapper
+                div.body-content
+                    div.text-center.text-uppercase.page-title-wrapper
+                        h4.page-title !{text}
+                    div.row
+                        div#forgot-password-wrapper
+                            a(href="#{redirectURL}")#redirect.btn.btn-primary !{buttonText}

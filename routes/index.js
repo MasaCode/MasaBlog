@@ -61,7 +61,7 @@ router.get('/posts/:id', function (req, res) {
         let post = (yield postModel.findById(id));
         let tags = (yield relationModel.findTagsByPost(id));
         let comments = (yield commentModel.findByPost(id));
-        res.render('post.jade', {title: config.BLOG_NAME + " | " + post.title, categories: categories, post: post, tags: tags, comments: comments, moment: moment});
+        res.render('post', {title: config.BLOG_NAME + " | " + post.title, categories: categories, post: post, tags: tags, comments: comments, moment: moment});
     }).catch(function (e) {
         util.renderError(res, e);
     });
@@ -79,7 +79,7 @@ router.get('/categories/:id', function (req, res) {
         data.description = selectedCategory.description;
         data.active = selectedCategory.id;
         res.render(
-            'index.jade', {title: config.BLOG_NAME + " | Category Posts", categories: categories, posts: posts, menuData: data, moment: moment}
+            'index', {title: config.BLOG_NAME + " | Category Posts", categories: categories, posts: posts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -113,7 +113,7 @@ router.get('/tags/:id', function (req, res) {
         data.description = selectedTag.description;
         data.active = '';
         res.render(
-            'index.jade', {title: config.BLOG_NAME + " | Tag Posts", categories: categories, posts: posts, menuData: data, moment: moment}
+            'index', {title: config.BLOG_NAME + " | Tag Posts", categories: categories, posts: posts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
@@ -131,7 +131,7 @@ router.get('/search/:text', function (req, res) {
         data.description = "";
         data.active = '';
         res.render(
-            'index.jade', {title: config.BLOG_NAME + " | Search Result of" + text, categories: categories, posts: resultPosts, menuData: data, moment: moment}
+            'index', {title: config.BLOG_NAME + " | Search Result of" + text, categories: categories, posts: resultPosts, menuData: data, moment: moment}
         );
     }).catch(function (e) {
         util.renderError(res, e);
