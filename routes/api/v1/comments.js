@@ -4,6 +4,7 @@ let router = express.Router();
 let util = require('../../../helper/util.js');
 let co = require('co');
 let nodemailer = require('nodemailer');
+let jade = require('jade');
 let config = require('../../../docs/environments.js');
 let commentModel = require('../../../models/commentModel.js');
 
@@ -105,20 +106,26 @@ router.post('/reply', function (req, res) {
         }));
 
         // Sending notification email to commenter
-        let url = 'http://' + req.header('host') + '/posts/' + data.post_id;
-        let mailBody = [
-            "<p>Hello " + data.commenterUsername + ",</p><br>",
-            "<p>You have reply to your comment at MasaBlog.</p>",
-            "<p>You can see your comment and reply at <a href='" + url + "'>" + url + "</a><br>",
-            "<p>Thank you,</p>",
-            "<p>" + data.username + "</p>"
+        let url = 'http://' + req.header('host');
+        let logo = "cid:logo@masablog.com";
+        let text = [
+            '<p>Hi ' + data.commenterUsername + ',</p>',
+            '<p>You have reply to your comment at MasaBlog. You can see your comment and reply at <a href="' + url + '/posts/' + data.post_id +'" target="_blank">Here</a>',
         ].join('');
+        let html = jade.renderFile(__dirname + '/../../../views/email/template.jade', {logo: logo, URL: url, text: text}, null);
 
         let options = {
             from: '"' + data.username + '" <' + data.email + '>',
             to: data.commenterEmail,
             subject: "Notification for your comment's reply at MasaBlog",
-            html: mailBody,
+            html: html,
+            attachments: [
+                {
+                    filename : 'logo-black.png',
+                    path: './public/assets/images/logo-black.png',
+                    cid : 'logo@masablog.com'
+                },
+            ],
         };
 
         transporter.sendMail(options, function (error, info) {
