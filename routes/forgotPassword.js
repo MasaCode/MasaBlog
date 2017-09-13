@@ -88,14 +88,14 @@ router.post('/', function (req, res) {
         let logo = "cid:logo@masablog.com";
         let text = [
             '<p>Hi ' + username + ',</p>',
-            '<p>We received passwrod reset request from you. And now you can reset your password from <a href="' + url + '/forogtPassword/token" target="_blank">Here</a>',
+            '<p>We received passwrod reset request from you. And now you can reset your password from <a href="' + url + '/forgotPassword/token" target="_blank">Here</a>',
             '<p>Your token is <span style="color:#337ab7;">' + token.token + '</span> </p>'
         ].join('');
         let html = jade.renderFile(__dirname + '/../views/email/template.jade', {logo: logo, URL: url, text: text}, null);
         let options = {
             from: '"' + config.BLOG_NAME + '" <' + config.MAIL_SENDER_USER + '>',
             to: email,
-            subject: 'Password Reset verified code',
+            subject: 'Password Reset verify code',
             html: html,
             attachments: [
                 {
