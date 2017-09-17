@@ -1,8 +1,8 @@
 block barVariables
 div.col-md-3.right-bar
-  div.well
-    h4(style="margin-top:0;").text-center Blog Search
-    div.input-group
+  div.well.blog-search
+    h4(style="margin-top:0;").text-center.search-text Blog Search
+    div.input-group.search-input-group
       input(type="text")#search-input.form-control
       span.input-group-btn
         button(type="button")#btn-search.btn.btn-default
@@ -17,12 +17,13 @@ div.col-md-3.right-bar
   - }
   - if (show_about) {
     div(class=(show_post !== false ? 'show-half' : '')).well.about-me
-      h4.text-center About Me
-      img(src="/assets/images/masashi.jpg").img-responsive.img-me
-      br
-      h4.text-center Masashi Morita
-      p I'm 20 years old web developer living in vancouver. I like to watch movies, animes and play games.
-      a(href="/about").btn.btn-primary.about-more More Details
+      h4.text-center.about-me-text About Me
+      div.about-content
+        img(src="/assets/images/masashi.jpg").img-responsive.img-me
+        br
+        h4.text-center Masashi Morita
+        p.about-description I'm 20 years old web developer living in vancouver. I like to watch movies, animes and play games.
+        a(href="/about").btn.btn-primary.about-more More Details
   - }
   - if (show_post !== false) {
     div.panel.panel-default.recent-post.show-half

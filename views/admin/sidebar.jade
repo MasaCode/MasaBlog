@@ -15,24 +15,24 @@ div.nav-side-menu
   div.menu-list
     ul#menu-content.menu-content.collapse.out
       li(class=(menuActive === 'dashboard' ? 'active' : ''))
-        a(href="/admin") <i class="fa fa-dashboard fa-lg"></i> Dashboard
+        a(href="/admin").menu-item <i class="fa fa-dashboard fa-lg"></i> Dashboard
       li(class=(menuActive === 'profile' ? 'active' : ''))
-        a(href="/admin/profile") <i class="fa fa-user fa-lg"></i> Profile
+        a(href="/admin/profile").menu-item <i class="fa fa-user fa-lg"></i> Profile
       - if (user.gmail_credentials !== null && user.gmail_credentials !== '') {
         li(class=(menuActive === 'mail' ? 'active' : ''))
-          a(href="/admin/messages") <i class="fa fa-envelope fa-lg"></i> Email
+          a(href="/admin/messages").menu-item <i class="fa fa-envelope fa-lg"></i> Email
       - }
       li(class=(menuActive === 'post' ? 'active' : ''))
-        a(href="/admin/posts") <i class="fa fa-rocket fa-lg"></i> Posts
+        a(href="/admin/posts").menu-item <i class="fa fa-rocket fa-lg"></i> Posts
       li(class=(menuActive === 'category' ? 'active' : ''))
-        a(href="/admin/categories") <i class="fa fa-th-large fa-lg"></i> Categories
+        a(href="/admin/categories").menu-item <i class="fa fa-th-large fa-lg"></i> Categories
       li(class=(menuActive === 'tag' ? 'active' : ''))
-        a(href="/admin/tags") <i class="fa fa-tags fa-lg"></i> Tags
+        a(href="/admin/tags").menu-item <i class="fa fa-tags fa-lg"></i> Tags
       li(class=(menuActive === 'thumbnail' ? 'active' : ''))
-        a(href="/admin/thumbnails") <i class="fa fa-picture-o fa-lg"></i> Thumbnails
+        a(href="/admin/thumbnails").menu-item <i class="fa fa-picture-o fa-lg"></i> Thumbnails
       li(class=(menuActive === 'comment' ? 'active' : ''))
-        a(href="/admin/comments") <i class="fa fa-commenting fa-lg"></i> Comments
+        a(href="/admin/comments").menu-item <i class="fa fa-commenting fa-lg"></i> Comments
       li(class=(menuActive === 'password' ? 'active' : ''))
-        a(href="/admin/passwordReset") <i class="fa fa-key fa-lg"></i> Password Reset
+        a(href="/admin/passwordReset").menu-item <i class="fa fa-key fa-lg"></i> Password Reset
       li
-        a(href="/logout") <i class="fa fa-sign-out fa-lg"></i> Logout
+        a(href="/logout").menu-item <i class="fa fa-sign-out fa-lg"></i> Logout
