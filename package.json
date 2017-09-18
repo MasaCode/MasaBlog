@@ -30,5 +30,10 @@
     "passport-local": "^1.0.0",
     "serve-favicon": "^2.4.2",
     "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "*",
+    "chai-http": "*",
+    "mocha": "*"
   }
 }
