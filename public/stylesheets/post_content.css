@@ -1,3 +1,8 @@
+#post-content, .editor-preview, .editor-preview-side {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
 #post-content {
     color: #333;
     background: #fefefe;
@@ -8,11 +13,13 @@
 .editor-preview-side h1, .editor-preview-side h2, .editor-preview-side h3{
     border-left: 4px solid #31b0d5;
     padding-left: 15px;
-    margin-top: 0;
+    margin-top: 15px;
     margin-bottom: 0;
     padding-top: 20px;
     padding-bottom: 10px;
     background: #fcfcfc;
+    display: inline-block;
+    width: 100%;
 }
 
 #post-content h1, .editor-preview h1, .editor-preview-side h1 {
@@ -44,7 +51,7 @@
 .editor-preview-side img {
     display: block;
     width: 100%;
-    margin: 20px auto;
+    margin: 15px auto !important;
     border: 1px solid rgba(0, 0, 0, 0.2);
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -64,9 +71,9 @@
 .editor-preview-side pre {
     background: #f6f8fa;
     border: none;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    overflow-x: scroll;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    overflow-x: scroll !important;
     width: 100%;
 }
 
@@ -80,13 +87,13 @@
 #post-content ol, #post-content ul,
 .editor-preview ol, .editor-preview ul,
 .editor-preview-side ol, .editor-preview-side ul{
-    padding: 0 0 0 30px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding: 0 0 0 30px !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
 }
 
 #post-content ol li, #post-content ul li,
 .editor-preview ol li, .editor-preview ul li,
 .editor-preview-side ol li, .editor-preview-side ul li {
-    margin-bottom: 10px;
+    margin-bottom: 10px !important;
 }
