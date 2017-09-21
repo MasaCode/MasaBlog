@@ -2,7 +2,8 @@ extends layout
 
 block append script
   link(rel='stylesheet', href='/stylesheets/admin/gallery_v.css')
-  script(src="/plugins/pagination/js/jquery.twbsPagination.min.js")
+  script(src="/plugins/masonry/js/masonry.pkgd.min.js")
+  script(src="/plugins/masonry/js/imagesloaded.pkgd.min.js")
 block content
   block menuVariables
     - var menuActive = 'thumbnail';
@@ -13,17 +14,16 @@ block content
         div.row.gallery-wrapper.wrapper-height
           - var length = thumbnails.length;
           - if (length !== 0) {
-            - for (var i = 0; i < length; i++) {
-              div.img-gallery
-                div.gallery-layer
-                  h3.text-center.gallery-title #{thumbnails[i].title}
-                  div.gallery-button-wrapper
-                    button(data-toggle="modal", data-target="#view-modal").gallery-view View
-                  div.gallery-button-wrapper.button-wrapper-remove
-                    button(data-toggle="modal", data-target="#delete-modal").gallery-remove Remove
-                input(type="hidden", value="#{thumbnails[i].id}").gallery-id
-                img(src="#{'/assets/uploads/' + thumbnails[i].image_path}")
-            - }
+            div.grid
+              div.grid-sizer
+              - for (var i = 0; i < length; i++) {
+                div.grid-item
+                  input(type="hidden", value="#{thumbnails[i].id}").gallery-id
+                  img(src="#{'/assets/uploads/' + thumbnails[i].image_path}")
+                  a(data-toggle="modal", data-target="#delete-modal").btn.btn-remove <span class="sm remove"><i class="fa fa-trash-o"></i></span><span class="lg remove">Remove</span>
+                  div.caption
+                    h3.title.text-center #{thumbnails[i].title}
+                - }
           - } else {
             div.not-found
               div.not-found-content
