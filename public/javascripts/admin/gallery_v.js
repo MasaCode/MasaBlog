@@ -2,8 +2,7 @@
     'use strict';
 
     let Gallery = {
-        gallery: 'div.img-gallery',
-        wrapper: 'div.row.gallery-wrapper',
+        gallery: 'div.grid-item',
         galleryWidth: 0,
         offsetLeft: 0,
         offsetTop: 0,
@@ -23,16 +22,31 @@
             this.$deleteModal = $('#delete-modal');
             this.$viewModal = $('#view-modal');
             this.$gallery = $(this.gallery);
-            this.$wrapper = $(this.wrapper);
             this._THUMBNAILS = THUMBNAILS;
-            this.setVariables();
-            this.styleGallery();
-            this.events();
+            this.initializeGallery().events();
+        },
+
+        initializeGallery (needDestroy) {
+            if (needDestroy === true) {
+                $('.grid').masonry('destroy');
+            }
+            
+            let $grid = $('.grid').masonry({
+                itemSelector: '.grid-item',
+                columnWidth: '.grid-sizer',
+                percentPosition: true
+            });
+
+            $grid.imagesLoaded().progress(function () {
+                $grid.masonry();
+            });
+
+            return this;
         },
 
         refresh () {
             let _self = this;
-            $.getJSON('../../api/v1/thumbnails/', null, function (thumbnails) {
+            $.getJSON('/api/v1/thumbnails/', null, function (thumbnails) {
                 _self.manageGalleryItem(thumbnails);
                 if (thumbnails.length === 0) return _self.showNotFound();
                 let notFound = $('div.not-found');
@@ -42,8 +56,6 @@
 
         events () {
             let _self = this;
-
-            $(window).on('resize', this.onResize.bind(this));
 
             $('#search-icon-wrapper').on('click', function (event) {
                 event.preventDefault();
@@ -105,7 +117,7 @@
                 data.append('thumbnail', image);
 
                 $.ajax({
-                    url: '../../api/v1/thumbnails/',
+                    url: '/api/v1/thumbnails/',
                     type: 'POST',
                     dataType: 'json',
                     data: data,
@@ -132,16 +144,15 @@
 
             this.$deleteModal.on({
                 'show.bs.modal': function (event) {
-                    let thumbnail = $(event.relatedTarget).closest('div.img-gallery');
+                    let thumbnail = $(event.relatedTarget).closest('div.grid-item');
                     let id = parseInt(thumbnail.find('input.gallery-id').val());
-                    let title = thumbnail.find('.gallery-title').text().trim();
-
+                    let title = thumbnail.find('div.caption .title').text().trim();
                     let modal = $(this);
                     let executeButton = modal.find('button:last-child');
                     modal.find('div.modal-body').text('Are you sure you want to delete ' + title + '?');
                     executeButton.on('click', function (event) {
                         $.ajax({
-                            url: '../../api/v1/thumbnails/' + id,
+                            url: '/api/v1/thumbnails/' + id,
                             type: 'DELETE',
                             dataType: 'json',
                             data: {id: id},
@@ -168,69 +179,27 @@
                 }
             });
 
+            $(document).on('click', 'div.grid-item', function (event) {
+                let target = $(event.target);
+                if (target.hasClass('btn-remove') || target.hasClass('remove')) {
+                    event.preventDefault();
+                    return;
+                }
+
+                let thumbnail = $(this);
+                let modal = $('#view-modal');
+                modal.find('.modal-title').text(thumbnail.find('div.caption .title').text());
+                modal.find('img').attr('src', thumbnail.find('img').attr('src'));
+                modal.modal('show');
+            });
+
             this.$viewModal.on({
-                'show.bs.modal': function (event) {
-                    let thumbnail = $(event.relatedTarget).closest('div.img-gallery');
-                    let modal = $(this);
-                    modal.find('.modal-title').text(thumbnail.find('.gallery-title').text());
-                    modal.find('img').attr('src', thumbnail.find('img').attr('src'));
-                },
                 'hidden.bs.modal': function (event) {
                     let modal = $(this);
                     modal.find('.modal-title').text('');
                     modal.find('img').attr('src', '');
                 }
-            })
-        },
-
-        onResize () {
-            let _self = this;
-            if (this.isResized === false) {
-                this.isResized = setTimeout(function () {
-                    _self.setVariables();
-                    _self.styleGallery();
-                    _self.isResized = false;
-                }, 200);
-            }
-        },
-
-        setVariables () {
-            let wrapperWidth = this.$wrapper.width();
-            this.offsetLeft = this.$wrapper[0].offsetLeft;
-            this.offsetTop = ($(window).width() <= this.menuBreakpoint) ? this.menuOffsetTop: 0;
-            let length = this.rowCounts.length;
-            for (let i = 0; i < length; i++) {
-                if (wrapperWidth <= this.breakPoints[i]) {
-                    this.index = i;
-                    break;
-                }
-            }
-            this.galleryWidth = (wrapperWidth - (this.rowCounts[this.index]) * this.margin * 2) / parseFloat(this.rowCounts[this.index]);
-        },
-
-        styleGallery () {
-            let length = this.$gallery.length;
-            let lastRows = length - (this.rowCounts[this.index] + 1);
-            let count = this.rowCounts[this.index];
-            let bottom = 0;
-            let overrideCount = count;
-            let defTop = ($(window).width() <= this.menuBreakpoint) ? 10 : 0;
-            for (let i = 0; i < length; i++) {
-                let rowIndex = (i % count);
-                let left = rowIndex * (this.galleryWidth + this.margin) + this.margin * rowIndex;
-                let top = (i >= count) ? this.$gallery[i - count].offsetHeight + parseInt(this.$gallery[i - count].style.top.replace('px', '')) + 10 : defTop;
-                this.$gallery[i].style.cssText += ''.concat(
-                    'top: ' + top + 'px;', 'left: ' + left + 'px;', 'width: ' + this.galleryWidth + 'px;', 'position: absolute;'
-                );
-
-                let imgBottom = top + $(this.$gallery[i]).height();
-                if (imgBottom >= bottom) {
-                    bottom = imgBottom;
-                }
-
-            }
-
-            this.$wrapper.css('height', (bottom + this.margin * 2));
+            });
         },
 
         search (searchText) {
@@ -243,7 +212,7 @@
 
             let _self = this;
             $.ajax({
-                url: '../../api/v1/thumbnails/search/' + searchText,
+                url: '/api/v1/thumbnails/search/' + searchText,
                 type: 'GET',
                 dataType: 'json',
                 timeout: 10000,
@@ -271,33 +240,37 @@
             let thumbnailLength = thumbnails.length;
             let galleryLength = this.$gallery.length;
             let difference = galleryLength - thumbnailLength;
-            let galleryWrapper = $('div.gallery-wrapper');
+            let galleryWrapper = $('div.grid');
+            if (galleryWrapper.length === 0) {
+                let wrapper = '<div class="grid"><div class="grid-sizer"></div></div>';
+                $('div.gallery-wrapper').append(wrapper);
+                galleryWrapper = $('div.grid');
+            }
             if (difference > 0) {
                 this.$gallery.slice((galleryLength - difference), galleryLength).remove();
             }
             for (let i = 0; i < thumbnailLength; i++) {
                 if (i >= galleryLength) {
                     let newGallery = [
-                        '<div class="img-gallery">',
-                        '<div class="gallery-layer"><h3 class="text-center gallery-title">' + thumbnails[i].title + '</h3>',
-                        '<div class="gallery-button-wrapper"><button data-toggle="modal" data-target="#view-modal" class="gallery-view">View</button></div>',
-                        '<div class="gallery-button-wrapper button-wrapper-remove"><button data-toggle="modal" data-target="#delete-modal" class="gallery-remove">Remove</button></div></div>',
+                        '<div class="grid-item">',
                         '<input type="hidden" value="' + thumbnails[i].id + '" class="gallery-id" />',
-                        '<img src="/assets/uploads/' + thumbnails[i].image_path + '" /></div>'
+                        '<img src="/assets/uploads/' + thumbnails[i].image_path + '" />',
+                        '<a data-toggle="modal" data-target="#delete-modal" class="btn btn-remove">',
+                        '<span class="sm remove"><i class="fa fa-trash-o"></i></span>',
+                        '<span class="lg remove">Remove</span></a>',
+                        '<div class="caption"><h3 class="title text-center">' + thumbnails[i].title + '</h3></div></div>'
                     ].join(' ');
                     galleryWrapper.append(newGallery);
                 } else {
                     let galleryItem = $(this.$gallery[i]);
-                    galleryItem.get(0).style = '';
                     galleryItem.find('input.gallery-id').val(thumbnails[i].id);
-                    galleryItem.find('.gallery-title').text(thumbnails[i].title);
+                    galleryItem.find('div.caption .title').text(thumbnails[i].title);
                     galleryItem.find('img').attr('src', '/assets/uploads/' + thumbnails[i].image_path);
                 }
             }
 
             this.$gallery = $(this.gallery);
-            this.setVariables();
-            this.styleGallery();
+            this.initializeGallery(difference < 0);
         },
 
         showError (error) {
@@ -305,6 +278,7 @@
         },
 
         showNotFound () {
+            $('div.grid').remove();
             let notFound = $('div.not-found');
             if (notFound.length !== 0) return;
             let item = '<div class="not-found"><div class="not-found-content"></div></div>';
