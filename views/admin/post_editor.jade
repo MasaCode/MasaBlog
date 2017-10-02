@@ -3,9 +3,9 @@ block append script
   link(rel='stylesheet', href='/stylesheets/admin/post_editor_v.css')
   link(rel='stylesheet', href='/stylesheets/post_content.css')
   link(rel="stylesheet", href="/plugins/simplemde/css/simplemde.min.css")
-  link(rel="stylesheet", href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css")
+  link(rel="stylesheet", href="/plugins/highlight/css/highlight.css")
   script(src="/plugins/simplemde/js/simplemde.min.js")
-  script(src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js")
+  script(type="text/javascript", src="/plugins/marked/js/marked.js")
 block content
   block menuVariables
     - var menuActive = 'post';
