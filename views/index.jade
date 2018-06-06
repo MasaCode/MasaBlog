@@ -27,7 +27,7 @@ block content
                 div.blog-post-wrapper.col-md-6.col-sm-6
                   div.blog-post
                     h3
-                      a(href="/posts/#{posts[i].id}").post-title #{posts[i].title}
+                      a(href="/posts/#{posts[i].id}").post-title.truncate #{posts[i].title}
                     hr.post-line
                     div(style="background-image: url('/assets/uploads/#{posts[i].image_path}');").post-img
                     p.post-info <i class="fa fa-calendar"></i> <span class="post-created">#{date}</span> <i class="fa fa-tags"></i> <span class="post-tags"></span>
