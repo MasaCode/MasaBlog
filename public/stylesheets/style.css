@@ -386,6 +386,14 @@ div.not-found {
   -o-background-size: contain;
 }
 
+.truncate {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
 @media screen and (max-width: 991px) {
   header.bg-wrapper {
     height: 460px;
