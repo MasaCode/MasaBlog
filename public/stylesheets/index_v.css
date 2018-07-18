@@ -42,6 +42,8 @@ div.blog-post h3{
 
 a.post-title {
     text-decoration: none;
+    height: 200%;
+    max-width: 100%;
 }
 
 a.post-title:hover {
